@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "112660183705",
+    "firebase_url": "https://findrestaurants-187c3-default-rtdb.firebaseio.com",
+    "project_id": "findrestaurants-187c3",
+    "storage_bucket": "findrestaurants-187c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112660183705:android:490fea95c14684edfe9608",
+        "android_client_info": {
+          "package_name": "space.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy3pefetrtfGKF6XQKMtfrqqRONumD6gY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
