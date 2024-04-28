@@ -1,4 +1,4 @@
-package space.app;
+package app;
 
 public class Cafe {
     private String resName;
