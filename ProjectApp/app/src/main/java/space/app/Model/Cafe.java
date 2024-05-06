@@ -1,6 +1,7 @@
-package com.app.object;
+package space.app.object;
 
 public class Cafe {
+    private String idCafe;
     private String resName;
     private String address;
     private String describe;
@@ -12,7 +13,26 @@ public class Cafe {
     private String evaluate;
     private String link;
 
-    public Cafe(String resName, String address, String describe, Float price, String menu, String timeOpen, String contact, String images, String evaluate, String link) {
+    public String getIdCafe() {
+        return idCafe;
+    }
+
+    public void setIdCafe(String idCafe) {
+        this.idCafe = idCafe;
+    }
+
+    public String[] getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String[] purpose) {
+        this.purpose = purpose;
+    }
+
+    private String[] purpose;
+
+    public Cafe(String idCafe,String resName, String address, String describe, Float price, String menu, String timeOpen, String contact, String images, String evaluate, String link,String[] purpose) {
+        this.idCafe = idCafe;
         this.resName = resName;
         this.address = address;
         this.describe = describe;
@@ -23,6 +43,7 @@ public class Cafe {
         this.images = images;
         this.evaluate = evaluate;
         this.link = link;
+        this.purpose = purpose;
     }
 
     public String getResName() {

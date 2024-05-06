@@ -1,4 +1,4 @@
-package com.app.object;
+package space.app.object;
 
 public class User {
     private String id;
@@ -54,7 +54,4 @@ public class User {
         this.image= image;
         this.describe= describe;
     }
-
-
-
 }
