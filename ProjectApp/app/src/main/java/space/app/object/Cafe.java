@@ -1,4 +1,4 @@
-package app;
+package com.app.object;
 
 public class Cafe {
     private String resName;
