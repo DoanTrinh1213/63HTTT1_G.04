@@ -1,4 +1,4 @@
-package add;
+package com.app.object;
 
 public class User {
     private String id;
