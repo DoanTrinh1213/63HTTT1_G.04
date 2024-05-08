@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#BDD628</color>
+    <color name="box_evaluate">#fefefe</color>
+<!--    Bach-->
+    <color name="colorPrimary">#ECDCDC</color>
+    <color name="colorPrimaryDark">#310606</color>
+    <color name="mainBackground">#ECDCDC</color>
+    <color name="red">#ff0000</color>
 </resources>

@@ -1,4 +1,4 @@
-package space.app.object;
+package space.app.Model;
 
 public class Post {
     public String getId() {
@@ -51,6 +51,9 @@ public class Post {
         this.comment = comment;
         this.imagesCommentsPath = imagesCommentsPath;
         this.star = star;
+    }
+    public Post(){
+
     }
 
     private String id;

@@ -1,5 +1,5 @@
-package Controller;
-import DAO.UserDAO;
+package space.app.Controller;
+import space.app.DAO.UserDAO;
 public class UserController implements UserDAO{
     public String hello(){
         return "space/app";
