@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DFCBCB"
+    tools:context=".person">
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:background="@drawable/rounded_layout"
+     tools:layout_editor_absoluteX="0dp"
+     tools:layout_editor_absoluteY="41dp"
+     tools:ignore="MissingConstraints">
+
+  <ImageView
+      android:id="@+id/imageView"
+      android:layout_width="80dp"
+      android:layout_height="80dp"
+      android:layout_marginLeft="20dp"
+      android:background="@drawable/cirle_image"
+      android:scaleType="centerCrop"
+      android:src="@drawable/image" />
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_marginTop="20dp"
+      android:layout_marginLeft="20dp">
+
+   <TextView
+       android:id="@+id/textView2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Jimmy"
+       android:textStyle="bold"
+       android:textColor="#000000" />
+
+   <TextView
+       android:id="@+id/textView3"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="5dp"
+       android:text="di cafe khong"
+       android:textColor="#000000" />
+  </LinearLayout>
+
+  <ImageView
+      android:id="@+id/imageView2"
+      android:layout_width="44dp"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="10dp"
+
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:srcCompat="@drawable/baseline_edit_square_24" />
+
+ </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
