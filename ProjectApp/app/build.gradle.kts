@@ -1,3 +1,5 @@
+import org.apache.tools.ant.util.JavaEnvUtils.VERSION_1_8
+
 plugins {
     alias(libs.plugins.androidApplication)
     id("com.google.gms.google-services")
@@ -30,6 +32,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -39,6 +44,11 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.storage)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
