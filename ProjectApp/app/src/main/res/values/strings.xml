@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ProjectApp</string>
+    <string name="string">0km</string>
+    <string name="string_cothedibo">Có thể đi bộ</string>
+    <string name="string_210">2km-10km</string>
+    <string name="string_10"><![CDATA[>10km]]></string>
+    <string name="todo">TODO</string>
 </resources>
