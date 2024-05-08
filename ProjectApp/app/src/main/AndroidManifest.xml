@@ -20,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".safg"
+            android:exported="false" />
+        <activity
+            android:name=".fillter"
+            android:exported="false" />
     </application>
 
 </manifest>

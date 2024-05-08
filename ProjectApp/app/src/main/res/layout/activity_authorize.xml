@@ -5,10 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
-    tools:context=".MainActivity">
-=======
-    tools:context="add.MainActivity">
->>>>>>> 2f6d7ac89da747ce64758830f3e59f9f46b6da32
+    tools:context=".AuthorizeActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

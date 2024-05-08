@@ -1,7 +1,10 @@
 {
   "project_info": {
     "project_number": "112660183705",
+<<<<<<< HEAD
     "firebase_url": "https://findrestaurants-187c3-default-rtdb.firebaseio.com",
+=======
+>>>>>>> 2f6d7ac89da747ce64758830f3e59f9f46b6da32
     "project_id": "findrestaurants-187c3",
     "storage_bucket": "findrestaurants-187c3.appspot.com"
   },
