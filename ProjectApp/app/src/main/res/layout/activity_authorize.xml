@@ -62,18 +62,22 @@
         app:layout_constraintTop_toBottomOf="@+id/loginButton">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginWithGoogleBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/frame_menu"
+            android:text="Đăng nhập với google"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton"
-            tools:ignore="NotSibling"></com.google.android.material.button.MaterialButton>
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAllCaps="false"
+            android:theme="@style/ButtonProper">
+        </com.google.android.material.button.MaterialButton>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <FrameLayout
         android:id="@+id/frame_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:background="#E3E3E3"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +85,8 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:context=".UI.menu"
         tools:ignore="MissingConstraints">
-
-        <include layout="@layout/fragment_menu"></include>
+        <include layout="@layout/fragment_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></include>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
