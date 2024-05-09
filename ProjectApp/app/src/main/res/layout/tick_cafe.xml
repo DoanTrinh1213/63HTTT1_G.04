@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ECDCDC"
+    android:paddingBottom="20dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/yaldevi"
+        android:text="Quán được review bởi FindCafe"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:fontFamily="@font/yaldevi"
+        android:text="Quán đã được đội ngũ FindCafe đến trải nghiệm và giúp bạn \n khám phá mọi góc cạnh của quán trước khi bạn bước chân vào!"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="58dp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="381dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:background="#7A2A2A"
+        android:fontFamily="@font/yaldevi"
+        android:text="Mình có quán muốn đóng góp"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="106dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="381dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/yaldevi"
+        android:text="Đã hiểu"
+        android:background="ECDCDC"
+        android:textAllCaps="false"
+        android:textColor="#7A2A2A"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="159dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
