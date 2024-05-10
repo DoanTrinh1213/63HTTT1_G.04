@@ -1,4 +1,4 @@
-package space.app.object;
+package space.app.Model;
 
 public class User {
     private String id;

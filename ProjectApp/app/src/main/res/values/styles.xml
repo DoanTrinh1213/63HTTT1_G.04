@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="ButtonLogin" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:backgroundTint">#D9D9D9</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:background">@drawable/rounded_rectangle</item>
+    </style>
+    <style name="ButtonRegis" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:elevation">4dp</item>
+        <item name="android:backgroundTint">#7A2A2A</item>
+        <item name="android:background">@drawable/rounded_rectangle</item>
+    </style>
+    <style name="ButtonProper" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:elevation">4dp</item>
+        <item name="android:background">@drawable/rounded_rectangle</item>
+    </style>
 </resources>

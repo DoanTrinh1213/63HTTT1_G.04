@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentBookmark">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    tools:context=".UI.Fragment.FragmentBookmark"
+    android:id="@+id/bookmarkFrag">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bookmark"
+            android:id="@+id/textBookMark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/mainBookmark"
+            app:layout_constraintHorizontal_bias="0.224"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.143"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="32dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"></TextView>
+
+        <FrameLayout android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/mainBookmark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textBookMark">
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

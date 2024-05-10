@@ -1,4 +1,4 @@
-package DAO;
+package space.app.DAO;
 
 public interface UserDAO {
     public default int User1(){

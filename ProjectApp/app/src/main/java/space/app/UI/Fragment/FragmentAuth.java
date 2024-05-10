@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -8,12 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import space.app.MainActivity;
+import space.app.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentBookmark#newInstance} factory method to
+ * Use the {@link FragmentAuth#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentBookmark extends Fragment {
+public class FragmentAuth extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +27,7 @@ public class FragmentBookmark extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentBookmark() {
+    public FragmentAuth() {
         // Required empty public constructor
     }
 
@@ -34,11 +37,11 @@ public class FragmentBookmark extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentBookmark.
+     * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentBookmark newInstance(String param1, String param2) {
-        FragmentBookmark fragment = new FragmentBookmark();
+    public static FragmentAuth newInstance(String param1, String param2) {
+        FragmentAuth fragment = new FragmentAuth();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +62,19 @@ public class FragmentBookmark extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookmark, container, false);
+        View view =  inflater.inflate(R.layout.fragment_auth, container, false);
+        view.findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).openLoginActivity();
+            }
+        });
+        view.findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentRegister(),true);
+            }
+        });
+        return view;
     }
 }
