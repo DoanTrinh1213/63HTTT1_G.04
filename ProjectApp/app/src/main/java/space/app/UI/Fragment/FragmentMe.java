@@ -1,4 +1,4 @@
-package space.app.UI;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
