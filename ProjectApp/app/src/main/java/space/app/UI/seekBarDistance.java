@@ -22,12 +22,6 @@ public class seekBarDistance extends AppCompatActivity {
 
         SeekBar seekBar = findViewById(R.id.seekBar);
         textViewProgress = findViewById(R.id.textViewProgress);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            seekBar.setMin(0);
-        }
-        seekBar.setMax(30);
-        seekBar.setProgress(15);
-
         textViewProgress.setText(seekBar.getProgress() + "km");
 
 

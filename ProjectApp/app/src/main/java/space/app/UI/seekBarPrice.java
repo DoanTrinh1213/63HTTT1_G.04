@@ -22,11 +22,6 @@ public class seekBarPrice extends AppCompatActivity {
 
         SeekBar seekBar = findViewById(R.id.seekBar);
         textViewProgress = findViewById(R.id.textViewProgress);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            seekBar.setMin(0);
-        }
-        seekBar.setMax(200);
-        seekBar.setProgress(70);
         textViewProgress.setText(seekBar.getProgress() + "k");
 
 
