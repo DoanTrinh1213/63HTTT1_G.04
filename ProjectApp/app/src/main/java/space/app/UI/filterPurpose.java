@@ -3,8 +3,9 @@ package space.app.UI;
 import android.widget.CheckBox;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-public class filterPurpose extends AppCompatActivity {
+public class filterPurpose extends Fragment {
     public static void handleCheckBoxEvents(CheckBox cBoxAlone, CheckBox cBoxFriends,
                                             CheckBox cBoxWork, CheckBox cBoxDate,
                                             CheckBox cBoxSelfie, CheckBox cBoxDrink,
