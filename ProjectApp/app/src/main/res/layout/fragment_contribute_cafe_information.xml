@@ -76,7 +76,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toEndOf="+@id/linearLayout1">
+                    >
 
                     <TextView
                         android:id="@+id/TextViewMap"
@@ -111,8 +111,6 @@
                     android:layout_margin="16dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
-                    app:layout_constraintTop_toEndOf="@id/layoutMap"
-
                     >
 
                     <LinearLayout
@@ -310,7 +308,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toEndOf="+@id/linearLayout1">
+                    >
 
                     <TextView
                        android:layout_width="match_parent"

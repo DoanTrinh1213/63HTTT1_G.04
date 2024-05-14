@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#DFCBCB"
     android:fontFamily="@font/yaldevifont"
-    tools:context=".person">
+    tools:context=".Person">
 
  <LinearLayout
      android:id="@+id/linearLayout2"

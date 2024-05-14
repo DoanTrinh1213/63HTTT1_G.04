@@ -13,10 +13,13 @@
         android:theme="@style/Theme.MaterialComponents.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".EditInformation"
+            android:exported="false" />
+        <activity
             android:name=".CafeContribute"
             android:exported="false" />
         <activity
-            android:name=".person"
+            android:name=".Person"
             android:exported="false" />
         <activity
             android:name=".AuthorizeActivity"
