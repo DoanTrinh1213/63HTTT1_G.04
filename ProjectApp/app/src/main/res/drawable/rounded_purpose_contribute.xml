@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#F9F4F4" /> <!-- Màu nền của layout -->
-            <corners android:radius="10dp" /> <!-- Bán kính để bo tròn viền -->
+            <solid android:color="#ECDCDC" /> <!-- Màu nền của layout -->
+            <corners android:radius="20dp" /> <!-- Bán kính để bo tròn viền -->
         </shape>
     </item>
 </selector>

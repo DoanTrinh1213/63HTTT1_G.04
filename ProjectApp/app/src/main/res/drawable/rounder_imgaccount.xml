@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#F9F4F4" /> <!-- Màu nền của layout -->
-            <corners android:radius="10dp" /> <!-- Bán kính để bo tròn viền -->
+            <solid android:color="#ECDCDC" />
+            <corners android:radius="50dp" />
         </shape>
     </item>
+
 </selector>
