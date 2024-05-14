@@ -26,14 +26,18 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/yaldevi"
                 android:text="Email"
-                android:textColor="@color/black"></TextView>
+                android:textColor="@color/black">
+
+            </TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/yaldevi"
                 android:text="*"
-                android:textColor="@color/red"></TextView>
+                android:textColor="@color/red">
+
+            </TextView>
         </LinearLayout>
 
         <EditText
