@@ -1,4 +1,4 @@
-package space.app.UI;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import space.app.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentMe#newInstance} factory method to
+ * Use the {@link FragmentBookmark#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentMe extends Fragment {
+public class FragmentBookmark extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class FragmentMe extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentMe() {
+    public FragmentBookmark() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class FragmentMe extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentMe.
+     * @return A new instance of fragment FragmentBookmark.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentMe newInstance(String param1, String param2) {
-        FragmentMe fragment = new FragmentMe();
+    public static FragmentBookmark newInstance(String param1, String param2) {
+        FragmentBookmark fragment = new FragmentBookmark();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class FragmentMe extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_me, container, false);
+        return inflater.inflate(R.layout.fragment_bookmark, container, false);
     }
 }
