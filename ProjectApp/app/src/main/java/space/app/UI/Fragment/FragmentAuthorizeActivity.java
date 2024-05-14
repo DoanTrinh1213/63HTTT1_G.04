@@ -1,7 +1,6 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.EdgeToEdge;
@@ -10,7 +9,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class AuthorizeActivity extends AppCompatActivity {
+import space.app.R;
+
+public class FragmentAuthorizeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

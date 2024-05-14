@@ -13,16 +13,16 @@
         android:theme="@style/Theme.MaterialComponents.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".EditInformation"
+            android:name=".UI.Fragment.FragmentEditInformation"
             android:exported="false" />
         <activity
-            android:name=".CafeContribute"
+            android:name=".UI.Fragment.FragmentCafeContribute"
             android:exported="false" />
         <activity
-            android:name=".Person"
+            android:name=".UI.Fragment.FragmentPerson"
             android:exported="false" />
         <activity
-            android:name=".AuthorizeActivity"
+            android:name=".UI.Fragment.FragmentAuthorizeActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

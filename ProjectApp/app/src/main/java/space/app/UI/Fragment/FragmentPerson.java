@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Person extends AppCompatActivity {
+import space.app.R;
+
+public class FragmentPerson extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,7 @@ public class Person extends AppCompatActivity {
         arrowEditInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Person.this, EditInformation.class);
+                Intent intent = new Intent(FragmentPerson.this, FragmentEditInformation.class);
                 startActivity(intent);
             }
         });
