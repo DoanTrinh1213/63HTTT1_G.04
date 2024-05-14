@@ -60,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="0dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -315,7 +316,7 @@
                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/yaldevi"
-                        android:text="Mo ta quán "
+                        android:text="Mô tả quán "
                         android:textColor="@color/black" />
 
                     <EditText
@@ -520,7 +521,6 @@
 
                     </EditText>
                 </LinearLayout>
-
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSend"
