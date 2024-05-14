@@ -11,20 +11,20 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/textBookMark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="Bookmark"
-            android:id="@+id/textBookMark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/mainBookmark"
-            app:layout_constraintHorizontal_bias="0.224"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.143"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="32dp"
             android:textStyle="bold"
-            android:layout_marginBottom="20dp"></TextView>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/mainBookmark"
+            app:layout_constraintHorizontal_bias="0.193"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.11"></TextView>
 
         <FrameLayout android:layout_width="match_parent"
             android:layout_height="0dp"

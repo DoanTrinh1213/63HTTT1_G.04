@@ -1,4 +1,4 @@
-package space.app.UI;
+package space.app.UI.Features;
 
 import android.annotation.SuppressLint;
 import android.os.Build;

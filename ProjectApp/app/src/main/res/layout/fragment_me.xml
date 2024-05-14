@@ -4,14 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.Fragment.FragmentMe">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="me"
-        android:textSize="34dp"
-        android:layout_gravity="center"
-        android:textColor="@color/black"/>
-
+    <include layout="@layout/fragment_filter"></include>
 </FrameLayout>
