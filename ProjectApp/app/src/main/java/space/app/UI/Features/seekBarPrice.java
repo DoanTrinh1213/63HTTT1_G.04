@@ -1,4 +1,4 @@
-package space.app.UI;
+package space.app.UI.Features;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import space.app.R;
 
-public class seekBarDistance extends AppCompatActivity {
+public class seekBarPrice extends AppCompatActivity {
 
     private TextView textViewProgress;
 
@@ -18,18 +18,18 @@ public class seekBarDistance extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_filterdistance);
+        setContentView(R.layout.fragment_filterprice);
 
         SeekBar seekBar = findViewById(R.id.seekBar);
         textViewProgress = findViewById(R.id.textViewProgress);
-        textViewProgress.setText(seekBar.getProgress() + "km");
+        textViewProgress.setText(seekBar.getProgress() + "k");
 
 
-        // Set một SeekBar change listener
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textViewProgress.setText(progress + "km");
+                textViewProgress.setText(progress + "k");
             }
 
             @Override
@@ -41,6 +41,4 @@ public class seekBarDistance extends AppCompatActivity {
             }
         });
     }
-
 }
-

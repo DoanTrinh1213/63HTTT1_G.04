@@ -2,11 +2,13 @@ package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import space.app.R;
 
@@ -60,7 +62,17 @@ public class FragmentBookmark extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookmark, container, false);
+        View view= inflater.inflate(R.layout.fragment_bookmark, container, false);
+        int i=1;
+        if(i==0){
+            View layout1 = inflater.inflate(R.layout.bookmark_none_compo, (FrameLayout) view.findViewById(R.id.mainBookmark), true);
+        }
+        else{
+            FrameLayout layoutmain = view.findViewById(R.id.mainBookmark);
+            LayoutInflater inflater1 = LayoutInflater.from(container.getContext());
+            View bookmarkNoneView = inflater.inflate(R.layout.bookmark_none_compo, null);
+            layoutmain.addView(bookmarkNoneView);
+        }
+        return view;
     }
 }

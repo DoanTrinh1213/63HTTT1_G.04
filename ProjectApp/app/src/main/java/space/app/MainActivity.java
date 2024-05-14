@@ -25,7 +25,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import space.app.UI.Fragment.FragmentAuth;
+import space.app.UI.Fragment.FragmentBookmark;
 import space.app.UI.Fragment.FragmentLogin;
+import space.app.UI.Fragment.FragmentMe;
 import space.app.UI.Fragment.FragmentRegister;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,10 +75,10 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new FragmentAuth(), false);
                     return true;
                 } else if (menuItem.getItemId() == R.id.bookmark) {
-                    replaceFragment(new FragmentRegister(), false);
+                    replaceFragment(new FragmentBookmark(), false);
                     return true;
                 } else {
-                    replaceFragment(new FragmentLogin(), false);
+                    replaceFragment(new FragmentMe(), false);
                     return true;
                 }
             }

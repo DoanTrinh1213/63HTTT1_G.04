@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/colorPrimaryDark" /> <!-- Đặt màu đen cho nút trượt -->
+    <size android:width="20dp" android:height="20dp" /> <!-- Đặt kích thước cho nút trượt -->
+</shape>
+    <!-- custom_seekbar.xml -->
