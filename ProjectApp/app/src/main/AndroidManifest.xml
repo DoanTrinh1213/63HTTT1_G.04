@@ -16,10 +16,10 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".CafeContribute"
+            android:name=".UI.Fragment.FragmentCafeContribute"
             android:exported="false" />
         <activity
-            android:name=".person"
+            android:name=".UI.Fragment.FragmentPerson"
             android:exported="false" />
         <activity
             android:name=".AuthorizeActivity"
