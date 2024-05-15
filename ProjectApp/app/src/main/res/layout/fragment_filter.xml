@@ -307,7 +307,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.slider.RangeSlider
+                <SeekBar
                     android:id="@+id/seekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -408,14 +408,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <com.google.android.material.slider.RangeSlider
+                <SeekBar
                     android:id="@+id/seekBarPrice"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:indeterminate="false"
                     android:max="200"
                     android:min="0"
-                    android:progress="0"
+                    android:progress="100"
                     android:progressBackgroundTint="@color/colorPrimaryDark"
                     android:progressTint="@color/colorPrimaryDark"
                     android:thumb="@drawable/black_thumb"

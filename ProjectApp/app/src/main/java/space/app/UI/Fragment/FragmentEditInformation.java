@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import space.app.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link EditInformation#newInstance} factory method to
+ * Use the {@link FragmentEditInformation#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditInformation extends Fragment {
+public class FragmentEditInformation extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class EditInformation extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public EditInformation() {
+    public FragmentEditInformation() {
         // Required empty public constructor
     }
 
@@ -37,8 +39,8 @@ public class EditInformation extends Fragment {
      * @return A new instance of fragment EditInformation.
      */
     // TODO: Rename and change types and number of parameters
-    public static EditInformation newInstance(String param1, String param2) {
-        EditInformation fragment = new EditInformation();
+    public static FragmentEditInformation newInstance(String param1, String param2) {
+        FragmentEditInformation fragment = new FragmentEditInformation();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
