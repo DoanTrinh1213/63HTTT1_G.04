@@ -84,7 +84,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="10dp">
-            <include layout="@layout/evalute" />
+            <include layout="@layout/evalute_compo" />
         </LinearLayout>
 
         <LinearLayout
