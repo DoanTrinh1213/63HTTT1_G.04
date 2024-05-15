@@ -21,16 +21,17 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/search_icon" />
+            android:src="@drawable/serach_icon_search" />
 
         <ImageView
             android:id="@+id/icon2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/baseline_add_location_24" />
+            android:src="@drawable/location" />
 
         <EditText
             android:id="@+id/editTextText"
