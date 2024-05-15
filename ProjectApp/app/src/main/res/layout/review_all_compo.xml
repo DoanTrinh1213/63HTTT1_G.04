@@ -102,7 +102,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/btn_tick_cafe_1"
+        android:background="@drawable/btn_tick_cafe"
         android:fontFamily="@font/yaldevi"
         android:text="Để lại trải nghiệm của bạn"
         android:textAllCaps="false" />
