@@ -60,25 +60,51 @@
             tools:layout_editor_absoluteX="31dp"
             tools:layout_editor_absoluteY="175dp" />
 
-        <EditText
-            android:id="@+id/editTextText3"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
             android:layout_width="381dp"
             android:layout_height="156dp"
+            android:layout_below="@+id/editTextText2"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="276dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="180dp"
             android:background="@drawable/rounded_coner_review"
-            android:ems="10"
-            android:inputType="text"
-            android:minLines="6"
-            android:text="Chọn ảnh từ thư viện"
-            android:textColor="#B1B0B0"
-            android:textSize="12dp"
-            tools:layout_editor_absoluteX="31dp"
-            tools:layout_editor_absoluteY="175dp"
-            android:gravity="center"
-            android:drawableTop="@drawable/add_photo"/>
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="16dp">
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButtonCafe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:contentDescription="TODO"
+                android:focusable="true"
+                android:tint="#FFFFFF"
+                app:backgroundTint="#B8B7B7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_image_24" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yaldevi"
+                android:text="Chọn ảnh từ thư viện ảnh "
+                android:textColor="#A6A2A2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/floatingActionButtonCafe"
+                app:layout_constraintVertical_bias="0.168" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textView17"

@@ -67,7 +67,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/iconDonggop"
+                    android:id="@+id/iconContact1"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="0dp"
@@ -95,7 +95,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/iconDonggop"
+                    android:id="@+id/iconAdress"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="0dp"

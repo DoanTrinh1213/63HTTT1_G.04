@@ -420,7 +420,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/iconImage"
-                        android:text="Quán chỉ dùng hạt ngoại, hơi ngọt so với khẩu vị."
+                        android:text="Gác lại mọi deadline rồi đi trốn thôi bạn ơi, dù là workmate hay là coffeemate thì cũng hẹn một ngày đẹp quá Hầm Trú  Ẩn nhé!"
                         android:textColor="#000000"
                         android:fontFamily="@font/yaldevi"
                         android:textSize="12dp"/>
@@ -449,7 +449,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đánh giá"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     android:textColor="#000000"
                     android:fontFamily="@font/yaldevi"/>
             </LinearLayout>
@@ -479,7 +479,7 @@
                             android:textStyle="bold"
                             android:textColor="#000000"
                             android:fontFamily="@font/yaldevi"
-                            android:textSize="55sp"/>
+                            android:textSize="50sp"/>
                         <ImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
@@ -519,10 +519,11 @@
                         <ProgressBar
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="3dp"
                             android:layout_marginStart="10dp"
                             android:max="5"
-                            android:progress="3" />
+                            android:progress="3"
+                            android:progressDrawable="@drawable/progressbar_gray" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -541,10 +542,11 @@
                         <ProgressBar
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="3dp"
                             android:layout_marginStart="10dp"
                             android:max="5"
-                            android:progress="3" />
+                            android:progress="3"
+                            android:progressDrawable="@drawable/progressbar_gray" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -563,10 +565,11 @@
                         <ProgressBar
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="3dp"
                             android:layout_marginStart="10dp"
                             android:max="5"
-                            android:progress="3" />
+                            android:progress="3"
+                            android:progressDrawable="@drawable/progressbar_red" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -585,10 +588,11 @@
                         <ProgressBar
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="3dp"
                             android:layout_marginStart="10dp"
                             android:max="5"
-                            android:progress="3" />
+                            android:progress="3"
+                            android:progressDrawable="@drawable/progressbar_gray" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -607,10 +611,11 @@
                         <ProgressBar
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="3dp"
                             android:layout_marginStart="10dp"
                             android:max="5"
-                            android:progress="3" />
+                            android:progress="3"
+                            android:progressDrawable="@drawable/progressbar_gray" />
                     </LinearLayout>
 
 
@@ -628,7 +633,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <include layout="@layout/evalute"></include>
+                <include layout="@layout/evalute_compo"></include>
             </LinearLayout>
 
             <!-- Second Divider -->
@@ -675,6 +680,35 @@
                 android:backgroundTint="#ECCBCB"
                 android:textAllCaps="false"
                 android:textColor="#7A2A2A" />
+        </LinearLayout>
+        <HorizontalScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+                <include layout="@layout/tools_shop_compo"></include>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9">
+            <FrameLayout
+                android:id="@+id/frame_menu"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:background="#E3E3E3">
+                <include layout="@layout/fragment_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></include>
+            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>

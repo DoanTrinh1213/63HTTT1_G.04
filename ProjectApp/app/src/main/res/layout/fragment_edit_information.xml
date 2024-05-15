@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".EditInformation">
+    tools:context=".UI.Fragment.FragmentEditInformation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,29 +48,61 @@
                 />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="208dp"
-            android:layout_height="176dp"
-            android:layout_marginTop="36dp"
-            android:background="@drawable/rounder_imgaccount"
-            android:src="@drawable/imgaccount"
+        <androidx.cardview.widget.CardView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:cardCornerRadius="1000dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imagePerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounder_imgaccount"
+                    android:scaleType="center"
+                    android:src="@drawable/imgaccount"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:ignore="MissingConstraints" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/imagePersonChange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#45000000"
+                    android:elevation="100dp"
+                    android:text="Thay đổi"
+                    android:textAllCaps="false"
+                    android:theme="@style/ButtonProper"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"></com.google.android.material.button.MaterialButton>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
+            android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:layout_width="wrap_content"

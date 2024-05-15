@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import space.app.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +61,6 @@ public class FragmentPurposre_Contribute extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_purposre__contribute, container, false);
+        return inflater.inflate(R.layout.fragment_contribute_cafe_information, container, false);
     }
 }
