@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 
+import android.os.PersistableBundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
@@ -104,11 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                if(fragmentManager.getBackStackEntryCount()>0){
-                    fragmentManager.popBackStack();
-                    Log.d("Tag","OnBackPressedCallback : "+fragmentManager.getBackStackEntryCount());
-                }
-                else if(bottomNavigationView.getSelectedItemId()==R.id.home){
+               if(bottomNavigationView.getSelectedItemId()==R.id.home){
                         Log.d("Tag","OnBackPressedCallback : "+fragmentManager.getBackStackEntryCount());
                         moveTaskToBack(true);
                 }
@@ -118,8 +115,45 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("Main","OnStart call");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("Main","OnResume call");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("Main","OnRestart call");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("Main","onPause call");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("Main","onStop call");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("Main","onDestroy call");
 
     }
+
 
     public void openLoginActivity() {
         replaceFragment(new FragmentLogin(), true);
