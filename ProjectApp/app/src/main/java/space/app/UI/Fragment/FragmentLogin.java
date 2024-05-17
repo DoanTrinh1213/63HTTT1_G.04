@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import space.app.MainActivity;
 import space.app.R;
 
 /**
@@ -61,6 +63,15 @@ public class FragmentLogin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view= inflater.inflate(R.layout.fragment_login, container, false);
+        TextView txtRegister = view.findViewById(R.id.textToRegister);
+        txtRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentRegister(),true);
+            }
+        });
+
+        return view;
     }
 }
