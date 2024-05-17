@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:ProjectApp/app/src/main/java/space/app/UI/Fragment/CustomSpinnerAdapter.java
-package space.app.UI.Fragment;
-========
 package space.app.Adapter;
->>>>>>>> 6a0762e62da1d4a8c923c16cb8b1def966f248dd:ProjectApp/app/src/main/java/space/app/Adapter/CustomSpinnerAdapter.java
 
 import android.content.Context;
 import android.graphics.Color;

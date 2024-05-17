@@ -4,15 +4,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-<<<<<<< HEAD
-=======
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import space.app.R;
 
->>>>>>> 6a0762e62da1d4a8c923c16cb8b1def966f248dd
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FragmentPurposre_Contribute#newInstance} factory method to
@@ -60,14 +58,11 @@ public class FragmentPurposre_Contribute extends Fragment {
         }
     }
 
-<<<<<<< HEAD
 
-=======
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_contribute_cafe_information, container, false);
     }
->>>>>>> 6a0762e62da1d4a8c923c16cb8b1def966f248dd
 }

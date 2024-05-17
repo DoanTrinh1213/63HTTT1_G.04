@@ -14,7 +14,6 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="homeFragment">Home</string>
     <string name="home">Trang chủ</string>
-<!--    <string name="hello_blank_fragment" tools:ignore="DuplicateDefinition">Hello blank fragment</string>-->
     <string name="reset">Đặt lại</string>
     <string name="close">Đóng</string>
     <string name="logoName">FindCafe</string>
@@ -23,9 +22,4 @@
     <string name="string_210">2km-10km</string>
     <string name="string_10"><![CDATA[>10km]]></string>
     <string name="todo">TODO</string>
-<<<<<<< HEAD
-    <!-- TODO: Remove or change this placeholder text -->
-<!--    <string name="hello_blank_fragment" tools:ignore="DuplicateDefinition">Hello blank fragment</string>-->
-=======
->>>>>>> 6a0762e62da1d4a8c923c16cb8b1def966f248dd
-</resources>
+    </resources>

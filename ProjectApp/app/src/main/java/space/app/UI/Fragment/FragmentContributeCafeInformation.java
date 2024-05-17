@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 
-<<<<<<< HEAD
-=======
+
 import space.app.Adapter.CustomSpinnerAdapter;
->>>>>>> 6a0762e62da1d4a8c923c16cb8b1def966f248dd
 import space.app.R;
 
 public class FragmentContributeCafeInformation extends Fragment {
