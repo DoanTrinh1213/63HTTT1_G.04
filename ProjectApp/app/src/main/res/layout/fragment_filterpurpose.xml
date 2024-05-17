@@ -4,108 +4,189 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_corners">
+    android:background="@drawable/rounded_corners"
+    android:paddingStart="15dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="15dp"
+    android:paddingBottom="20dp">
 
-    <CheckBox
-        android:id="@+id/cBoxAlone"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/include1"
+        layout="@layout/filter_title_compo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:text="1 mình "
-        app:itemTextColor="#310606"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cBoxDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="252dp"
-        android:layout_marginTop="64dp"
-        android:text="Hẹn hò"
-        app:itemTextColor="#310606"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cBoxDrink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="208dp"
-        android:text="Đồ uống ngon"
-        app:itemTextColor="#310606"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cBoxSelfie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="112dp"
-        android:text="Sống ảo"
-        app:itemTextColor="#310606"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cBoxReadBook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:text="Đọc sách"
-        app:itemTextColor="#310606"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.824"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.036"></include>
 
-    <CheckBox
-        android:id="@+id/cBoxFriends"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="64dp"
-        android:text="Bạn bè"
-        app:itemTextColor="#310606"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/apply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/include1"
+        app:layout_constraintVertical_bias="0.0">
 
-    <CheckBox
-        android:id="@+id/cBoxBar"
-        android:layout_width="wrap_content"
+        <CheckBox
+            android:id="@+id/cBoxAlone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:buttonTint="@color/white"
+            android:text="1 mình "
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintBottom_toTopOf="@+id/cBoxFriends"
+            app:layout_constraintEnd_toStartOf="@+id/cBoxBar"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <CheckBox
+            android:id="@+id/cBoxDate"
+            android:layout_width="83dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="64dp"
+            android:buttonTint="@color/white"
+            android:text="Hẹn hò"
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintBottom_toTopOf="@+id/cBoxTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.694"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <CheckBox
+            android:id="@+id/cBoxDrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="208dp"
+            android:buttonTint="@color/white"
+            android:text="Đồ uống ngon"
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/cBoxSelfie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="112dp"
+            android:buttonTint="@color/white"
+            android:text="Sống ảo"
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintBottom_toTopOf="@+id/cBoxWork"
+            app:layout_constraintEnd_toStartOf="@+id/cBoxTime"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <CheckBox
+            android:id="@+id/cBoxReadBook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:buttonTint="@color/white"
+            android:text="Đọc sách"
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.714"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/cBoxFriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:buttonTint="@color/white"
+            android:text="Bạn bè"
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintBottom_toTopOf="@+id/cBoxSelfie"
+            app:layout_constraintEnd_toStartOf="@+id/cBoxDate"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <CheckBox
+            android:id="@+id/cBoxBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:buttonTint="@color/white"
+            android:text="Bar/Pub"
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintBottom_toTopOf="@+id/cBoxDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.698"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <CheckBox
+            android:id="@+id/cBoxTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="112dp"
+            android:buttonTint="@color/white"
+            android:text="Mở muộn"
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintBottom_toTopOf="@+id/cBoxReadBook"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.717"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <CheckBox
+            android:id="@+id/cBoxWork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:buttonTint="@color/white"
+            android:text="Làm việc"
+            android:textColor="@color/black"
+            app:itemTextColor="#310606"
+            app:layout_constraintBottom_toTopOf="@+id/cBoxDrink"
+            app:layout_constraintEnd_toStartOf="@+id/cBoxReadBook"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/apply"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="252dp"
-        android:layout_marginTop="16dp"
-        android:text="Bar/Pub"
-        app:itemTextColor="#310606"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#7A2A2A"
+        android:padding="5dp"
+        android:text="Áp dụng"
+        android:textAllCaps="false"
+        android:theme="@style/ButtonProper"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cBoxTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginStart="252dp"
-        android:layout_marginTop="112dp"
-        android:text="Mở muộn"
-        app:itemTextColor="#310606"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cBoxWork"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="160dp"
-        android:text="Làm việc"
-        app:itemTextColor="#310606"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.009"></com.google.android.material.button.MaterialButton>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

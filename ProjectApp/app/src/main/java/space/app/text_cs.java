@@ -26,10 +26,8 @@ public class text_cs extends AppCompatActivity {
 
 
         String text2 = "<font color='#FF0000'>Chính sách bảo mật</font> của chúng tôi.";
-        textView1.setText(Html.fromHtml(text1));
-        textView2.setText(Html.fromHtml(text2));
+
 
     }
-
 
 }
