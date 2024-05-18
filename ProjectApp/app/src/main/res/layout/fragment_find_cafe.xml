@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="40dp">
 
         <ImageView
             android:layout_width="0dp"
@@ -29,7 +29,7 @@
             android:fontFamily="@font/yaldevi"
             android:text="findcafe.official"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginEnd="10dp"/>
     </LinearLayout>
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="8dp">
 
             <include layout="@layout/view_cafe_like_compo" />
         </LinearLayout>
@@ -135,7 +135,7 @@
         android:id="@+id/frame_menu"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="5.5dp"
+        android:layout_marginTop="5dp"
         android:background="#E3E3E3">
 
         <include

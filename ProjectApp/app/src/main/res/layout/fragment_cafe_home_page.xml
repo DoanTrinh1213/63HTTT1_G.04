@@ -9,13 +9,14 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="11">
+            android:layout_weight="10">
             <include
                 layout="@layout/search_compo"
                 android:id="@+id/searchCompo"
@@ -110,7 +111,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="9">
+        android:layout_weight="13">
         <FrameLayout
             android:id="@+id/frame_menu"
             android:layout_width="match_parent"

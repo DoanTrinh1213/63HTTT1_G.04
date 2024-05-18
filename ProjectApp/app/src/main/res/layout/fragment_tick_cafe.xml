@@ -15,7 +15,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="30dp"
             android:fontFamily="@font/yaldevi"
             android:text="Quán được review bởi FindCafe"
             android:textColor="#000000"
@@ -29,7 +29,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="45dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/yaldevi"
             android:text="Quán đã được đội ngũ FindCafe đến trải nghiệm và giúp bạn \n khám phá mọi góc cạnh của quán trước khi bạn bước chân vào!"
@@ -51,7 +51,7 @@
             app:cornerRadius="50dp"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="106dp" />
+            tools:layout_editor_absoluteY="130dp" />
 
         <Button
             android:id="@+id/button2"
