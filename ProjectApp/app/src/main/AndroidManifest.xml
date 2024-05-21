@@ -25,10 +25,13 @@
             android:name=".UI.Fragment.FragmentPerson"
             android:exported="false" />
         <activity
-            android:name=".UI.Fragment.FragmentPerson"
+            android:name=".UI.Fragment.FragmentAuthorizeActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.Fragment.FragmentAuthorizeActivity"
+            android:name=".UI.Fragment.Person"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Fragment.EditInformation"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"

@@ -82,7 +82,7 @@
                         android:textColor="@color/black" />
 
                     <EditText
-                        android:id="@+id/txtMap"
+                        android:id="@+id/edtMap"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_margin="10dp"
@@ -511,7 +511,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSend"
+                    android:id="@+id/btnSendContributeCafe"
                     android:layout_width="360dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="25dp"
