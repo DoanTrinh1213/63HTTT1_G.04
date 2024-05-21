@@ -1,5 +1,7 @@
 package space.app;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +32,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import space.app.UI.Fragment.FragmentAuth;
 import space.app.UI.Fragment.FragmentBookmark;
+import space.app.UI.Fragment.FragmentCafeHomePage;
 import space.app.UI.Fragment.FragmentContact;
 import space.app.UI.Fragment.FragmentLogin;
 import space.app.UI.Fragment.FragmentMe;
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("isLoggedIn", true); // Lưu trạng thái đăng nhập là true
             editor.apply();
         } else {
-            replaceFragment(new FragmentContact(), false);
+            replaceFragment(new FragmentCafeHomePage(), false);
             sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("isLoggedIn", false); // Lưu trạng thái đăng nhập là false khi đăng xuất
@@ -77,12 +80,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if (menuItem.getItemId() == R.id.home) {
+                 if (menuItem.getItemId() == R.id.home) {
                     if(isLoggedIn==false){
                         replaceFragment(new FragmentAuth(), false);
                     }
                     else{
-                        replaceFragment(new FragmentContact(), false);
+                        replaceFragment(new FragmentCafeHomePage(), false);
                     }
                     return true;
                 } else if (menuItem.getItemId() == R.id.bookmark) {
@@ -154,11 +157,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public void openLoginActivity() {
-        replaceFragment(new FragmentLogin(), true);
-    }
-
     public void replaceFragment(Fragment fragment, boolean backStack) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -167,5 +165,9 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.addToBackStack(null);
         }
         fragmentTransaction.commit();
+    }
+    public void setSelectedBottomNavItem(int itemId) {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
+        bottomNavigationView.setSelectedItemId(itemId);
     }
 }
