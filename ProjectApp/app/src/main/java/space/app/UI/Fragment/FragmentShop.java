@@ -1,4 +1,5 @@
 package space.app.UI.Fragment;
+package space.app.Activity;
 
 import android.os.Bundle;
 
@@ -36,7 +37,7 @@ public class FragmentShop extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment shop.
+     * @return A new instance of fragment FragmentShop.
      */
     // TODO: Rename and change types and number of parameters
     public static FragmentShop newInstance(String param1, String param2) {
