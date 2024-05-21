@@ -1,16 +1,26 @@
 package space.app.UI.Fragment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorBoundsInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import space.app.Activity.MainActivity;
 import space.app.R;
@@ -30,6 +40,7 @@ public class FragmentMe extends Fragment {
     // Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
 
     public FragmentMe() {
         // Required empty public constructor
@@ -59,13 +70,12 @@ public class FragmentMe extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
-        showAlertDialog();
 
     }
 
-    private void showAlertDialog() {
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,32 +112,10 @@ public class FragmentMe extends Fragment {
         lnDeleteAcount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentDeleteAcount(), true);
+                openDialogDeleteAcount(Gravity.CENTER);
             }
         });
-//
-//        private void showAlertDialog() {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-////            builder.setTitle("Thông báo");
-//            builder.setMessage("Bạn muốn xóa tài khoản");
-//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    // Người dùng nhấn Hủy
-//                    dialog.dismiss();
-//                }
-//            });
-//
-//            AlertDialog dialog = builder.create();
-//            dialog.show();
-//        }
-//
+
 
         
         // Contact
@@ -159,10 +147,97 @@ public class FragmentMe extends Fragment {
         lnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentLogin(), true);
+                openDialogLogOut(Gravity.CENTER);
+
             }
         });
 
         return view;
+    }
+
+    private void openDialogDeleteAcount(int gravity) {
+        Context context = getActivity();
+        if(context==null){
+            return;
+        }
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog_deleteacount);
+        Window window = dialog.getWindow();
+        if(window==null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT );
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
+        windowAttributesribute.gravity=gravity;
+        window.setAttributes(windowAttributesribute);
+
+        if (Gravity.CENTER==gravity){
+            dialog.setCancelable(true);
+        }else {
+            dialog.setCancelable(false);
+
+        }
+        TextView txtXacNhan= dialog.findViewById(R.id.txtXacNhan);
+        TextView txtHuy= dialog.findViewById(R.id.txtHuy);
+        txtXacNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        txtHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+    private void openDialogLogOut(int gravity) {
+        Context context = getActivity();
+        if (context == null) {
+            return;
+        }
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog_logout);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
+        windowAttributesribute.gravity = gravity;
+        window.setAttributes(windowAttributesribute);
+
+        if (Gravity.CENTER == gravity) {
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+
+        }
+        TextView txtConfirm = dialog.findViewById(R.id.txtConfirm);
+        TextView txtCancle = dialog.findViewById(R.id.txtCancle);
+        txtConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentLogin(), true);
+
+            }
+        });
+        txtCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
