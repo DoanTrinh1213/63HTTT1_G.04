@@ -7,50 +7,71 @@
     android:background="#ECDCDC">
 
     <LinearLayout
+        android:id="@+id/shopMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
+
+        </LinearLayout>
+
         <FrameLayout
+            android:id="@+id/fragmentImage"
             android:layout_width="match_parent"
             android:layout_height="250dp">
 
             <ImageView
+                android:id="@+id/imageShop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ham_tru_an" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="start|top"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/arrow_left" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|top"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:orientation="horizontal">
-
+                android:id="@+id/iconMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/bookmark_white" />
-
-                <ImageView
+                    android:id="@+id/iconBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="start|top"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/share" />
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/arrow_left" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <ImageView
+                        android:id="@+id/iconBookmark"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/bookmark_white" />
+
+                    <ImageView
+                        android:id="@+id/iconShare"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/share" />
+                </LinearLayout>
             </LinearLayout>
 
+
             <Button
+                android:id="@+id/btnImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
@@ -63,6 +84,7 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/linearShop"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,6 +100,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/textNameShop"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/yaldevi"
@@ -87,10 +110,12 @@
                         android:textStyle="bold" />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/iconTick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/outline_check_circle_24"
-                    android:layout_marginStart="10dp">
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
 
                 </LinearLayout>
             </LinearLayout>
@@ -101,6 +126,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/textViewCafeAdress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="38 Hoàng Ngọc Phách, Quận Đống Đa, Thành Phố Hà Nội"
@@ -111,6 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:id="@+id/textViewCafeTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Đang mở cửa  "
@@ -118,6 +145,7 @@
                         android:fontFamily="@font/yaldevi"
                         android:textSize="14dp" />
                     <TextView
+                        android:id="@+id/textViewCafeTimeOpen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="08:00 - 23:00"
@@ -152,6 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:id="@+id/admin"
                         android:layout_marginStart="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -160,6 +189,7 @@
                         android:fontFamily="@font/yaldevi"
                         android:textSize="14dp"/>
                     <TextView
+                        android:id="@+id/adminName"
                         android:layout_marginStart="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -173,6 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/iconEast"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/baseline_east_24"/>
@@ -181,6 +212,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lineaRaveragePrice"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -195,6 +227,7 @@
                 android:fontFamily="@font/yaldevi"
                 android:textSize="12dp"/>
             <TextView
+                android:id="@+id/textRaveragePrice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="100.000 đ"
@@ -204,6 +237,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lineaTime"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -218,6 +252,7 @@
                 android:fontFamily="@font/yaldevi"
                 android:textSize="14dp"/>
             <TextView
+                android:id="@+id/textTimeOpen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="08:30 - 23:00"
@@ -241,6 +276,7 @@
                 android:fontFamily="@font/yaldevi"
                 android:textSize="14dp"/>
             <TextView
+                android:id="@+id/textHotline"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Chưa cập nhật"
@@ -263,6 +299,7 @@
                 android:fontFamily="@font/yaldevi"
                 android:textSize="14dp"/>
             <TextView
+                android:id="@+id/textPurpose"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Bạn bè"
@@ -293,6 +330,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/textSpace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Không gian:"
@@ -315,7 +353,7 @@
                         android:src="@drawable/dots" />
 
                     <TextView
-                        android:id="@+id/secondTextView"
+                        android:id="@+id/textSpaceOne"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/iconImage"
@@ -338,6 +376,7 @@
                         android:src="@drawable/dots" />
 
                     <TextView
+                        android:id="@+id/textSpaceTwo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/iconImage"
@@ -357,6 +396,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/textDrink"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Đồ uống:"
@@ -378,9 +418,9 @@
                         android:src="@drawable/dots" />
 
                     <TextView
+                        android:id="@+id/textDrinkDescribe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/iconImage"
                         android:text="Quán chỉ dùng hạt ngoại, hơi ngọt so với khẩu vị."
                         android:textColor="#000000"
                         android:fontFamily="@font/yaldevi"
@@ -396,6 +436,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/textExperience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Gợi ý trải nghiệm:"
@@ -417,6 +458,7 @@
                         android:src="@drawable/dots" />
 
                     <TextView
+                        android:id="@+id/textExperienceDescribe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/iconImage"
@@ -454,7 +496,7 @@
                     android:fontFamily="@font/yaldevi"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/vote_vote"
+                android:id="@+id/linearEvaluate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/vote_title"
@@ -473,6 +515,7 @@
                         android:orientation="horizontal"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/textEvaluate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3.0"
@@ -487,6 +530,7 @@
                             android:layout_marginStart="5dp"/>
                     </LinearLayout>
                     <TextView
+                        android:id="@+id/textNumberReviews"
                         android:layout_marginStart="-15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -504,11 +548,13 @@
                     android:orientation="vertical"
                     >
                     <LinearLayout
+                        android:id="@+id/linearFive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/textFive"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="5"
@@ -517,6 +563,7 @@
                             android:fontFamily="@font/yaldevi"/>
 
                         <ProgressBar
+                            android:id="@+id/proFive"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
                             android:layout_height="3dp"
@@ -527,11 +574,13 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearFour"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/textFour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="4"
@@ -540,6 +589,7 @@
                             android:fontFamily="@font/yaldevi"/>
 
                         <ProgressBar
+                            android:id="@+id/proFour"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
                             android:layout_height="3dp"
@@ -550,11 +600,13 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearThree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/textThree"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3"
@@ -563,6 +615,7 @@
                             android:fontFamily="@font/yaldevi"/>
 
                         <ProgressBar
+                            android:id="@+id/proThree"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
                             android:layout_height="3dp"
@@ -573,11 +626,13 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearTwo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/textTwo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2"
@@ -586,6 +641,7 @@
                             android:fontFamily="@font/yaldevi"/>
 
                         <ProgressBar
+                            android:id="@+id/proTwo"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
                             android:layout_height="3dp"
@@ -596,11 +652,13 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearOne"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/textOne"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1"
@@ -609,6 +667,7 @@
                             android:textSize="13sp"/>
 
                         <ProgressBar
+                            android:id="@+id/proOne"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="150dp"
                             android:layout_height="3dp"
@@ -633,7 +692,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <include layout="@layout/evalute_compo"></include>
+                <include layout="@layout/fragment_evalute"></include>
             </LinearLayout>
 
             <!-- Second Divider -->
@@ -655,7 +714,7 @@
 
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/btnContribute"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -670,7 +729,7 @@
             <Button
                 android:padding="10dp"
                 android:layout_marginBottom="20dp"
-                android:id="@+id/button2"
+                android:id="@+id/btnUnderstood"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -691,25 +750,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp">
-                <include layout="@layout/tools_shop_compo"></include>
+                <include layout="@layout/fragment_tools_shop"></include>
             </LinearLayout>
         </HorizontalScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="9">
-            <FrameLayout
-                android:id="@+id/frame_menu"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:background="#E3E3E3">
-                <include layout="@layout/fragment_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></include>
-            </FrameLayout>
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="9">-->
+<!--            <FrameLayout-->
+<!--                android:id="@+id/frame_menu"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:background="#E3E3E3">-->
+<!--                <include layout="@layout/fragment_menu"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"></include>-->
+<!--            </FrameLayout>-->
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 
