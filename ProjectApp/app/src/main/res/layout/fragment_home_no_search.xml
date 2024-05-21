@@ -8,7 +8,7 @@
 
     <include
         android:layout_marginTop="20dp"
-        layout="@layout/search_compo"
+        layout="@layout/fragment_search"
         android:id="@+id/searchCompo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         tools:ignore="MissingConstraints"
         android:layout_marginStart="15dp">
         <include
-            layout="@layout/search_tools_compo"
+            layout="@layout/fragment_search_tools_compo"
             android:id="@+id/searchToolsCompo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -48,7 +48,6 @@
     </ImageView>
 
     <TextView
-        android:id="@+id/textView19"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -72,19 +71,19 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="27dp"></include>
 
-    <FrameLayout
-        android:id="@+id/frame_menu"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:background="#E3E3E3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:context=".UI.menu"
-        tools:ignore="MissingConstraints">
-        <include layout="@layout/fragment_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></include>
-    </FrameLayout>
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/frame_menu"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:layout_gravity="bottom"-->
+    <!--        android:background="#E3E3E3"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        tools:context=".UI.menu"-->
+    <!--        tools:ignore="MissingConstraints">-->
+    <!--        <include layout="@layout/fragment_menu"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"></include>-->
+    <!--    </FrameLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
