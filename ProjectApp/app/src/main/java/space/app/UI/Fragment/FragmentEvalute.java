@@ -8,15 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import space.app.MainActivity;
 import space.app.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentAuth#newInstance} factory method to
+ * Use the {@link FragmentEvalute#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentAuth extends Fragment {
+public class FragmentEvalute extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +26,7 @@ public class FragmentAuth extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentAuth() {
+    public FragmentEvalute() {
         // Required empty public constructor
     }
 
@@ -37,11 +36,11 @@ public class FragmentAuth extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment evalute.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentAuth newInstance(String param1, String param2) {
-        FragmentAuth fragment = new FragmentAuth();
+    public static FragmentEvalute newInstance(String param1, String param2) {
+        FragmentEvalute fragment = new FragmentEvalute();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,18 +61,6 @@ public class FragmentAuth extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_auth, container, false);
-        view.findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-        view.findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentRegister(),true);
-            }
-        });
-        return view;
+        return inflater.inflate(R.layout.fragment_evalute, container, false);
     }
 }

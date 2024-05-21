@@ -1,5 +1,7 @@
 package space.app.UI.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -57,6 +59,11 @@ public class FragmentMe extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        showAlertDialog();
+
+    }
+
+    private void showAlertDialog() {
     }
 
     @Override
@@ -96,6 +103,31 @@ public class FragmentMe extends Fragment {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentDeleteAcount(), true);
             }
         });
+//
+//        private void showAlertDialog() {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+////            builder.setTitle("Thông báo");
+//            builder.setMessage("Bạn muốn xóa tài khoản");
+//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    // Người dùng nhấn Hủy
+//                    dialog.dismiss();
+//                }
+//            });
+//
+//            AlertDialog dialog = builder.create();
+//            dialog.show();
+//        }
+//
+
+        
         // Contact
         ImageView arrowContact = view.findViewById(R.id.arrowContact);
         arrowContact.setOnClickListener(new View.OnClickListener() {

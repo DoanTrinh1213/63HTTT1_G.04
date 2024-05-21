@@ -28,7 +28,7 @@
             android:name=".UI.Fragment.FragmentPerson"
             android:exported="false" />
         <activity
-            android:name=".UI.Fragment.FragmentAuthorizeActivity"
+            android:name=".Activity.FragmentAuthorizeActivity"
             android:exported="false" />
         <activity
             android:name=".UI.Fragment.Person"
