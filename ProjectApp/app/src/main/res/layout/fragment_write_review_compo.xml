@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECDCDC"
-    tools:layout_editor_absoluteX="-2dp"
-    tools:layout_editor_absoluteY="4dp">
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
 
     <TextView
         android:id="@+id/textView14"
@@ -23,13 +23,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="612dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="121dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/textView16"
@@ -37,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
             android:layout_marginTop="33dp"
             android:fontFamily="@font/yaldevi"
             android:text="Trải nghiệm của bạn"
@@ -46,35 +44,32 @@
             tools:layout_editor_absoluteY="147dp" />
 
         <EditText
-            android:id="@+id/editTextText2"
-            android:layout_width="381dp"
-            android:layout_height="156dp"
+            android:id="@+id/expText"
+            android:layout_width="match_parent"
+            android:layout_height="147dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="69dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="74dp"
+            android:layout_marginEnd="1dp"
             android:background="@drawable/rounded_coner_review"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:minLines="6"
-            tools:layout_editor_absoluteX="31dp"
-            tools:layout_editor_absoluteY="175dp" />
+            android:minLines="6" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout"
-            android:layout_width="381dp"
+            android:id="@+id/layoutImage"
+            android:layout_width="match_parent"
             android:layout_height="156dp"
-            android:layout_below="@+id/editTextText2"
+            android:layout_below="@+id/expText"
             android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="180dp"
             android:background="@drawable/rounded_coner_review"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="16dp">
+            tools:ignore="MissingConstraints">
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -120,46 +115,47 @@
 
         <Button
             android:id="@+id/button1"
-            android:layout_width="381dp"
-            android:layout_height="37dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="62dp"
-            android:background="@drawable/btn_tick_cafe"
             android:fontFamily="@font/yaldevi"
             android:text="Để lại trải nghiệm của bạn"
             android:textAllCaps="false"
+            android:theme="@style/ButtonRegis"
             app:cornerRadius="50dp"
             tools:ignore="MissingConstraints" />
 
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15">
+        app:layout_constraintTop_toBottomOf="@+id/nameCafe"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginStart="-60dp">
 
         <RatingBar
-            android:layout_marginStart="-55dp"
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
+            android:progressBackgroundTint="#818080"
+            android:progressTint="@android:color/holo_orange_dark"
             android:rating="3"
-            android:stepSize="0.5"
             android:scaleX="0.5"
             android:scaleY="0.5"
-            android:progressTint="@android:color/holo_orange_dark"
-            android:progressBackgroundTint="#818080"/>
+            android:stepSize="0.5" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/nameCafe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
