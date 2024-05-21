@@ -1,15 +1,27 @@
 package space.app.UI.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
-import space.app.MainActivity;
+import java.util.ArrayList;
+import java.util.List;
+
+import space.app.Activity.DetailAcitvity;
+import space.app.Adapter.CafeAdapter;
+import space.app.Interface.RecyclerViewOnClickItem;
+import space.app.Model.Cafe;
 import space.app.R;
 
 /**
@@ -31,7 +43,7 @@ public class FragmentCafeHomePage extends Fragment {
     public FragmentCafeHomePage() {
         // Required empty public constructor
     }
-   /**
+    /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
@@ -60,16 +72,48 @@ public class FragmentCafeHomePage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_cafe_home_page, container, false);
-        // edit information
-        LinearLayout linearOne = view.findViewById(R.id.linearOne);
-        linearOne.setOnClickListener(new View.OnClickListener() {
+        List<Cafe> cafes = new ArrayList<Cafe>();
+        Cafe cafe = new Cafe("123", "CafePro1", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
+        cafes.add(cafe);
+        Cafe cafe2 = new Cafe("1234", "CafePro12", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
+        cafes.add(cafe2);
+        Cafe cafe3 = new Cafe("1235", "CafePro13", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
+        cafes.add(cafe3);
+        Cafe cafe4 = new Cafe("1236", "CafePro14", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
+        cafes.add(cafe4);
+
+        RecyclerView recycleView = view.findViewById(R.id.recyclerViewCafe);
+        recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycleView.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
             @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentShop(), true);
+            public void onItemClickCafe(Cafe cafe) {
+//                Toast toast = Toast.makeText(getContext(), "You click in item!", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.TOP, 0, 0);
+//                toast.show();
+                Intent intent = new Intent(getContext(), DetailAcitvity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Object_Cafe",cafe);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
-        });
+        }));
+
+        RecyclerView recyclerViewOther = view.findViewById(R.id.recyclerViewCafeByOrther);
+        recyclerViewOther.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
+            @Override
+            public void onItemClickCafe(Cafe cafe) {
+
+
+                Intent intent = new Intent(getContext(), DetailAcitvity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Object_Cafe",cafe);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }));
+
         return view;
     }
 }

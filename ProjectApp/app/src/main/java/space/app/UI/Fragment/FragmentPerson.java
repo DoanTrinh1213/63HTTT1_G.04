@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import space.app.MainActivity;
 import space.app.R;
 
 public class FragmentPerson extends Fragment {

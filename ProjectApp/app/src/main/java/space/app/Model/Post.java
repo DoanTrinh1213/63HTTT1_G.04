@@ -1,6 +1,8 @@
 package space.app.Model;
 
-public class Post {
+import java.io.Serializable;
+
+public class Post implements Serializable {
     public String getId() {
         return id;
     }

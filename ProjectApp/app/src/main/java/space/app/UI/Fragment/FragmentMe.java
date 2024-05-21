@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import space.app.MainActivity;
+import space.app.Activity.MainActivity;
 import space.app.R;
 
 /**
