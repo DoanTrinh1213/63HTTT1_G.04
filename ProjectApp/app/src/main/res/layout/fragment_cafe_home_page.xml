@@ -4,11 +4,126 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.Fragment.FragmentCafeHomePage">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_weight="1"
+        android:layout_marginTop="20dp">
 
-</FrameLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+            <include
+                layout="@layout/fragment_search_compo"
+                android:id="@+id/searchCompo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                android:layout_marginStart="18dp">
+                <include
+                    layout="@layout/fragment_search_tools_compo"
+                    android:id="@+id/searchToolsCompo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </HorizontalScrollView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="15">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="FindCafe đề xuất"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="236dp"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_above="@+id/bottom_navigation"
+                    app:dividerColor="#7A2A2A"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:id="@+id/linearOne"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <include layout="@layout/fragment_view_cafe"></include>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearTwo"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <include layout="@layout/fragment_view_cafe"></include>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearThree"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <include layout="@layout/fragment_view_cafe"></include>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearFour"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <include layout="@layout/fragment_view_cafe"></include>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="13">-->
+<!--        <FrameLayout-->
+<!--            android:id="@+id/frame_menu"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:background="#E3E3E3">-->
+<!--            <include layout="@layout/fragment_menu"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"></include>-->
+<!--        </FrameLayout>-->
+<!--    </LinearLayout>-->
+</LinearLayout>
