@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import space.app.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link tick_cafe#newInstance} factory method to
+ * Use the {@link FragmentHomeNoSearch#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class tick_cafe extends Fragment {
+public class FragmentHomeNoSearch extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class tick_cafe extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public tick_cafe() {
+    public FragmentHomeNoSearch() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class tick_cafe extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment tick_cafe.
+     * @return A new instance of fragment home_no_search.
      */
     // TODO: Rename and change types and number of parameters
-    public static tick_cafe newInstance(String param1, String param2) {
-        tick_cafe fragment = new tick_cafe();
+    public static FragmentHomeNoSearch newInstance(String param1, String param2) {
+        FragmentHomeNoSearch fragment = new FragmentHomeNoSearch();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class tick_cafe extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tick_cafe, container, false);
+        return inflater.inflate(R.layout.fragment_home_no_search, container, false);
     }
 }

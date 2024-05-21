@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import space.app.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link home_no_search#newInstance} factory method to
+ * Use the {@link FragmentWriteReview#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class home_no_search extends Fragment {
+public class FragmentWriteReview extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class home_no_search extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public home_no_search() {
+    public FragmentWriteReview() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class home_no_search extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment home_no_search.
+     * @return A new instance of fragment write_review.
      */
     // TODO: Rename and change types and number of parameters
-    public static home_no_search newInstance(String param1, String param2) {
-        home_no_search fragment = new home_no_search();
+    public static FragmentWriteReview newInstance(String param1, String param2) {
+        FragmentWriteReview fragment = new FragmentWriteReview();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class home_no_search extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_no_search, container, false);
+        return inflater.inflate(R.layout.fragment_write_review, container, false);
     }
 }
