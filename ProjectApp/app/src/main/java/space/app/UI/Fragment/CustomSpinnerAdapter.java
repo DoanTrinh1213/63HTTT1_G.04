@@ -51,5 +51,4 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
         textView.setBackgroundColor(Color.parseColor("#FFC0CB"));
 
         return view;
-    }
-}
+    }}

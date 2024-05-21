@@ -22,8 +22,8 @@ public class FragmentContributeCafeInformation extends Fragment {
 
         //Spiner Purpose
         Spinner spinner = view.findViewById(R.id.spinner);
-        String[] items = {"1 mình", "Bar/Pub ", "Bạn bè", "Hẹn hò","làm việc","Mở muộn",
-                "sống ảo", "đọc sách","đồ uống ngon"}; //
+        String[] items = {"1 mình", "Bar/Pub ", "Bạn bè", "Hẹn hò","Làm việc","Mở muộn",
+                "Sống ảo", "Đọc sách","Đồ uống ngon"}; //
 
         CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(getContext(), items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
