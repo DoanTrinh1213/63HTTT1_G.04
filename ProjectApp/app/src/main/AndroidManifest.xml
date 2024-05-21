@@ -16,22 +16,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.Fragment.FragmentEditInformation"
-            android:exported="false" />
-        <activity
-            android:name=".UI.Fragment.FragmentCafeContribute"
-            android:exported="false" />
-        <activity
-            android:name=".UI.Fragment.FragmentContributeCafeInformation"
-            android:exported="false" />
-        <activity
-            android:name=".UI.Fragment.FragmentPerson"
-            android:exported="false" />
-        <activity
             android:name=".Activity.FragmentAuthorizeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".UI.Fragment.Person"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"

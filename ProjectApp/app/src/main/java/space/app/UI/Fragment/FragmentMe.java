@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import space.app.MainActivity;
 import space.app.R;
@@ -72,14 +73,14 @@ public class FragmentMe extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         // edit information
-        ImageView arrowEditInformation = view.findViewById(R.id.arrowEditInformation);
-        arrowEditInformation.setOnClickListener(new View.OnClickListener() {
+        LinearLayout lnEditInformation = view.findViewById(R.id.lnEditInformation);
+        lnEditInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentEditInformation(), true);
             }
         });
-        // CafeContribute
+//        // CafeContribute
 //        ImageView arrowCafeContribute = view.findViewById(R.id.arrowCafeContribute);
 //        arrowCafeContribute.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -87,17 +88,18 @@ public class FragmentMe extends Fragment {
 //                ((MainActivity) getActivity()).replaceFragment(new FragmentCafeContribute(), true);
 //            }
 //        });
+
         // ContributeCafeInformation
-        ImageView arrowContributeCafeInformation = view.findViewById(R.id.arrowContributeCafeInformation);
-        arrowContributeCafeInformation.setOnClickListener(new View.OnClickListener() {
+        LinearLayout lnContributeCafeInformation = view.findViewById(R.id.lnContributeCafeInformation);
+        lnContributeCafeInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentContributeCafeInformation(), true);
             }
         });
         // DeleteAcount
-        ImageView arrowDeleteAcount = view.findViewById(R.id.arrowDeleteAcount);
-        arrowDeleteAcount.setOnClickListener(new View.OnClickListener() {
+        LinearLayout lnDeleteAcount = view.findViewById(R.id.lnDeleteAcount);
+        lnDeleteAcount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentDeleteAcount(), true);
@@ -129,32 +131,32 @@ public class FragmentMe extends Fragment {
 
         
         // Contact
-        ImageView arrowContact = view.findViewById(R.id.arrowContact);
-        arrowContact.setOnClickListener(new View.OnClickListener() {
+        LinearLayout lnContact = view.findViewById(R.id.lnContact);
+        lnContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentContact(), true);
             }
         });
         // InformationApp
-        ImageView arrowInformationApp = view.findViewById(R.id.arrowInformationApp);
-        arrowInformationApp.setOnClickListener(new View.OnClickListener() {
+        LinearLayout lnInformationApp = view.findViewById(R.id.lnInformationApp);
+        lnInformationApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentInformationApp(), true);
             }
         });
 //        // EvaluateApp
-//        ImageView arrowApp = view.findViewById(R.id.arrowApp);
-//        arrowApp.setOnClickListener(new View.OnClickListener() {
+//        LinearLayout lnApp = view.findViewById(R.id.lnApp);
+//        lnApp.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                ((MainActivity) getActivity()).replaceFragment(new FragmentInformationApp(), true);
 //            }
 //        });
         // LogOut
-        ImageView arrowLogOut = view.findViewById(R.id.arrowLogOut);
-        arrowLogOut.setOnClickListener(new View.OnClickListener() {
+        LinearLayout lnLogOut = view.findViewById(R.id.lnLogOut);
+        lnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentLogin(), true);

@@ -66,6 +66,7 @@ public class FragmentAuth extends Fragment {
         view.findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             }
         });
         view.findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {

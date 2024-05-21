@@ -7,7 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import space.app.MainActivity;
 import space.app.R;
 
 /**
@@ -60,7 +64,43 @@ public class FragmentShop extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop, container, false);
+        View view = inflater.inflate(R.layout.fragment_shop, container, false);
+
+        // back HomePage
+        ImageView iconBack = view.findViewById(R.id.iconBack);
+        iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentCafeHomePage(), true);
+            }
+        });
+
+        // FindCafe
+        LinearLayout lnfindCafe = view.findViewById(R.id.lnfindCafe);
+        lnfindCafe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentFindCafe(), true);
+            }
+        });
+        // ViewAllComment
+        Button ViewAll = view.findViewById(R.id.ViewAll);
+        ViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentReviewAll(), true);
+            }
+        });
+        // Review-Write
+        Button btnContribute = view.findViewById(R.id.btnContribute);
+        btnContribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentWriteReview(), true);
+            }
+        });
+        return view;
     }
 }
