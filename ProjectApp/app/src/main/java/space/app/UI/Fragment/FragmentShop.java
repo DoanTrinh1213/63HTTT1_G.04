@@ -1,5 +1,4 @@
 package space.app.UI.Fragment;
-package space.app.Activity;
 
 import android.os.Bundle;
 

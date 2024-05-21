@@ -1,4 +1,4 @@
-package space.app.Activity;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import space.app.R;
 
-public class AuthorizeActivity extends AppCompatActivity {
+public class FragmentAuthorizeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

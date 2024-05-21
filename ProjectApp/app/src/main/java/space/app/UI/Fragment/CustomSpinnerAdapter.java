@@ -1,4 +1,4 @@
-package space.app.Adapter;
+package space.app.UI.Fragment;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,9 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import space.app.R;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
     private final Context mContext;
@@ -35,6 +32,8 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
         TextView textView = view.findViewById(android.R.id.text1);
         textView.setText(mItems[position]);
         textView.setTextColor(Color.BLACK);
+        textView.setBackgroundColor(Color.parseColor("#FFC0CB"));
+
         return view;
     }
 
@@ -49,8 +48,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
         TextView textView = view.findViewById(android.R.id.text1);
         textView.setText(mItems[position]);
         textView.setTextColor(Color.BLACK);
-        textView.setBackgroundColor(Color.parseColor("#EAEAEA"));
+        textView.setBackgroundColor(Color.parseColor("#FFC0CB"));
 
         return view;
-    }
-}
+    }}

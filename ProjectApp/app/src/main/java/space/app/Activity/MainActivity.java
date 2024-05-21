@@ -34,6 +34,7 @@ import space.app.UI.Fragment.FragmentAuth;
 import space.app.UI.Fragment.FragmentBookmark;
 import space.app.UI.Fragment.FragmentCafeHomePage;
 import space.app.UI.Fragment.FragmentContact;
+import space.app.UI.Fragment.FragmentEditInformation;
 import space.app.UI.Fragment.FragmentLogin;
 import space.app.UI.Fragment.FragmentMe;
 import space.app.UI.Fragment.FragmentRegister;
@@ -166,6 +167,11 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTransaction.commit();
     }
+
+
+//    public void openFragmentEditInformation() {
+//        replaceFragment(new FragmentEditInformation(), true);
+//    }
     public void setSelectedBottomNavItem(int itemId) {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
         bottomNavigationView.setSelectedItemId(itemId);

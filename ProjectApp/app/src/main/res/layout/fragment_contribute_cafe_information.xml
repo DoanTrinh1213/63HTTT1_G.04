@@ -11,39 +11,40 @@
         android:layout_height="match_parent"
         android:background="#ECDCDC">
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints,UseCompoundDrawables">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
-            tools:layout_editor_absoluteX="20dp"
-            tools:layout_editor_absoluteY="20dp"
-            android:contentDescription="TODO" />
+            android:layout_marginTop="40dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints,UseCompoundDrawables">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="80dp"
-            android:layout_weight="1"
-            android:text="Đóng góp thông tin quán"
-            android:fontFamily="@font/yaldevi"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            <ImageView
+                android:id="@+id/BackPerson"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
+                tools:layout_editor_absoluteX="20dp"
+                tools:layout_editor_absoluteY="20dp"
+                android:contentDescription="TODO" />
 
-            />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="80dp"
+                android:layout_weight="1"
+                android:text="Đóng góp thông tin quán"
+                android:fontFamily="@font/yaldevi"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                />
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -82,7 +83,7 @@
                         android:textColor="@color/black" />
 
                     <EditText
-                        android:id="@+id/txtMap"
+                        android:id="@+id/edtMap"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_margin="10dp"
@@ -345,7 +346,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout"
-                        android:layout_width="350dp"
+                        android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/rounded_rectangle"
@@ -401,7 +402,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout2"
-                        android:layout_width="350dp"
+                        android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/rounded_rectangle"
@@ -511,10 +512,11 @@
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSend"
-                    android:layout_width="360dp"
+                    android:id="@+id/btnSendContributeCafe"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
                     android:backgroundTint="#7A2A2A"
                     android:fontFamily="@font/yaldevi"
                     android:text="Gửi"
@@ -527,6 +529,5 @@
                     tools:ignore="DuplicateIds" />
             </LinearLayout>
         </ScrollView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
