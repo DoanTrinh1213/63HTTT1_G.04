@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.zip.Inflater;
 
+import space.app.MainActivity;
 import space.app.R;
 
 /**
@@ -65,6 +67,14 @@ public class FragmentEditInformation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_information, container, false);
+        View view= inflater.inflate(R.layout.fragment_edit_information, container, false);
+        ImageView iconBackPerson = view.findViewById(R.id.iconBackPerson);
+        iconBackPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentMe(), true);
+            }
+        });
+        return view;
     }
 }

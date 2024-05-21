@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 
 
 import space.app.Adapter.CustomSpinnerAdapter;
+import space.app.MainActivity;
 import space.app.R;
 
 public class FragmentContributeCafeInformation extends Fragment {
@@ -16,9 +18,10 @@ public class FragmentContributeCafeInformation extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_contribute_cafe_information, container, false);
+        View view = inflater.inflate(R.layout.fragment_contribute_cafe_information, container, false);
 
-        Spinner spinner = rootView.findViewById(R.id.spinner);
+        //Spiner Purpose
+        Spinner spinner = view.findViewById(R.id.spinner);
         String[] items = {"1 mình", "Bar/Pub ", "Bạn bè", "Hẹn hò","làm việc","Mở muộn",
                 "sống ảo", "đọc sách","đồ uống ngon"}; //
 
@@ -26,6 +29,15 @@ public class FragmentContributeCafeInformation extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        return rootView;
+        //BackMe
+        ImageView BackPerson = view.findViewById(R.id.BackPerson);
+        BackPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentMe(), true);
+            }
+        });
+        return view;
     }
+
 }

@@ -21,9 +21,10 @@
             tools:ignore="MissingConstraints,UseCompoundDrawables">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/BackPerson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="20dp"
@@ -345,7 +346,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout"
-                        android:layout_width="350dp"
+                        android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/rounded_rectangle"
@@ -401,7 +402,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout2"
-                        android:layout_width="350dp"
+                        android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/rounded_rectangle"
@@ -512,9 +513,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSendContributeCafe"
-                    android:layout_width="360dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
                     android:backgroundTint="#7A2A2A"
                     android:fontFamily="@font/yaldevi"
                     android:text="Gửi"

@@ -170,7 +170,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void openFragmentEditInformation() {
-        replaceFragment(new FragmentEditInformation(), true);
-    }
+
+//    public void openFragmentEditInformation() {
+//        replaceFragment(new FragmentEditInformation(), true);
+//    }
 }

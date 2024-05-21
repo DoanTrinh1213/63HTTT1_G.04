@@ -32,12 +32,13 @@ public class FragmentPerson extends Fragment {
 
         // Initialize views here
         ImageView arrowEditInformation = view.findViewById(R.id.arrowEditInformation);
-        arrowEditInformation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).openFragmentEditInformation();
-            }
-        });
+//        arrowEditInformation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ((MainActivity) getActivity()).openFragmentEditInformation();
+//            }
+//        });
+
 
         return view;
     }

@@ -13,13 +13,16 @@
         android:theme="@style/Theme.MaterialComponents.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".UI.Fragment.FragmentEditInformation"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".UI.Fragment.FragmentEditInformation"
+            android:exported="false" />
+        <activity
             android:name=".UI.Fragment.FragmentCafeContribute"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Fragment.FragmentContributeCafeInformation"
             android:exported="false" />
         <activity
             android:name=".UI.Fragment.FragmentPerson"
@@ -29,9 +32,6 @@
             android:exported="false" />
         <activity
             android:name=".UI.Fragment.Person"
-            android:exported="false" />
-        <activity
-            android:name=".UI.Fragment.EditInformation"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"

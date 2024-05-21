@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="TODO"
+                android:layout_marginStart="10dp"
                 app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="20dp" />
@@ -37,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="80dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/yaldevi"
                 android:text="Thông tin ứng dụng"

@@ -32,24 +32,36 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
         TextView textView = view.findViewById(android.R.id.text1);
         textView.setText(mItems[position]);
         textView.setTextColor(Color.BLACK);
-        textView.setBackgroundColor(Color.parseColor("#FFC0CB"));
-
         return view;
     }
 
-    @Override
-    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
-        View view = convertView;
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
-        }
-
-        TextView textView = view.findViewById(android.R.id.text1);
-        textView.setText(mItems[position]);
-        textView.setTextColor(Color.BLACK);
-        textView.setBackgroundColor(Color.parseColor("#FFC0CB"));
-
-        return view;
+//    @Override
+//    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+//        View view = convertView;
+//        if (view == null) {
+//            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            view = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
+//        }
+//
+//        TextView textView = view.findViewById(android.R.id.text1);
+//        textView.setText(mItems[position]);
+//        textView.setTextColor(Color.BLACK);
+//        textView.setBackgroundColor(Color.parseColor("#EECBCD"));
+//        textView.setTextSize(14f); // Giảm kích thước font chữ về 14sp
+//        return view;
+//    }
+@Override
+public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+    View view = convertView;
+    if (view == null) {
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(android.R.layout.simple_dropdown_item_1line, parent, false);
     }
+
+    TextView textView = view.findViewById(android.R.id.text1);
+    textView.setText(mItems[position]);
+
+    return view;
+}
+    
 }
