@@ -10,18 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="40dp">
 
         <ImageView
+            android:id="@+id/iconBack"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:background="@drawable/baseline_arrow_back_ios_24"
-            android:layout_marginStart="25dp"
-            />
+            android:layout_marginStart="25dp" />
 
         <TextView
+            android:id="@+id/adminName"
             android:layout_width="0dp"
             android:layout_weight="15"
             android:layout_height="wrap_content"
@@ -29,13 +30,14 @@
             android:fontFamily="@font/yaldevi"
             android:text="findcafe.official"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginEnd="10dp"/>
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/linearShop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_coner_review"
@@ -47,6 +49,7 @@
         android:padding="4dp">
 
         <LinearLayout
+            android:id="@+id/linearTextShop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -54,6 +57,7 @@
             android:layout_marginStart="15dp">
 
             <TextView
+                android:id="@+id/textAdmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/yaldevi"
@@ -62,6 +66,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/textContribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/yaldevi"
@@ -70,6 +75,7 @@
                 android:textSize="11sp" />
 
             <TextView
+                android:id="@+id/textShare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/yaldevi"
@@ -84,6 +90,7 @@
             android:layout_gravity="top"
             >
             <ImageView
+                android:id="@+id/imageAdmin"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/coc_cafe" />
@@ -95,54 +102,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:id="@+id/linearFindOne"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="8dp">
 
-            <include layout="@layout/view_cafe_like_compo" />
+            <include layout="@layout/fragment_view_cafe_like" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearFindTwo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <include layout="@layout/view_cafe_like_compo" />
+            <include layout="@layout/fragment_view_cafe_like" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearFindThree"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <include layout="@layout/view_cafe_like_compo" />
+            <include layout="@layout/fragment_view_cafe" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearFindFour"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
             <include
-                layout="@layout/view_cafe_compo"
+                layout="@layout/fragment_view_cafe"
                 android:layout_width="match_parent"
                 android:layout_height="176dp" />
         </LinearLayout>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/frame_menu"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="5.5dp"
-        android:background="#E3E3E3">
+<!--    <FrameLayout-->
+<!--        android:id="@+id/frame_menu"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:background="#E3E3E3">-->
 
-        <include
-            layout="@layout/fragment_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
-    </FrameLayout>
+<!--        <include-->
+<!--            layout="@layout/fragment_menu"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom" />-->
+<!--    </FrameLayout>-->
 
 </LinearLayout>

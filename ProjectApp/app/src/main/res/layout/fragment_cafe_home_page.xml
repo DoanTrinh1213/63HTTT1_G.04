@@ -21,11 +21,23 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"></LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
 
             <include
+                layout="@layout/fragment_search_compo"
                 android:id="@+id/searchCompo"
-                layout="@layout/search_compo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -37,14 +49,13 @@
                 android:fillViewport="true"
                 android:scrollbars="none">
                 <include
+                    layout="@layout/fragment_search_tools_compo"
                     android:id="@+id/searchToolsCompo"
-                    layout="@layout/search_tools_compo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             </HorizontalScrollView>
 
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -100,6 +111,7 @@
                         android:id="@+id/recyclerViewCafe"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -123,6 +135,7 @@
                             android:layout_marginTop="18dp"
                             app:dividerColor="#7A2A2A" />
                     </LinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewCafeByOrther"
                         android:layout_width="match_parent"

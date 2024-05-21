@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/yaldevi"
         android:text="Trải nghiệm của bạn về"
         android:textColor="#000000"
@@ -36,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="33dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="45dp"
             android:fontFamily="@font/yaldevi"
             android:text="Trải nghiệm của bạn"
             android:textColor="#000000"
@@ -44,9 +45,9 @@
             tools:layout_editor_absoluteY="147dp" />
 
         <EditText
-            android:id="@+id/expText"
             android:layout_width="match_parent"
             android:layout_height="147dp"
+            android:id="@+id/editTextExperience"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -59,10 +60,10 @@
             android:minLines="6" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutImage"
-            android:layout_width="match_parent"
+            android:id="@+id/editTextImage"
+            android:layout_width="381dp"
             android:layout_height="156dp"
-            android:layout_below="@+id/expText"
+            android:layout_below="@+id/editTextExperience"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
@@ -114,7 +115,7 @@
             tools:layout_editor_absoluteY="147dp" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btnExperience"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -132,13 +133,12 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameCafe"
+        app:layout_constraintTop_toBottomOf="@+id/textNameShop"
         app:layout_constraintHorizontal_bias="0"
-        android:layout_marginStart="-60dp">
+        android:layout_marginStart="-50dp">
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -155,7 +155,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/nameCafe"
+        android:id="@+id/textNameShop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -169,9 +169,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <ImageView
+        android:id="@+id/iconClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/baseline_close_24"
         app:layout_constraintEnd_toEndOf="parent"

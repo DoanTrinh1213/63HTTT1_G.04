@@ -12,19 +12,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         tools:ignore="MissingConstraints"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="25dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/icon3"
+                android:id="@+id/iconSetting"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:src="@drawable/setting_search" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearPurpose"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:background="@drawable/rounded_view_cafe"
@@ -33,10 +34,9 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textPurpose"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
-
                 android:fontFamily="@font/yaldevi"
                 android:gravity="center"
                 android:text="Mục đích"
@@ -44,16 +44,16 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/iconArrowOne"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-
                 android:background="@drawable/arrow_up" />
         </LinearLayout>
 
 
         <LinearLayout
+            android:id="@+id/linearDistance"
             android:layout_width="130dp"
             android:layout_height="30dp"
             android:background="@drawable/rounded_view_cafe"
@@ -62,10 +62,9 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textDistance"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-
                 android:fontFamily="@font/yaldevi"
                 android:gravity="center"
                 android:text="Khoảng cách"
@@ -73,15 +72,15 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/iconArrowTwo"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-
                 android:background="@drawable/arrow_up" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearTime"
             android:layout_width="140dp"
             android:layout_height="30dp"
             android:background="@drawable/rounded_view_cafe"
@@ -90,10 +89,9 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/textTime"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
-
                 android:fontFamily="@font/yaldevi"
                 android:gravity="center"
                 android:text="Đang mở cửa"
@@ -101,7 +99,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/iconArrowThree"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -109,6 +107,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearPrice"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:background="@drawable/rounded_view_cafe"
@@ -117,10 +116,9 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textPrice"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
-
                 android:fontFamily="@font/yaldevi"
                 android:gravity="center"
                 android:text="Giá tiền"
@@ -128,7 +126,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/iconArrowFour"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"

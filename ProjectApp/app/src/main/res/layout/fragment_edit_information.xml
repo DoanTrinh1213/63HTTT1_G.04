@@ -24,9 +24,10 @@
             tools:layout_editor_absoluteX="28dp">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/iconBackPerson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:contentDescription="TODO"
                 app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
                 tools:layout_editor_absoluteX="20dp"
@@ -37,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="80dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/yaldevi"
                 android:text="Chỉnh sửa thông tin"
@@ -98,6 +99,7 @@
             android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="72dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +127,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/usernameText"
+                android:id="@+id/edtUserName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="16dp"
@@ -184,10 +186,11 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSend"
-                android:layout_width="376dp"
+                android:id="@+id/SendEditInformation"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:backgroundTint="#7A2A2A"
                 android:fontFamily="@font/yaldevi"
                 android:text="Gửi"

@@ -36,7 +36,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
     public CafeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate the item layout
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_cafe_compo, parent, false);
+                .inflate(R.layout.fragment_view_cafe, parent, false);
         return new CafeViewHolder(itemView);
     }
 
@@ -70,10 +70,10 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
 
         public CafeViewHolder(@NonNull View itemView) {
             super(itemView);
-            cafeNameTextView = itemView.findViewById(R.id.nameCafe);
-            cafeAddressTextView = itemView.findViewById(R.id.addressCafe);
-            imageCafe = itemView.findViewById(R.id.imageCafe);
-            timeOpen = itemView.findViewById(R.id.timeCafe);
+            cafeNameTextView = itemView.findViewById(R.id.textViewCafeShop);
+            cafeAddressTextView = itemView.findViewById(R.id.textViewCafeAdress);
+            imageCafe = itemView.findViewById(R.id.imageViewCafe);
+            timeOpen = itemView.findViewById(R.id.textViewCafeTimeOpen);
         }
 
         public void bind(Cafe cafe) {

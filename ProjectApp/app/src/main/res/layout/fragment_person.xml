@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DFCBCB"
-    android:fontFamily="@font/yaldevi"
-    android:padding="15dp"
+    android:fontFamily="@font/yaldevifont"
     tools:context=".UI.Fragment.FragmentPerson">
 
     <LinearLayout
@@ -174,13 +173,7 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <!--  Xóa tài khoản-->
-
-
-    <!--      khac-->
-
-
     <TextView
         android:id="@+id/txtTaiKhoan"
         android:layout_width="wrap_content"
