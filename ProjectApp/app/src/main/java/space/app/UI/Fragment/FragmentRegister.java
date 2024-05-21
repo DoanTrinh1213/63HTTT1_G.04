@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import space.app.MainActivity;
+import space.app.Activity.MainActivity;
 import space.app.R;
 
 /**
@@ -63,7 +63,12 @@ public class FragmentRegister extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-
+        view.findViewById(R.id.textToLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentLogin(),true);
+            }
+        });
         return view;
     }
 }

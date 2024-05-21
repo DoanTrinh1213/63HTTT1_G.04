@@ -1,6 +1,8 @@
 package space.app.Model;
 
-public class Cafe {
+import java.io.Serializable;
+
+public class Cafe implements Serializable {
     private String idCafe;
     private String resName;
     private String address;
@@ -12,6 +14,7 @@ public class Cafe {
     private String images;
     private String evaluate;
     private String link;
+    private String purpose;
 
     public String getIdCafe() {
         return idCafe;
@@ -21,17 +24,16 @@ public class Cafe {
         this.idCafe = idCafe;
     }
 
-    public String[] getPurpose() {
+    public String getPurpose() {
         return purpose;
     }
 
-    public void setPurpose(String[] purpose) {
+    public void setPurpose(String purpose) {
         this.purpose = purpose;
     }
 
-    private String[] purpose;
 
-    public Cafe(String idCafe,String resName, String address, String describe, Float price, String menu, String timeOpen, String contact, String images, String evaluate, String link,String[] purpose) {
+    public Cafe(String idCafe, String resName, String address, String describe, Float price, String menu, String timeOpen, String contact, String images, String evaluate, String link, String purpose) {
         this.idCafe = idCafe;
         this.resName = resName;
         this.address = address;

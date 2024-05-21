@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import java.util.zip.Inflater;
 
-import space.app.MainActivity;
+import space.app.Activity.MainActivity;
 import space.app.R;
 
 /**

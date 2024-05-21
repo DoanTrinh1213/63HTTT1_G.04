@@ -9,8 +9,8 @@ import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 
 
+import space.app.Activity.MainActivity;
 import space.app.Adapter.CustomSpinnerAdapter;
-import space.app.MainActivity;
 import space.app.R;
 
 public class FragmentContributeCafeInformation extends Fragment {

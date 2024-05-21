@@ -1,4 +1,4 @@
-package space.app;
+package space.app.Activity;
 
 import static java.security.AccessController.getContext;
 
@@ -30,6 +30,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import space.app.R;
 import space.app.UI.Fragment.FragmentAuth;
 import space.app.UI.Fragment.FragmentBookmark;
 import space.app.UI.Fragment.FragmentCafeHomePage;

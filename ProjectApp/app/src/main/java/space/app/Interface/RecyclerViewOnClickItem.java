@@ -1,2 +1,7 @@
-package space.app.Interface;public class RecyclerViewOnClickItem {
+package space.app.Interface;
+
+import space.app.Model.Cafe;
+
+public interface RecyclerViewOnClickItem {
+    void onItemClickCafe(Cafe cafe);
 }
