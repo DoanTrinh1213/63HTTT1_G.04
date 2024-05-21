@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import space.app.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link cafe_home_page#newInstance} factory method to
+ * Use the {@link FragmentSearchCompo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class cafe_home_page extends Fragment {
+public class FragmentSearchCompo extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class cafe_home_page extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public cafe_home_page() {
+    public FragmentSearchCompo() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class cafe_home_page extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment cafe_home_page.
+     * @return A new instance of fragment search_compo.
      */
     // TODO: Rename and change types and number of parameters
-    public static cafe_home_page newInstance(String param1, String param2) {
-        cafe_home_page fragment = new cafe_home_page();
+    public static FragmentSearchCompo newInstance(String param1, String param2) {
+        FragmentSearchCompo fragment = new FragmentSearchCompo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class cafe_home_page extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cafe_home_page, container, false);
+        return inflater.inflate(R.layout.fragment_search_compo, container, false);
     }
 }

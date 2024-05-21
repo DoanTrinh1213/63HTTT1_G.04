@@ -36,8 +36,7 @@ public class FragmentCafeHomePage extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentCafeHomePage.
-     */
+     @return A new instance of fragment FragmentCafeHomePage.
     // TODO: Rename and change types and number of parameters
     public static FragmentCafeHomePage newInstance(String param1, String param2) {
         FragmentCafeHomePage fragment = new FragmentCafeHomePage();

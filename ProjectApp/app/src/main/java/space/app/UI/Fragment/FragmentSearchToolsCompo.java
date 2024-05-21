@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import space.app.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link search_compo#newInstance} factory method to
+ * Use the {@link FragmentSearchToolsCompo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class search_compo extends Fragment {
+public class FragmentSearchToolsCompo extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class search_compo extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public search_compo() {
+    public FragmentSearchToolsCompo() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class search_compo extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment search_compo.
+     * @return A new instance of fragment search_tools_compo.
      */
     // TODO: Rename and change types and number of parameters
-    public static search_compo newInstance(String param1, String param2) {
-        search_compo fragment = new search_compo();
+    public static FragmentSearchToolsCompo newInstance(String param1, String param2) {
+        FragmentSearchToolsCompo fragment = new FragmentSearchToolsCompo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class search_compo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_compo, container, false);
+        return inflater.inflate(R.layout.fragment_search_tools_compo, container, false);
     }
 }

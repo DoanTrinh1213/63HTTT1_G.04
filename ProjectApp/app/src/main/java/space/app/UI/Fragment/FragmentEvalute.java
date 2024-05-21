@@ -1,4 +1,4 @@
-package space.app;
+package space.app.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import space.app.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link evalute#newInstance} factory method to
+ * Use the {@link FragmentEvalute#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class evalute extends Fragment {
+public class FragmentEvalute extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class evalute extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public evalute() {
+    public FragmentEvalute() {
         // Required empty public constructor
     }
 
@@ -37,8 +39,8 @@ public class evalute extends Fragment {
      * @return A new instance of fragment evalute.
      */
     // TODO: Rename and change types and number of parameters
-    public static evalute newInstance(String param1, String param2) {
-        evalute fragment = new evalute();
+    public static FragmentEvalute newInstance(String param1, String param2) {
+        FragmentEvalute fragment = new FragmentEvalute();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
