@@ -56,12 +56,15 @@
        android:text="di cafe khong"
        android:textColor="#000000" />
   </LinearLayout>
-
+  <Space
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1" />
   <ImageView
       android:id="@+id/arrowEditInformation"
       android:layout_width="44dp"
       android:layout_height="wrap_content"
-      android:layout_marginStart="130dp"
+      android:layout_marginEnd="15dp"
       android:layout_marginTop="30dp"
       android:backgroundTint="#000000"
       app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
@@ -126,12 +129,15 @@
        android:text="Quán bạn đã đóng góp"
        android:textColor="#000000"
        android:textSize="16dp" />
-
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_weight="1" />
    <ImageView
        android:id="@+id/arrowCafeContribute"
        android:layout_width="44dp"
        android:layout_height="wrap_content"
-       android:layout_marginStart="130dp"
+       android:layout_marginEnd="15dp"
        android:backgroundTint="#000000"
        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
   </LinearLayout>
@@ -160,13 +166,16 @@
        android:text="Đóng góp thông tin quán"
        android:textColor="#000000"
        android:textSize="16dp" />
-
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_weight="1" />
    <ImageView
        android:id="@+id/arrowContributeCafeInformation"
        android:layout_width="44dp"
        android:layout_height="wrap_content"
        android:layout_gravity="end"
-       android:layout_marginStart="118dp"
+       android:layout_marginEnd="15dp"
        android:backgroundTint="#000000"
        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
   </LinearLayout>
@@ -225,13 +234,16 @@
       android:text="Xóa tài khoản"
       android:textColor="#000000"
       android:textSize="16dp" />
-
+  <Space
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1" />
   <ImageView
       android:id="@+id/arrowDeleteAcount"
       android:layout_width="44dp"
       android:layout_height="wrap_content"
       android:layout_gravity="end"
-      android:layout_marginStart="195dp"
+      android:layout_marginEnd="15dp"
       android:backgroundTint="#000000"
       app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
  </LinearLayout>
@@ -294,12 +306,15 @@
        android:text="Liên hệ với chúng tôi"
        android:textColor="#000000"
        android:textSize="16dp" />
-
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_weight="1" />
    <ImageView
        android:id="@+id/arrowContact"
        android:layout_width="44dp"
        android:layout_height="wrap_content"
-       android:layout_marginStart="145dp"
+       android:layout_marginEnd="15dp"
        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
   </LinearLayout>
 
@@ -327,13 +342,16 @@
        android:text="Thông tin ứng dụng"
        android:textColor="#000000"
        android:textSize="16dp" />
-
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_weight="1" />
    <ImageView
        android:id="@+id/arrowInformationApp"
        android:layout_width="44dp"
        android:layout_height="wrap_content"
        android:layout_gravity="end"
-       android:layout_marginStart="150dp"
+       android:layout_marginEnd="15dp"
        android:backgroundTint="#000000"
        android:contentDescription="TODO"
        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
@@ -364,12 +382,15 @@
        android:textColor="#000000"
        android:textSize="16dp" />
 
-
+   <Space
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_weight="1" />
    <ImageView
        android:id="@+id/arrowApp"
        android:layout_width="44dp"
        android:layout_height="wrap_content"
-       android:layout_marginStart="195dp"
+       android:layout_marginEnd="15dp"
        android:backgroundTint="#000000"
        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
 
@@ -401,21 +422,18 @@
        android:textColor="#000000"
        android:textSize="16dp" />
 
-   <LinearLayout
+   <Space
        android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/arrowLogOut"
-        android:layout_width="44dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="215dp"
-        android:backgroundTint="#000000"
-        android:contentDescription="TODO"
-        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-
-   </LinearLayout>
-
+       android:layout_height="wrap_content"
+       android:layout_weight="1" />
+   <ImageView
+       android:id="@+id/arrowLogOut"
+       android:layout_width="44dp"
+       android:layout_height="wrap_content"
+       android:layout_marginEnd="15dp"
+       android:backgroundTint="#000000"
+       android:contentDescription="TODO"
+       app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
 
   </LinearLayout>
  </LinearLayout>
