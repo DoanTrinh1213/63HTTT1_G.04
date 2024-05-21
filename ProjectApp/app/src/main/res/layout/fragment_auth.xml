@@ -6,9 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".UI.Fragment.FragmentAuth"
     android:id="@+id/homeFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include
             android:id="@+id/include"
             layout="@layout/logo_compo"
@@ -41,7 +43,18 @@
                 android:src="@drawable/quancafe"></ImageView>
         </com.google.android.material.card.MaterialCardView>
 
+        <include
+            layout="@layout/policy_text_compo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardview1"
+            app:layout_constraintVertical_bias="0.25"></include>
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +80,7 @@
                 app:layout_constraintHorizontal_bias="0.433"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" ></com.google.android.material.button.MaterialButton>
+                app:layout_constraintVertical_bias="0.0"></com.google.android.material.button.MaterialButton>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/registerButton"
