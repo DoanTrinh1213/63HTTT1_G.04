@@ -168,6 +168,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lnfindCafe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -724,9 +725,21 @@
 
                 </LinearLayout>
 
-
                 <Button
-                    android:id="@+id/button1"
+                    android:id="@+id/ViewAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="#ECCBCB"
+                    android:fontFamily="@font/yaldevi"
+                    android:padding="10dp"
+                    android:text="Xem tất cả"
+                    android:textAllCaps="false"
+                    android:textColor="#7A2A2A" />
+                <Button
+                    android:id="@+id/btnCafeContribute"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -738,19 +751,7 @@
                     android:textAllCaps="false"
                     android:textColor="#ffff" />
 
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="20dp"
-                    android:backgroundTint="#ECCBCB"
-                    android:fontFamily="@font/yaldevi"
-                    android:padding="10dp"
-                    android:text="Đã hiểu"
-                    android:textAllCaps="false"
-                    android:textColor="#7A2A2A" />
+
             </LinearLayout>
 
             <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"

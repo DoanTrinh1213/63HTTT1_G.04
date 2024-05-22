@@ -11,7 +11,7 @@
     android:padding="15dp">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/lnEditInformation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -104,6 +104,7 @@
         tools:ignore="MissingConstraints">
 
         <LinearLayout
+            android:id="@+id/lnCafeContribute"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -139,6 +140,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lnContributeCafeInformation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -191,7 +193,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/lnDeleteAcount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -266,6 +268,7 @@
         tools:ignore="MissingConstraints">
 
         <LinearLayout
+            android:id="@+id/lnContact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -300,6 +303,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lnInformationApp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -336,6 +340,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lnApp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -372,6 +377,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lnLogOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -417,12 +423,3 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-
-
-
