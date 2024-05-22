@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="#DFCBCB"
     android:fontFamily="@font/yaldevifont"
-    tools:context=".UI.Fragment.FragmentPerson">
+    tools:context=".UI.Fragment.FragmentPerson"
+    android:padding="15dp">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
