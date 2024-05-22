@@ -13,7 +13,12 @@
           "package_name": "space.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "112660183705-9qh6bnjhavokqeq3vu82bdes3m9q7rd7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDy3pefetrtfGKF6XQKMtfrqqRONumD6gY"
@@ -21,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112660183705-9qh6bnjhavokqeq3vu82bdes3m9q7rd7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

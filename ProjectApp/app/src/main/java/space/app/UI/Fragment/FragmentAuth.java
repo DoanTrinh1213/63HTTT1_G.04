@@ -1,5 +1,7 @@
 package space.app.UI.Fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import space.app.MainActivity;
+import space.app.Activity.MainActivity;
 import space.app.R;
 
 /**
@@ -66,13 +68,33 @@ public class FragmentAuth extends Fragment {
         view.findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).openLoginActivity();
+                ((MainActivity) getActivity()).setSelectedBottomNavItem(R.id.me);
+                ((MainActivity) getActivity()).replaceFragment(new FragmentLogin(),true);
             }
         });
         view.findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((MainActivity) getActivity()).setSelectedBottomNavItem(R.id.me);
                 ((MainActivity) getActivity()).replaceFragment(new FragmentRegister(),true);
+            }
+        });
+        view.findViewById(R.id.policyPrivate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://google.com";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+        view.findViewById(R.id.serviceRules).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://google.com.vn";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
             }
         });
         return view;

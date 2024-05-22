@@ -41,14 +41,15 @@
 
         <Button
             android:id="@+id/btnContribute"
-            android:layout_width="381dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/btn_tick_cafe"
+            android:layout_width="379dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_btn"
             android:fontFamily="@font/yaldevi"
             android:text="Mình có quán muốn đóng góp"
             android:textAllCaps="false"
-            app:cornerRadius="50dp"
+            android:textColor="#ffff"
+            android:theme="@style/ButtonRegis"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="130dp" />
@@ -56,7 +57,7 @@
         <Button
             android:id="@+id/btnUnderstood"
             android:layout_width="381dp"
-            android:layout_height="37dp"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/btn_outline_tick_cafe"

@@ -105,7 +105,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/btn_tick_cafe"
+        android:backgroundTint="#7A2A2A"
+        android:theme="@style/ButtonProper"
         android:fontFamily="@font/yaldevi"
         android:text="Để lại trải nghiệm của bạn"
         android:textAllCaps="false" />
