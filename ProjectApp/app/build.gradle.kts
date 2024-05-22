@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.cardview)
     implementation(libs.legacy.support.v4)
     implementation(libs.firebase.auth)
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
