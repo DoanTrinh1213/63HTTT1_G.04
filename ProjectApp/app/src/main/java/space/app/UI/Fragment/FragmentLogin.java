@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.UserRecoverableException;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,8 +36,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import space.app.Activity.MainActivity;
+import space.app.Helper.Utils;
+import space.app.Model.User;
 import space.app.R;
 
 /**
@@ -90,12 +98,12 @@ public class FragmentLogin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
         TextView txtRegister = view.findViewById(R.id.textToRegister);
         txtRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentRegister(),true);
+                ((MainActivity) getActivity()).replaceFragment(new FragmentRegister(), true);
             }
         });
 
@@ -107,15 +115,14 @@ public class FragmentLogin extends Fragment {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(username.getText().toString().isEmpty() ||passsword.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(),"Tài khoản và mật khẩu không được để trống!",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    mAuth.signInWithEmailAndPassword(username.getText().toString(),passsword.getText().toString())
+                if (username.getText().toString().isEmpty() || passsword.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Tài khoản và mật khẩu không được để trống!", Toast.LENGTH_LONG).show();
+                } else {
+                    mAuth.signInWithEmailAndPassword(username.getText().toString(), passsword.getText().toString())
                             .addOnCompleteListener((Activity) getContext(), new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()){
+                                    if (task.isSuccessful()) {
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         Toast.makeText(getActivity(), "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
@@ -129,8 +136,7 @@ public class FragmentLogin extends Fragment {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         getActivity().finish();
-                                    }
-                                    else{
+                                    } else {
                                         Toast.makeText(getActivity(), "Đăng nhập thất bại! Vui lòng kiểm tra lại tài khoản và mật khẩu.", Toast.LENGTH_LONG).show();
                                     }
                                 }
@@ -152,6 +158,7 @@ public class FragmentLogin extends Fragment {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 someActivityResultLauncher.launch(signInIntent);
             }
+
             ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
                     new ActivityResultCallback<ActivityResult>() {
@@ -164,6 +171,7 @@ public class FragmentLogin extends Fragment {
                             }
                         }
                     });
+
             private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
                 try {
                     GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -185,13 +193,37 @@ public class FragmentLogin extends Fragment {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         getActivity().finish();
+
+
+                                        String hashedEmail = Utils.hashEmail(account.getEmail());
+                                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                        DatabaseReference myRef = database.getReference("User");
+                                        // Lưu user với hashedEmail làm khóa
+                                        myRef.child(hashedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot.exists()) {
+                                                    // hashedEmail đã tồn tại, không thực hiện ghi đè
+                                                    Log.d("FirebaseUtils", "Hashed email already exists in Firebase: " + hashedEmail);
+                                                } else {
+                                                    // hashedEmail chưa tồn tại, lưu thông tin người dùng vào Firebase
+                                                    User user = new User(hashedEmail);
+                                                    myRef.child(hashedEmail).setValue(user);
+                                                    Log.d("FirebaseUtils", "User saved to Firebase with hashed email: " + hashedEmail);
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                // Xử lý khi có lỗi xảy ra
+                                                Log.e("FirebaseUtils", "Error checking hashed email in Firebase: " + databaseError.getMessage());
+                                            }
+                                        });
+                                        Log.d("Account", account.getEmail());
+
                                     }
                                 }
                             });
                 } catch (ApiException e) {
-                    // Đăng nhập thất bại, cập nhật UI để hiển thị lỗi
-                    // updateUI(null);
-                    Log.e("Error","Đăng nhập không thành công!");
                 }
             }
         });
