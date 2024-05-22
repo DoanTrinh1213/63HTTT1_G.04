@@ -173,6 +173,7 @@
                     android:hint="Kẻ mộng mơ"
                     android:inputType="textPassword"
                     android:padding="8dp"
+                    android:gravity="top|start"
                     android:textColor="@color/black"
                     android:textColorHint="#BDBDBD"
                     app:layout_constraintBottom_toBottomOf="parent"
