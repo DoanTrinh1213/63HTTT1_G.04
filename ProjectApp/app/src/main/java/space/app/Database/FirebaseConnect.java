@@ -18,4 +18,14 @@ public class FirebaseConnect {
         }
         return true;
     }
+    public boolean getChild(String parentNode,String childNode){
+        try{
+            firebaseDatabase.getReference(parentNode).child(childNode);
+        }
+        catch(Exception e){
+            Log.e("Error","Check database");
+            return false;
+        }
+        return true;
+    }
 }

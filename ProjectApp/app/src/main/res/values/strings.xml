@@ -22,4 +22,5 @@
     <string name="string_210">2km-10km</string>
     <string name="string_10"><![CDATA[>10km]]></string>
     <string name="todo">TODO</string>
-    </resources>
+    <string name="default_web_client_id">112660183705-9qh6bnjhavokqeq3vu82bdes3m9q7rd7.apps.googleusercontent.com</string>
+</resources>
