@@ -79,7 +79,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"
                     android:fontFamily="@font/yaldevi"
-                    android:text="50m"
+                    android:text="Cách bạn 50m"
                     android:textColor="#000"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -113,7 +113,7 @@
         <ImageView
             android:id="@+id/iconBookmark"
             android:layout_width="32dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_height="43dp"
             android:layout_gravity="top"
             android:src="@drawable/round_bookmark_border_24" />
