@@ -90,7 +90,7 @@ public class FragmentMe extends Fragment {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentEditInformation(), true);
             }
         });
-//        // CafeContribute
+        // CafeContribute
 //        ImageView arrowCafeContribute = view.findViewById(R.id.arrowCafeContribute);
 //        arrowCafeContribute.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -134,14 +134,7 @@ public class FragmentMe extends Fragment {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentInformationApp(), true);
             }
         });
-//        // EvaluateApp
-//        LinearLayout lnApp = view.findViewById(R.id.lnApp);
-//        lnApp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((MainActivity) getActivity()).replaceFragment(new FragmentInformationApp(), true);
-//            }
-//        });
+
         // LogOut
         LinearLayout lnLogOut = view.findViewById(R.id.lnLogOut);
         lnLogOut.setOnClickListener(new View.OnClickListener() {
