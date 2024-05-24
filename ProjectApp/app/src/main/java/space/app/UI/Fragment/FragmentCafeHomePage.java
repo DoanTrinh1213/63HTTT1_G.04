@@ -12,6 +12,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import space.app.Activity.DetailAcitvity;
+import space.app.Activity.SearchAcitivity;
 import space.app.Adapter.CafeAdapter;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
@@ -88,9 +92,6 @@ public class FragmentCafeHomePage extends Fragment {
         recycleView.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
             @Override
             public void onItemClickCafe(Cafe cafe) {
-//                Toast toast = Toast.makeText(getContext(), "You click in item!", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.TOP, 0, 0);
-//                toast.show();
                 Intent intent = new Intent(getContext(), DetailAcitvity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Object_Cafe",cafe);
@@ -104,8 +105,6 @@ public class FragmentCafeHomePage extends Fragment {
         recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
             @Override
             public void onItemClickCafe(Cafe cafe) {
-
-
                 Intent intent = new Intent(getContext(), DetailAcitvity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Object_Cafe",cafe);
@@ -114,6 +113,14 @@ public class FragmentCafeHomePage extends Fragment {
             }
         }));
 
+        View searchView = view.findViewById(R.id.search_bar_text);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchAcitivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 }
