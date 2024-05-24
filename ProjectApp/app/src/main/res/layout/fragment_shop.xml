@@ -737,7 +737,7 @@
                     android:padding="10dp"
                     android:text="Xem tất cả"
                     android:textAllCaps="false"
-                    android:textColor="#7A2A2A" />
+                    android:textColor="#7A2A2A"/>
                 <Button
                     android:id="@+id/btnCafeContribute"
                     android:layout_width="match_parent"
@@ -747,7 +747,7 @@
                     android:backgroundTint="#7A2A2A"
                     android:fontFamily="@font/yaldevi"
                     android:padding="10dp"
-                    android:text="Mình có quán muốn đóng góp"
+                    android:text="Để lại trải nghiệm của bạn"
                     android:textAllCaps="false"
                     android:textColor="#ffff" />
 

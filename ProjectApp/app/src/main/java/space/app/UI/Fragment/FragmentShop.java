@@ -1,4 +1,5 @@
 
+
 package space.app.UI.Fragment;
 
 import android.content.Intent;
@@ -109,5 +110,3 @@ public class FragmentShop extends Fragment {
         return view;
     }
 }
-
-
