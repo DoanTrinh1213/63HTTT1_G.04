@@ -9,7 +9,7 @@ public class Utils {
     public static String hashEmail(String email) {
         try {
             // Sử dụng SHA-256 để băm email
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            MessageDigest digest = MessageDigest.getInstance("MD5");
             byte[] hash = digest.digest(email.getBytes(StandardCharsets.UTF_8));
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {

@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,10 +17,10 @@
         android:theme="@style/Theme.MaterialComponents.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".Activity.EditInformationActivity"
+            android:name=".Activity.SearchAcitivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.ContributeCafeInformationActivity"
+            android:name=".Activity.RewriteActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.DetailAcitvity"
@@ -29,9 +31,6 @@
         <activity
             android:name=".Activity.FragmentAuthorizeActivity"
             android:exported="false" />
-        <activity
-            android:name=".SplashScreen"
-            android:exported="true" />
         <activity
             android:name=".Activity.AuthorizeActivity"
             android:exported="false" />
