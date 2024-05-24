@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import space.app.Activity.EditInformationActivity;
 import space.app.Activity.MainActivity;
 import space.app.R;
 
@@ -73,6 +75,7 @@ public class FragmentMe extends Fragment {
 
         }
 
+
     }
 
 
@@ -80,6 +83,7 @@ public class FragmentMe extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_me, container, false);
         // edit information
@@ -87,12 +91,14 @@ public class FragmentMe extends Fragment {
         lnEditInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentEditInformation(), true);
+                Intent intent = new Intent(getActivity(), EditInformationActivity.class);
+                startActivity(intent);
             }
         });
-        // CafeContribute
-//        ImageView arrowCafeContribute = view.findViewById(R.id.arrowCafeContribute);
-//        arrowCafeContribute.setOnClickListener(new View.OnClickListener() {
+//        // CafeContribute
+//
+//        LinearLayout lnCafeContribute = view.findViewById(R.id.lnCafeContribute);
+//        lnCafeContribute.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                ((MainActivity) getActivity()).replaceFragment(new FragmentCafeContribute(), true);

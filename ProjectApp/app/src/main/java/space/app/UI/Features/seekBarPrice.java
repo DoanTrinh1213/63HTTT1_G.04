@@ -20,13 +20,13 @@ public class seekBarPrice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_filterprice);
 
-        SeekBar seekBar = findViewById(R.id.seekBar);
-        textViewProgress = findViewById(R.id.textViewProgress);
-        textViewProgress.setText(seekBar.getProgress() + "k");
+        SeekBar seekBarPrice = findViewById(R.id.seekBarPrice);
+        textViewProgress = findViewById(R.id.textViewProgressPrice);
+        textViewProgress.setText(seekBarPrice.getProgress() + "k");
 
 
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBarPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 textViewProgress.setText(progress + "k");

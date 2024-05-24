@@ -20,13 +20,13 @@ public class seekBarDistance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_filterdistance);
 
-        SeekBar seekBar = findViewById(R.id.seekBar);
-        textViewProgress = findViewById(R.id.textViewProgress);
-        textViewProgress.setText(seekBar.getProgress() + "km");
+        SeekBar seekBarDistance = findViewById(R.id.seekBarDistance);
+        textViewProgress = findViewById(R.id.textViewProgressDistance);
+        textViewProgress.setText(seekBarDistance.getProgress() + "km");
 
 
         // Set một SeekBar change listener
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 textViewProgress.setText(progress + "km");
