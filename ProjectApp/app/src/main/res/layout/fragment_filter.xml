@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainBackground"
     android:paddingStart="15dp"
     android:paddingTop="10dp"
+    android:layout_marginTop="50dp"
     android:paddingEnd="15dp"
+    android:background="@drawable/rounded_corners"
     android:paddingBottom="20dp">
 
     <include
@@ -42,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="Tìm kiếm quán mở cửa"
                 android:textColor="@color/black"
+                android:buttonTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -85,6 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Gần bạn nhất"
+                        android:buttonTint="@color/white"
                         android:textColor="@color/black"
                         android:fontFamily="@font/yaldevi"></RadioButton>
 
@@ -92,6 +95,7 @@
                         android:id="@+id/cheapestRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:buttonTint="@color/white"
                         android:text="Giá thấp nhất"
                         android:textColor="@color/black"
                         android:fontFamily="@font/yaldevi"></RadioButton>
@@ -101,6 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Giá cao nhất"
+                        android:buttonTint="@color/white"
                         android:textColor="@color/black"
                         android:fontFamily="@font/yaldevi"></RadioButton>
                 </RadioGroup>
@@ -135,6 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="1 mình "
+                    android:buttonTint="@color/white"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
                     app:layout_constraintBottom_toTopOf="@+id/cBoxFriends"
@@ -151,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="64dp"
                     android:text="Hẹn hò"
+                    android:buttonTint="@color/white"
                     android:fontFamily="@font/yaldevi"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
@@ -168,6 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="208dp"
                     android:text="Đồ uống ngon"
+                    android:buttonTint="@color/white"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
                     app:layout_constraintStart_toStartOf="parent"
@@ -179,6 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="112dp"
                     android:text="Sống ảo"
+                    android:buttonTint="@color/white"
                     android:fontFamily="@font/yaldevi"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
@@ -196,6 +205,7 @@
                     android:layout_marginTop="160dp"
                     android:fontFamily="@font/yaldevi"
                     android:text="Đọc sách"
+                    android:buttonTint="@color/white"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -209,6 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="64dp"
                     android:text="Bạn bè"
+                    android:buttonTint="@color/white"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
                     app:layout_constraintBottom_toTopOf="@+id/cBoxSelfie"
@@ -225,6 +236,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Bar/Pub"
+                    android:buttonTint="@color/white"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
                     app:layout_constraintBottom_toTopOf="@+id/cBoxDate"
@@ -241,6 +253,7 @@
                     android:layout_marginTop="112dp"
                     android:fontFamily="@font/yaldevi"
                     android:text="Mở muộn"
+                    android:buttonTint="@color/white"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
                     app:layout_constraintBottom_toTopOf="@+id/cBoxReadBook"
@@ -258,6 +271,7 @@
                     android:text="Làm việc"
                     android:textColor="@color/black"
                     app:itemTextColor="#310606"
+                    android:buttonTint="@color/white"
                     app:layout_constraintBottom_toTopOf="@+id/cBoxDrink"
                     app:layout_constraintEnd_toStartOf="@+id/cBoxReadBook"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -294,21 +308,21 @@
                 app:layout_constraintVertical_bias="0.008">
 
                 <TextView
-                    android:id="@+id/textViewProgress"
+                    android:id="@+id/textViewProgressDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0km"
+                    android:text="10km"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/seekBar"
+                    app:layout_constraintBottom_toTopOf="@id/seekBarDistance"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <SeekBar
-                    android:id="@+id/seekBar"
+                    android:id="@+id/seekBarDistance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:indeterminate="false"
@@ -322,7 +336,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewProgress"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewProgressDistance"
                     app:layout_constraintVertical_bias="0.344" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -345,6 +359,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Có thể đi bộ"
+                    android:buttonTint="@color/white"
                     android:fontFamily="@font/yaldevi"
                     android:textColor="#000000" />
 
@@ -353,6 +368,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="45dp"
+                    android:buttonTint="@color/white"
                     android:text="2-10km"
                     android:fontFamily="@font/yaldevi"
                     android:textColor="#000000" />
@@ -362,6 +378,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="45dp"
+                    android:buttonTint="@color/white"
                     android:text="&gt;10km"
                     android:fontFamily="@font/yaldevi"
                     android:textColor="#000000" />
@@ -396,13 +413,13 @@
                     android:id="@+id/textViewProgressPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0k"
+                    android:text="70k"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/seekBarPrice"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -413,9 +430,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:indeterminate="false"
-                    android:max="200"
+                    android:max="140"
                     android:min="0"
-                    android:progress="100"
+                    android:progress="70"
                     android:progressBackgroundTint="@color/colorPrimaryDark"
                     android:progressTint="@color/colorPrimaryDark"
                     android:thumb="@drawable/black_thumb"
@@ -444,6 +461,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="&lt;50k"
+                    android:buttonTint="@color/white"
                     android:fontFamily="@font/yaldevi"
                     android:textColor="#000000" />
 
@@ -453,6 +471,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="80dp"
                     android:text="50-70k"
+                    android:buttonTint="@color/white"
                     android:fontFamily="@font/yaldevi"
                     android:textColor="#000000" />
 
@@ -462,6 +481,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="80dp"
                     android:text="&gt;70k"
+                    android:buttonTint="@color/white"
                     android:fontFamily="@font/yaldevi"
                     android:textColor="#000000" />
             </LinearLayout>
