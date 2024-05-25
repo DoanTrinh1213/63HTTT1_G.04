@@ -39,6 +39,8 @@ android {
 
 dependencies {
 
+    implementation(libs.imagepicker)
+    implementation(libs.glide)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.firebase.database)
