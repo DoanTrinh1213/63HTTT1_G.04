@@ -34,36 +34,35 @@
         app:layout_constraintTop_toBottomOf="@+id/include1">
 
         <TextView
-            android:id="@+id/textViewProgress"
+            android:id="@+id/textViewProgressPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0k"
+            android:text="70k"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="14dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/seekBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/seekBarPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:indeterminate="false"
-            android:max="200"
+            android:max="140"
             android:min="0"
-            android:progress="0"
+            android:progress="70"
             android:progressBackgroundTint="@color/colorPrimaryDark"
             android:progressTint="@color/colorPrimaryDark"
             android:thumb="@drawable/black_thumb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProgress"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProgressPrice"
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -82,25 +81,28 @@
         tools:ignore="MissingConstraints">
 
         <CheckBox
-            android:id="@+id/cBoxDisWalk"
+            android:id="@+id/cBoxPriceCheap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/white"
             android:text="&lt;50k"
-            android:textColor="#000000"/>
+            android:textColor="#000000" />
 
         <CheckBox
-            android:id="@+id/cBoxDisMedium"
+            android:id="@+id/cBoxPriceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
+            android:buttonTint="@color/white"
             android:text="50-70k"
             android:textColor="#000000"/>
 
         <CheckBox
-            android:id="@+id/cBoxDisFar"
+            android:id="@+id/cBoxPriceHigh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
+            android:buttonTint="@color/white"
             android:text="&gt;70k"
             android:textColor="#000000"/>
     </LinearLayout>

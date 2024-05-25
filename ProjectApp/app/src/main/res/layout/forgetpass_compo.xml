@@ -57,6 +57,7 @@
         android:inputType="textEmailAddress"
         android:padding="10dp"
         android:textColorHint="#DFCBCB"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/sendMail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

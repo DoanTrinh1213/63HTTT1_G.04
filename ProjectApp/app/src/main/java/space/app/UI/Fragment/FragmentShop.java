@@ -1,6 +1,6 @@
-
 package space.app.UI.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import space.app.Activity.MainActivity;
+import space.app.Activity.RewriteActivity;
 import space.app.R;
 
 /**
@@ -22,12 +23,9 @@ import space.app.R;
  */
 public class FragmentShop extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -35,15 +33,6 @@ public class FragmentShop extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentShop.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentShop newInstance(String param1, String param2) {
         FragmentShop fragment = new FragmentShop();
         Bundle args = new Bundle();
@@ -67,15 +56,44 @@ public class FragmentShop extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop, container, false);
-        ImageView iconBack = view.findViewById(R.id.iconBack);
 
+        // Initialize UI elements
+        ImageView iconBack = view.findViewById(R.id.iconBack);
+        LinearLayout lnfindCafe = view.findViewById(R.id.lnfindCafe);
+        Button ViewAll = view.findViewById(R.id.ViewAll);
+        Button btnContribute = view.findViewById(R.id.btnCafeContribute);
+
+        // Set click listeners
         iconBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).replaceFragment(new FragmentCafeHomePage(), true);
             }
         });
+
+        lnfindCafe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentFindCafe(), true);
+            }
+        });
+
+        ViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentReviewAll(), true);
+            }
+        });
+
+        btnContribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start RewriteActivity
+                Intent intent = new Intent(getActivity(), RewriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
-
 }

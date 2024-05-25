@@ -56,4 +56,11 @@ public class User implements Serializable {
         this.image= image;
         this.describe= describe;
     }
+    public User(String id,String email){
+        this.id=id;
+        this.userName=id;
+        this.email = email;
+        this.image="";
+        this.describe = "";
+    }
 }

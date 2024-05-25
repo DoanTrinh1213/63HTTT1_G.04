@@ -14,13 +14,12 @@
         android:id="@+id/lnEditInformation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/rounded_layout"
-        app:layout_constraintBottom_toTopOf="@+id/txtTinhnang"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633"
         tools:ignore="MissingConstraints">
 
         <ImageView
@@ -54,42 +53,256 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/yaldevi"
-
                 android:text="di cafe khong"
                 android:textColor="#000000" />
         </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/arrowEditInformation"
             android:layout_width="44dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="15dp"
             android:backgroundTint="#000000"
-            app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            app:srcCompat="@drawable/baseline_edit_square_24" />
 
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtKhac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:fontFamily="@font/yaldevi"
+        android:text="Khác"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_layout"
+        android:orientation="vertical"
+        android:paddingStart="5dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtKhac"
+        app:layout_constraintVertical_bias="0.049"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/lnContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/iconContact"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:backgroundTint="#000000"
+                app:srcCompat="@drawable/baseline_headset_mic_24"
+                tools:ignore="DuplicateIds" />
+
+            <TextView
+                android:id="@+id/txtContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yaldevi"
+                android:text="Liên hệ với chúng tôi"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/arrowContact"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnInformationApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/iconInfor"
+                android:layout_width="44dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="0dp"
+                android:backgroundTint="#000000"
+                app:srcCompat="@drawable/round_error_24" />
+
+            <TextView
+                android:id="@+id/txthongtinud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yaldevi"
+                android:text="Thông tin ứng dụng"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/arrowInformationApp"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="15dp"
+                android:backgroundTint="#000000"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lnLogOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <ImageView
+                android:id="@+id/iconLogOut"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:backgroundTint="#000000"
+                app:srcCompat="@drawable/baseline_logout_24" />
+
+            <TextView
+                android:id="@+id/txtLogOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yaldevi"
+                android:text="Đăng xuất"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/arrowLogOut"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:backgroundTint="#000000"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+
+
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/txtTinhnang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/yaldevi"
         android:text="Tính năng"
         android:textColor="#000000"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lnEditInformation"
         tools:ignore="DuplicateIds" />
+
+    <LinearLayout
+        android:id="@+id/lnDeleteAcount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_layout"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtKhac"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTaiKhoan"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/iconDelete"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:backgroundTint="#000000"
+            app:srcCompat="@drawable/baseline_delete_24" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/yaldevi"
+            android:text="Xóa tài khoản"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/arrowDeleteAcount"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="#000000"
+            app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/rounded_layout"
         android:orientation="vertical"
@@ -99,8 +312,10 @@
         android:paddingBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/txtTaiKhoan"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtTinhnang"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -130,11 +345,16 @@
                 android:textColor="#000000"
                 android:textSize="16dp" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <ImageView
                 android:id="@+id/arrowCafeContribute"
                 android:layout_width="44dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="130dp"
+                android:layout_marginEnd="15dp"
                 android:backgroundTint="#000000"
                 app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
         </LinearLayout>
@@ -165,261 +385,38 @@
                 android:textColor="#000000"
                 android:textSize="16dp" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <ImageView
                 android:id="@+id/arrowContributeCafeInformation"
                 android:layout_width="44dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginStart="118dp"
+                android:layout_marginEnd="15dp"
                 android:backgroundTint="#000000"
                 app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
         </LinearLayout>
 
     </LinearLayout>
-    <!--  Xóa tài khoản-->
+
     <TextView
         android:id="@+id/txtTaiKhoan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="288dp"
+        android:layout_marginTop="316dp"
         android:fontFamily="@font/yaldevi"
         android:text="Tài khoản"
         android:textColor="#000000"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/lnDeleteAcount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/rounded_layout"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtKhac"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTaiKhoan"
-        app:layout_constraintVertical_bias="0.0">
-
-        <ImageView
-            android:id="@+id/iconDelete"
-            android:layout_width="44dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:backgroundTint="#000000"
-            app:srcCompat="@drawable/baseline_delete_24" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/yaldevi"
-            android:text="Xóa tài khoản"
-            android:textColor="#000000"
-            android:textSize="16dp" />
-
-        <ImageView
-            android:id="@+id/arrowDeleteAcount"
-            android:layout_width="44dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="195dp"
-            android:backgroundTint="#000000"
-            app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtKhac"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:fontFamily="@font/yaldevi"
-        android:text="Khác"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_layout"
-        android:orientation="vertical"
-        android:paddingStart="5dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="5dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtKhac"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints">
-
-        <LinearLayout
-            android:id="@+id/lnContact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/iconContact"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:backgroundTint="#000000"
-                app:srcCompat="@drawable/baseline_headset_mic_24"
-                tools:ignore="DuplicateIds" />
-
-            <TextView
-                android:id="@+id/txtContact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/yaldevi"
-                android:text="Liên hệ với chúng tôi"
-                android:textColor="#000000"
-                android:textSize="16dp" />
-
-            <ImageView
-                android:id="@+id/arrowContact"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="145dp"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lnInformationApp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/iconInfor"
-                android:layout_width="44dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="0dp"
-                android:backgroundTint="#000000"
-                app:srcCompat="@drawable/round_error_24" />
-
-            <TextView
-                android:id="@+id/txthongtinud"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/yaldevi"
-                android:text="Thông tin ứng dụng"
-                android:textColor="#000000"
-                android:textSize="16dp" />
-
-            <ImageView
-                android:id="@+id/arrowInformationApp"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="150dp"
-                android:backgroundTint="#000000"
-                android:contentDescription="TODO"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lnApp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/iconApp"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:backgroundTint="#000000"
-                app:srcCompat="@drawable/baseline_star_24" />
-
-            <TextView
-                android:id="@+id/txtApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/yaldevi"
-                android:text="Đánh giá app"
-                android:textColor="#000000"
-                android:textSize="16dp" />
-
-
-            <ImageView
-                android:id="@+id/arrowApp"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="195dp"
-                android:backgroundTint="#000000"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lnLogOut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-
-            <ImageView
-                android:id="@+id/iconLogOut"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:backgroundTint="#000000"
-                app:srcCompat="@drawable/baseline_logout_24" />
-
-            <TextView
-                android:id="@+id/txtLogOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/yaldevi"
-                android:text="Đăng xuất"
-                android:textColor="#000000"
-                android:textSize="16dp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/arrowLogOut"
-                    android:layout_width="44dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="215dp"
-                    android:backgroundTint="#000000"
-                    android:contentDescription="TODO"
-                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-    </LinearLayout>
+    <!--  Xóa tài khoản-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

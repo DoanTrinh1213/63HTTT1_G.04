@@ -1,24 +1,17 @@
 package space.app.Activity;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 
-import android.os.PersistableBundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -34,11 +27,8 @@ import space.app.R;
 import space.app.UI.Fragment.FragmentAuth;
 import space.app.UI.Fragment.FragmentBookmark;
 import space.app.UI.Fragment.FragmentCafeHomePage;
-import space.app.UI.Fragment.FragmentContact;
-import space.app.UI.Fragment.FragmentEditInformation;
 import space.app.UI.Fragment.FragmentLogin;
 import space.app.UI.Fragment.FragmentMe;
-import space.app.UI.Fragment.FragmentRegister;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,16 +57,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Message", String.valueOf(isLoggedIn));
         if (isLoggedIn == false) {
             replaceFragment(new FragmentAuth(), false);
-            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isLoggedIn", true); // Lưu trạng thái đăng nhập là true
-            editor.apply();
         } else {
             replaceFragment(new FragmentCafeHomePage(), false);
-            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isLoggedIn", false); // Lưu trạng thái đăng nhập là false khi đăng xuất
-            editor.apply();
         }
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

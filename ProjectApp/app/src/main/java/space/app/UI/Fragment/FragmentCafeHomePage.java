@@ -1,6 +1,11 @@
 package space.app.UI.Fragment;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,13 +17,28 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
 import space.app.Activity.DetailAcitvity;
+import space.app.Activity.SearchAcitivity;
 import space.app.Adapter.CafeAdapter;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
@@ -39,17 +59,25 @@ public class FragmentCafeHomePage extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private CheckBox checkBox, cBoxAlone, cBoxDate, cBoxDrink, cBoxSelfie, cBoxReadBook, cBoxFriends, cBoxBar, cBoxTime, cBoxWork, cBoxDisWalk, cBoxDisMedium, cBoxDisFar, cBoxPriceCheap, cBoxPriceMedium, cBoxPriceHigh;
+    private SeekBar seekBar, seekBarPrice;
+    private RadioButton nearlyRadioBtn, cheapestRadioBtn, expensiveRadioBtn;
+    private RadioGroup radioGroup;
+    private Button resetFilter;
+
 
     public FragmentCafeHomePage() {
         // Required empty public constructor
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     @return A new instance of fragment FragmentCafeHomePage.*/
+     * @return A new instance of fragment FragmentCafeHomePage.
+     */
     // TODO: Rename and change types and number of parameters
     public static FragmentCafeHomePage newInstance(String param1, String param2) {
         FragmentCafeHomePage fragment = new FragmentCafeHomePage();
@@ -73,6 +101,7 @@ public class FragmentCafeHomePage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cafe_home_page, container, false);
+
         List<Cafe> cafes = new ArrayList<Cafe>();
         Cafe cafe = new Cafe("123", "CafePro1", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
         cafes.add(cafe);
@@ -88,12 +117,9 @@ public class FragmentCafeHomePage extends Fragment {
         recycleView.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
             @Override
             public void onItemClickCafe(Cafe cafe) {
-//                Toast toast = Toast.makeText(getContext(), "You click in item!", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.TOP, 0, 0);
-//                toast.show();
                 Intent intent = new Intent(getContext(), DetailAcitvity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Object_Cafe",cafe);
+                bundle.putSerializable("Object_Cafe", cafe);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -104,16 +130,547 @@ public class FragmentCafeHomePage extends Fragment {
         recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
             @Override
             public void onItemClickCafe(Cafe cafe) {
-
-
                 Intent intent = new Intent(getContext(), DetailAcitvity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Object_Cafe",cafe);
+                bundle.putSerializable("Object_Cafe", cafe);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         }));
 
+        View searchView = view.findViewById(R.id.search_bar_text);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchAcitivity.class);
+                startActivity(intent);
+                // Filter
+                ImageView iconSetting = view.findViewById(R.id.iconSetting);
+                iconSetting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openDialogFilter(Gravity.BOTTOM);
+                    }
+                });
+                // Mục đích
+                LinearLayout linearPurpose = view.findViewById(R.id.linearPurpose);
+                linearPurpose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openDialogPurpose(Gravity.BOTTOM);
+                    }
+                });
+                //Khoảng cách
+                LinearLayout linearDistance = view.findViewById(R.id.linearDistance);
+                linearDistance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openDialogDistance(Gravity.BOTTOM);
+                    }
+                });
+                // Giá tiền
+                LinearLayout linearPrice = view.findViewById(R.id.linearPrice);
+                linearPrice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openDialogPrice(Gravity.BOTTOM);
+                    }
+                });
+            }
+        });
         return view;
+    }
+
+    private void openDialogPrice(int gravity) {
+        Context context = getActivity();
+        if (context == null) {
+            return;
+        }
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog_price);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
+        windowAttributesribute.gravity = gravity;
+        window.setAttributes(windowAttributesribute);
+
+        if (Gravity.BOTTOM == gravity) {
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+        }
+        TextView resetFilter = dialog.findViewById(R.id.resetFilter);
+        TextView closeFilter = dialog.findViewById(R.id.closeFilter);
+
+        //price
+        CheckBox cBoxPriceCheap = dialog.findViewById(R.id.cBoxPriceCheap);
+        CheckBox cBoxPriceMedium = dialog.findViewById(R.id.cBoxPriceMedium);
+        CheckBox cBoxPriceHigh = dialog.findViewById(R.id.cBoxPriceHigh);
+
+        SeekBar seekBarPrice = dialog.findViewById(R.id.seekBarPrice);
+        TextView textViewProgressPrice = dialog.findViewById(R.id.textViewProgressPrice);
+
+        seekBarPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBarPrice, int progress, boolean fromUser) {
+                if (cBoxPriceCheap.isChecked()) {
+                    seekBarPrice.setProgress(50);
+                    textViewProgressPrice.setText("50k");
+                } else {
+                    textViewProgressPrice.setText(progress + "k");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBarPrice) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBarPrice) {
+            }
+        });
+
+        cBoxPriceCheap.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxPriceMedium.setChecked(false);
+                cBoxPriceHigh.setChecked(false);
+                seekBarPrice.setProgress(30);
+                textViewProgressPrice.setText("30k");
+            } else {
+                int progress = seekBarPrice.getProgress();
+                textViewProgressPrice.setText(progress + "k");
+            }
+        });
+        cBoxPriceMedium.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxPriceCheap.setChecked(false);
+                cBoxPriceHigh.setChecked(false);
+                seekBarPrice.setProgress(60);
+                textViewProgressPrice.setText("60k");
+            } else {
+                int progress = seekBarPrice.getProgress();
+                textViewProgressPrice.setText(progress + "k");
+            }
+        });
+
+        cBoxPriceHigh.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxPriceCheap.setChecked(false);
+                cBoxPriceMedium.setChecked(false);
+                seekBarPrice.setProgress(100);
+                textViewProgressPrice.setText("100k");
+            } else {
+                int progress = seekBarPrice.getProgress();
+                textViewProgressPrice.setText(progress + "k");
+            }
+        });
+
+        resetFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seekBarPrice.setProgress(70);
+                textViewProgressPrice.setText("70k");
+                cBoxPriceCheap.setChecked(false);
+                cBoxPriceMedium.setChecked(false);
+                cBoxPriceHigh.setChecked(false);
+            }
+        });
+        closeFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void openDialogDistance(int gravity) {
+        Context context = getActivity();
+        if (context == null) {
+            return;
+        }
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog_distance);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
+        windowAttributesribute.gravity = gravity;
+        window.setAttributes(windowAttributesribute);
+
+        if (Gravity.BOTTOM == gravity) {
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+
+        }
+        TextView resetFilter = dialog.findViewById(R.id.resetFilter);
+        TextView closeFilter = dialog.findViewById(R.id.closeFilter);
+        //distance
+        CheckBox cBoxDisWalk = dialog.findViewById(R.id.cBoxDisWalk);
+        CheckBox cBoxDisMedium = dialog.findViewById(R.id.cBoxDisMedium);
+        CheckBox cBoxDisFar = dialog.findViewById(R.id.cBoxDisFar);
+
+        SeekBar seekBarDistance = dialog.findViewById(R.id.seekBarDistance);
+        TextView textViewProgressDistance = dialog.findViewById(R.id.textViewProgressDistance);
+        cBoxDisWalk.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxDisMedium.setChecked(false);
+                cBoxDisFar.setChecked(false);
+                seekBarDistance.setProgress(1);
+                textViewProgressDistance.setText("1km");
+            } else {
+                int progress = seekBarDistance.getProgress();
+                textViewProgressDistance.setText(progress + "km");
+            }
+        });
+
+        cBoxDisMedium.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxDisWalk.setChecked(false);
+                cBoxDisFar.setChecked(false);
+                seekBarDistance.setProgress(7);
+                textViewProgressDistance.setText("7km");
+            } else {
+                int progress = seekBarDistance.getProgress();
+                textViewProgressDistance.setText(progress + "km");
+            }
+        });
+
+        cBoxDisFar.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxDisWalk.setChecked(false);
+                cBoxDisMedium.setChecked(false);
+                seekBarDistance.setProgress(20);
+                textViewProgressDistance.setText("20km");
+            } else {
+                int progress = seekBarDistance.getProgress();
+                textViewProgressDistance.setText(progress + "km");
+            }
+        });
+
+        seekBarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBarPrice, int progress, boolean fromUser) {
+                textViewProgressDistance.setText(progress + "km");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBarPrice) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBarPrice) {
+            }
+        });
+        resetFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cBoxDisWalk.setChecked(false);
+                cBoxDisMedium.setChecked(false);
+                cBoxDisFar.setChecked(false);
+                seekBarDistance.setProgress(15);
+                textViewProgressDistance.setText("10km");
+
+            }
+        });
+        closeFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+
+    private void openDialogPurpose(int gravity) {
+        Context context = getActivity();
+        if (context == null) {
+            return;
+        }
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog_purpose);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
+        windowAttributesribute.gravity = gravity;
+        window.setAttributes(windowAttributesribute);
+
+        if (Gravity.BOTTOM == gravity) {
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+
+        }
+        TextView resetFilter = dialog.findViewById(R.id.resetFilter);
+        TextView closeFilter = dialog.findViewById(R.id.closeFilter);
+
+        //checkbox
+        CheckBox cBoxAlone = dialog.findViewById(R.id.cBoxAlone);
+        CheckBox cBoxDate = dialog.findViewById(R.id.cBoxDate);
+        CheckBox cBoxDrink = dialog.findViewById(R.id.cBoxDrink);
+        CheckBox cBoxSelfie = dialog.findViewById(R.id.cBoxSelfie);
+        CheckBox cBoxReadBook = dialog.findViewById(R.id.cBoxReadBook);
+        CheckBox cBoxFriends = dialog.findViewById(R.id.cBoxFriends);
+        CheckBox cBoxBar = dialog.findViewById(R.id.cBoxBar);
+        CheckBox cBoxTime = dialog.findViewById(R.id.cBoxTime);
+        CheckBox cBoxWork = dialog.findViewById(R.id.cBoxWork);
+        resetFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cBoxAlone.setChecked(false);
+                cBoxDate.setChecked(false);
+                cBoxDrink.setChecked(false);
+                cBoxSelfie.setChecked(false);
+                cBoxReadBook.setChecked(false);
+                cBoxFriends.setChecked(false);
+                cBoxBar.setChecked(false);
+                cBoxTime.setChecked(false);
+                cBoxWork.setChecked(false);
+
+            }
+        });
+        closeFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+
+    private void openDialogFilter(int gravity) {
+
+        Context context = getActivity();
+        if (context == null) {
+            return;
+        }
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog_filter);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
+        windowAttributesribute.gravity = gravity;
+        window.setAttributes(windowAttributesribute);
+
+        if (Gravity.BOTTOM == gravity) {
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCancelable(false);
+
+        }
+        TextView resetFilter = dialog.findViewById(R.id.resetFilter);
+        TextView closeFilter = dialog.findViewById(R.id.closeFilter);
+
+        //option
+        CheckBox checkBox = dialog.findViewById(R.id.checkBox);
+        RadioButton nearlyRadioBtn = dialog.findViewById(R.id.nearlyRadioBtn);
+        RadioButton cheapestRadioBtn = dialog.findViewById(R.id.cheapestRadioBtn);
+        RadioButton expensiveRadioBtn = dialog.findViewById(R.id.expensiveRadioBtn);
+
+        //purpose
+        CheckBox cBoxAlone = dialog.findViewById(R.id.cBoxAlone);
+        CheckBox cBoxDate = dialog.findViewById(R.id.cBoxDate);
+        CheckBox cBoxDrink = dialog.findViewById(R.id.cBoxDrink);
+        CheckBox cBoxSelfie = dialog.findViewById(R.id.cBoxSelfie);
+        CheckBox cBoxReadBook = dialog.findViewById(R.id.cBoxReadBook);
+        CheckBox cBoxFriends = dialog.findViewById(R.id.cBoxFriends);
+        CheckBox cBoxBar = dialog.findViewById(R.id.cBoxBar);
+        CheckBox cBoxTime = dialog.findViewById(R.id.cBoxTime);
+        CheckBox cBoxWork = dialog.findViewById(R.id.cBoxWork);
+
+
+        //distance
+        CheckBox cBoxDisWalk = dialog.findViewById(R.id.cBoxDisWalk);
+        CheckBox cBoxDisMedium = dialog.findViewById(R.id.cBoxDisMedium);
+        CheckBox cBoxDisFar = dialog.findViewById(R.id.cBoxDisFar);
+
+        SeekBar seekBarDistance = dialog.findViewById(R.id.seekBarDistance);
+        TextView textViewProgressDistance = dialog.findViewById(R.id.textViewProgressDistance);
+
+        //price
+        SeekBar seekBarPrice = dialog.findViewById(R.id.seekBarPrice);
+        TextView textViewProgressPrice = dialog.findViewById(R.id.textViewProgressPrice);
+
+        CheckBox cBoxPriceCheap = dialog.findViewById(R.id.cBoxPriceCheap);
+        CheckBox cBoxPriceMedium = dialog.findViewById(R.id.cBoxPriceMedium);
+        CheckBox cBoxPriceHigh = dialog.findViewById(R.id.cBoxPriceHigh);
+
+
+        // Prices
+        cBoxPriceCheap.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxPriceMedium.setChecked(false);
+                cBoxPriceHigh.setChecked(false);
+                seekBarPrice.setProgress(30);
+                textViewProgressPrice.setText("30k");
+            } else {
+                int progress = seekBarPrice.getProgress();
+                textViewProgressPrice.setText(progress + "k");
+            }
+        });
+        cBoxPriceMedium.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxPriceCheap.setChecked(false);
+                cBoxPriceHigh.setChecked(false);
+                seekBarPrice.setProgress(60);
+                textViewProgressPrice.setText("60k");
+            } else {
+                int progress = seekBarPrice.getProgress();
+                textViewProgressPrice.setText(progress + "k");
+            }
+        });
+
+        cBoxPriceHigh.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxPriceCheap.setChecked(false);
+                cBoxPriceMedium.setChecked(false);
+                seekBarPrice.setProgress(100);
+                textViewProgressPrice.setText("100k");
+            } else {
+                int progress = seekBarPrice.getProgress();
+                textViewProgressPrice.setText(progress + "k");
+            }
+        });
+        seekBarPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBarPrice, int progress, boolean fromUser) {
+                textViewProgressPrice.setText(progress + "k");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBarPrice) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBarPrice) {
+            }
+        });
+
+
+        //Distance
+        cBoxDisWalk.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxDisMedium.setChecked(false);
+                cBoxDisFar.setChecked(false);
+                seekBarDistance.setProgress(1);
+                textViewProgressDistance.setText("1km");
+            } else {
+                int progress = seekBarDistance.getProgress();
+                textViewProgressDistance.setText(progress + "km");
+            }
+        });
+
+        cBoxDisMedium.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxDisWalk.setChecked(false);
+                cBoxDisFar.setChecked(false);
+                seekBarDistance.setProgress(7);
+                textViewProgressDistance.setText("7km");
+            } else {
+                int progress = seekBarDistance.getProgress();
+                textViewProgressDistance.setText(progress + "km");
+            }
+        });
+
+        cBoxDisFar.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                cBoxDisWalk.setChecked(false);
+                cBoxDisMedium.setChecked(false);
+                seekBarDistance.setProgress(20);
+                textViewProgressDistance.setText("20km");
+            } else {
+                int progress = seekBarDistance.getProgress();
+                textViewProgressDistance.setText(progress + "km");
+            }
+        });
+
+        seekBarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBarPrice, int progress, boolean fromUser) {
+                textViewProgressDistance.setText(progress + "km");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBarPrice) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBarPrice) {
+            }
+        });
+        resetFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkBox.setChecked(false);
+
+                nearlyRadioBtn.setChecked(false);
+                cheapestRadioBtn.setChecked(false);
+                expensiveRadioBtn.setChecked(false);
+
+                cBoxAlone.setChecked(false);
+                cBoxDate.setChecked(false);
+                cBoxDrink.setChecked(false);
+                cBoxSelfie.setChecked(false);
+                cBoxReadBook.setChecked(false);
+                cBoxFriends.setChecked(false);
+                cBoxBar.setChecked(false);
+                cBoxTime.setChecked(false);
+                cBoxWork.setChecked(false);
+
+                cBoxDisWalk.setChecked(false);
+                cBoxDisMedium.setChecked(false);
+                cBoxDisFar.setChecked(false);
+
+                seekBarDistance.setProgress(15);
+                textViewProgressDistance.setText("10km");
+
+                seekBarPrice.setProgress(70);
+                textViewProgressPrice.setText("70k");
+
+                cBoxPriceCheap.setChecked(false);
+                cBoxPriceMedium.setChecked(false);
+                cBoxPriceHigh.setChecked(false);
+
+            }
+        });
+        closeFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 }
