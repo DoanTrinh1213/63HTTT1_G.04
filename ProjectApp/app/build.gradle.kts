@@ -53,6 +53,10 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(libs.firebase.auth)
     implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("com.google.android.gms:play-services-maps:18.0.0")
+    implementation("androidx.room:room-runtime:2.5.0")
+    annotationProcessor("androidx.room:room-compiler:2.5.0") // For Java
+    implementation("androidx.room:room-ktx:2.5.0") // For coroutines support
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

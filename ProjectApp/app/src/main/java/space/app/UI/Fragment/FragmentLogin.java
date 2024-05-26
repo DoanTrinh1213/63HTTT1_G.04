@@ -1,9 +1,12 @@
 package space.app.UI.Fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -13,12 +16,17 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,6 +123,10 @@ public class FragmentLogin extends Fragment {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loginUser();
+            }
+
+            private void loginUser() {
                 if (username.getText().toString().isEmpty() || passsword.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Tài khoản và mật khẩu không được để trống!", Toast.LENGTH_LONG).show();
                 } else {
@@ -149,6 +161,10 @@ public class FragmentLogin extends Fragment {
         loginWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                openHandleLoginGoogle();
+            }
+
+            private void openHandleLoginGoogle() {
                 GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestIdToken(getString(R.string.default_web_client_id)) // Đảm bảo rằng default_web_client_id đã được cấu hình đúng trong strings.xml
                         .requestEmail()
@@ -207,11 +223,12 @@ public class FragmentLogin extends Fragment {
                                                     Log.d("FirebaseUtils", "Hashed email already exists in Firebase: " + hashedEmail);
                                                 } else {
                                                     // hashedEmail chưa tồn tại, lưu thông tin người dùng vào Firebase
-                                                    User user = new User(hashedEmail);
+                                                    User user = new User(hashedEmail, username.getText().toString());
                                                     myRef.child(hashedEmail).setValue(user);
                                                     Log.d("FirebaseUtils", "User saved to Firebase with hashed email: " + hashedEmail);
                                                 }
                                             }
+
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError databaseError) {
                                                 // Xử lý khi có lỗi xảy ra
@@ -227,6 +244,70 @@ public class FragmentLogin extends Fragment {
                 }
             }
         });
+
+        ImageButton imgbtn = view.findViewById(R.id.seePass);
+        imgbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passsword.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)) {
+                    passsword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    passsword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
+            }
+        });
+
+        TextView forgetTextView = view.findViewById(R.id.forgetPassword);
+        forgetTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogForgetPassword();
+            }
+        });
+
         return view;
+    }
+
+    private void openDialogForgetPassword() {
+        Context context = getActivity();
+        if (context == null) {
+            return;
+        } else {
+            Dialog dialogfg = new Dialog(context);
+            dialogfg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogfg.setContentView(R.layout.forgetpass_compo);
+            Window window = dialogfg.getWindow();
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
+            windowAttributesribute.gravity = Gravity.CENTER;
+            window.setAttributes(windowAttributesribute);
+
+            EditText email = dialogfg.findViewById(R.id.emailForget);
+            Button btnForget = dialogfg.findViewById(R.id.sendMail);
+            btnForget.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (email.getText().toString().isEmpty()) {
+                        Toast.makeText(getActivity(), "Email không được để trống !", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        FirebaseAuth.getInstance().sendPasswordResetEmail(email.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(requireContext(), "Password reset email sent.", Toast.LENGTH_SHORT).show();
+                                            dialogfg.dismiss();
+                                        } else {
+                                            Toast.makeText(requireContext(), "Failed to send password reset email.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                }
+            });
+            dialogfg.show();
+        }
     }
 }

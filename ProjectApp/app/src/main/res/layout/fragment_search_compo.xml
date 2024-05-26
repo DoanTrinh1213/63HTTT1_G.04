@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/search_bar"
         android:layout_width="367dp"
         android:layout_height="48dp"
         android:layout_marginTop="32dp"
@@ -33,18 +34,21 @@
             android:layout_marginEnd="16dp"
             android:src="@drawable/location" />
 
-        <EditText
-            android:id="@+id/editTextText"
-            android:layout_width="249dp"
+        <TextView
+            android:id="@+id/search_bar_text"
+            android:layout_width="301dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:layout_toStartOf="@id/iconSearch"
-            android:layout_toEndOf="@id/iconMap"
+            android:textColor="@color/black"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="66dp"
             android:background="@android:color/transparent"
             android:ems="10"
             android:inputType="text"
-            android:paddingStart="8dp"
+            android:paddingStart="80dp"
             android:paddingTop="12dp"
             android:paddingEnd="8dp"
             android:paddingBottom="12dp" />

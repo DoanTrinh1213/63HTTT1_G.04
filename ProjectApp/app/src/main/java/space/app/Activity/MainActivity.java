@@ -1,6 +1,8 @@
 package space.app.Activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -22,6 +24,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
 
 import space.app.R;
 import space.app.UI.Fragment.FragmentAuth;
@@ -57,16 +61,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Message", String.valueOf(isLoggedIn));
         if (isLoggedIn == false) {
             replaceFragment(new FragmentAuth(), false);
-            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isLoggedIn", true); // Lưu trạng thái đăng nhập là true
-            editor.apply();
         } else {
             replaceFragment(new FragmentCafeHomePage(), false);
-            sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isLoggedIn", false); // Lưu trạng thái đăng nhập là false khi đăng xuất
-            editor.apply();
         }
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

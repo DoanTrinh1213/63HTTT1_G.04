@@ -1,22 +1,30 @@
 package space.app.UI.Fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -35,10 +43,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import space.app.Activity.DetailAcitvity;
+import space.app.Activity.SearchAcitivity;
 import space.app.Adapter.CafeAdapter;
+import space.app.Database.Entity.SearchResultEntity;
+import space.app.Database.SearchDatabase;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
 import space.app.R;
+import space.app.ViewModel.SearchViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,18 +72,21 @@ public class FragmentCafeHomePage extends Fragment {
     private RadioButton nearlyRadioBtn, cheapestRadioBtn, expensiveRadioBtn;
     private RadioGroup radioGroup;
     private Button resetFilter;
+    private SearchViewModel searchViewModel;
 
 
     public FragmentCafeHomePage() {
         // Required empty public constructor
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     @return A new instance of fragment FragmentCafeHomePage.*/
+     * @return A new instance of fragment FragmentCafeHomePage.
+     */
     // TODO: Rename and change types and number of parameters
     public static FragmentCafeHomePage newInstance(String param1, String param2) {
         FragmentCafeHomePage fragment = new FragmentCafeHomePage();
@@ -111,12 +126,9 @@ public class FragmentCafeHomePage extends Fragment {
         recycleView.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
             @Override
             public void onItemClickCafe(Cafe cafe) {
-//                Toast toast = Toast.makeText(getContext(), "You click in item!", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.TOP, 0, 0);
-//                toast.show();
                 Intent intent = new Intent(getContext(), DetailAcitvity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Object_Cafe",cafe);
+                bundle.putSerializable("Object_Cafe", cafe);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -127,16 +139,22 @@ public class FragmentCafeHomePage extends Fragment {
         recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
             @Override
             public void onItemClickCafe(Cafe cafe) {
-
-
                 Intent intent = new Intent(getContext(), DetailAcitvity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Object_Cafe",cafe);
+                bundle.putSerializable("Object_Cafe", cafe);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         }));
 
+        TextView searchView = view.findViewById(R.id.search_bar_text);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchAcitivity.class);
+                getActivity().startActivityForResult(intent, 3);
+            }
+        });
         // Filter
         ImageView iconSetting = view.findViewById(R.id.iconSetting);
         iconSetting.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +163,7 @@ public class FragmentCafeHomePage extends Fragment {
                 openDialogFilter(Gravity.BOTTOM);
             }
         });
+
         // Mục đích
         LinearLayout linearPurpose = view.findViewById(R.id.linearPurpose);
         linearPurpose.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +188,50 @@ public class FragmentCafeHomePage extends Fragment {
                 openDialogPrice(Gravity.BOTTOM);
             }
         });
+
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+
+        // Quan sát dữ liệu LiveData từ ViewModel
+        searchViewModel.getAllSearchResults().observe(getViewLifecycleOwner(), new Observer<List<SearchResultEntity>>() {
+            @Override
+            public void onChanged(List<SearchResultEntity> searchResults) {
+                // Cập nhật giao diện khi có dữ liệu mới từ ViewModel
+                if (searchResults.size() == 0) {
+                    Log.d("Search Result", "Không có gì");
+                } else {
+                    for (SearchResultEntity searchResult : searchResults) {
+                        Log.d("Search Result", searchResult.getSearchQuery());
+                    }
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
+                    Boolean isRefresh = sharedPreferences.getBoolean("isRefresh",true);
+                    if (!searchResults.isEmpty() && isRefresh==false) {
+                        // Lấy phần tử cuối cùng trong danh sách
+                        SearchResultEntity lastSearchResult = searchResults.get(searchResults.size() - 1);
+                        // Set text của searchView thành searchQuery của phần tử cuối cùng
+                        searchView.setText(lastSearchResult.getSearchQuery());
+                        Log.d("Update UI", "Search update");
+                        List<Cafe> cafes = new ArrayList<Cafe>();
+                        Cafe cafe = new Cafe("Thanh", "CafePro1", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
+                        cafes.add(cafe);
+                        Cafe cafe2 = new Cafe("Lê", "CafePro12", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
+                        cafes.add(cafe2);
+                        recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
+                            @Override
+                            public void onItemClickCafe(Cafe cafe) {
+                                Intent intent = new Intent(getContext(), DetailAcitvity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("Object_Cafe", cafe);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        }));
+                    } else {
+                        searchView.setText("");
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
@@ -244,7 +307,7 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxPriceHigh.setChecked(false);
                 seekBarPrice.setProgress(60);
                 textViewProgressPrice.setText("60k");
-            }else {
+            } else {
                 int progress = seekBarPrice.getProgress();
                 textViewProgressPrice.setText(progress + "k");
             }
@@ -256,11 +319,11 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxPriceMedium.setChecked(false);
                 seekBarPrice.setProgress(100);
                 textViewProgressPrice.setText("100k");
-            }else {
+            } else {
                 int progress = seekBarPrice.getProgress();
                 textViewProgressPrice.setText(progress + "k");
             }
-            });
+        });
 
         resetFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,31 +346,31 @@ public class FragmentCafeHomePage extends Fragment {
 
     private void openDialogDistance(int gravity) {
         Context context = getActivity();
-        if(context==null){
+        if (context == null) {
             return;
         }
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog_distance);
         Window window = dialog.getWindow();
-        if(window==null){
+        if (window == null) {
             return;
         }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT );
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
-        windowAttributesribute.gravity=gravity;
+        windowAttributesribute.gravity = gravity;
         window.setAttributes(windowAttributesribute);
 
-        if (Gravity.BOTTOM==gravity){
+        if (Gravity.BOTTOM == gravity) {
             dialog.setCancelable(true);
-        }else {
+        } else {
             dialog.setCancelable(false);
 
         }
-        TextView resetFilter= dialog.findViewById(R.id.resetFilter);
-        TextView closeFilter= dialog.findViewById(R.id.closeFilter);
+        TextView resetFilter = dialog.findViewById(R.id.resetFilter);
+        TextView closeFilter = dialog.findViewById(R.id.closeFilter);
         //distance
         CheckBox cBoxDisWalk = dialog.findViewById(R.id.cBoxDisWalk);
         CheckBox cBoxDisMedium = dialog.findViewById(R.id.cBoxDisMedium);
@@ -321,9 +384,9 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxDisFar.setChecked(false);
                 seekBarDistance.setProgress(1);
                 textViewProgressDistance.setText("1km");
-            }else{
-                int progress= seekBarDistance.getProgress();
-                textViewProgressDistance.setText(progress+"km");
+            } else {
+                int progress = seekBarDistance.getProgress();
+                textViewProgressDistance.setText(progress + "km");
             }
         });
 
@@ -333,9 +396,9 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxDisFar.setChecked(false);
                 seekBarDistance.setProgress(7);
                 textViewProgressDistance.setText("7km");
-            }else{
+            } else {
                 int progress = seekBarDistance.getProgress();
-                textViewProgressDistance.setText(progress+"km");
+                textViewProgressDistance.setText(progress + "km");
             }
         });
 
@@ -345,7 +408,7 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxDisMedium.setChecked(false);
                 seekBarDistance.setProgress(20);
                 textViewProgressDistance.setText("20km");
-            }else {
+            } else {
                 int progress = seekBarDistance.getProgress();
                 textViewProgressDistance.setText(progress + "km");
             }
@@ -390,31 +453,31 @@ public class FragmentCafeHomePage extends Fragment {
 
     private void openDialogPurpose(int gravity) {
         Context context = getActivity();
-        if(context==null){
+        if (context == null) {
             return;
         }
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog_purpose);
         Window window = dialog.getWindow();
-        if(window==null){
+        if (window == null) {
             return;
         }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT );
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
-        windowAttributesribute.gravity=gravity;
+        windowAttributesribute.gravity = gravity;
         window.setAttributes(windowAttributesribute);
 
-        if (Gravity.BOTTOM==gravity){
+        if (Gravity.BOTTOM == gravity) {
             dialog.setCancelable(true);
-        }else {
+        } else {
             dialog.setCancelable(false);
 
         }
-        TextView resetFilter= dialog.findViewById(R.id.resetFilter);
-        TextView closeFilter= dialog.findViewById(R.id.closeFilter);
+        TextView resetFilter = dialog.findViewById(R.id.resetFilter);
+        TextView closeFilter = dialog.findViewById(R.id.closeFilter);
 
         //checkbox
         CheckBox cBoxAlone = dialog.findViewById(R.id.cBoxAlone);
@@ -456,31 +519,31 @@ public class FragmentCafeHomePage extends Fragment {
     private void openDialogFilter(int gravity) {
 
         Context context = getActivity();
-        if(context==null){
+        if (context == null) {
             return;
         }
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog_filter);
         Window window = dialog.getWindow();
-        if(window==null){
+        if (window == null) {
             return;
         }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT );
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
-        windowAttributesribute.gravity=gravity;
+        windowAttributesribute.gravity = gravity;
         window.setAttributes(windowAttributesribute);
 
-        if (Gravity.BOTTOM==gravity){
+        if (Gravity.BOTTOM == gravity) {
             dialog.setCancelable(true);
-        }else {
+        } else {
             dialog.setCancelable(false);
 
         }
-        TextView resetFilter= dialog.findViewById(R.id.resetFilter);
-        TextView closeFilter= dialog.findViewById(R.id.closeFilter);
+        TextView resetFilter = dialog.findViewById(R.id.resetFilter);
+        TextView closeFilter = dialog.findViewById(R.id.closeFilter);
 
         //option
         CheckBox checkBox = dialog.findViewById(R.id.checkBox);
@@ -535,7 +598,7 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxPriceHigh.setChecked(false);
                 seekBarPrice.setProgress(60);
                 textViewProgressPrice.setText("60k");
-            }else {
+            } else {
                 int progress = seekBarPrice.getProgress();
                 textViewProgressPrice.setText(progress + "k");
             }
@@ -547,7 +610,7 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxPriceMedium.setChecked(false);
                 seekBarPrice.setProgress(100);
                 textViewProgressPrice.setText("100k");
-            }else {
+            } else {
                 int progress = seekBarPrice.getProgress();
                 textViewProgressPrice.setText(progress + "k");
             }
@@ -575,9 +638,9 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxDisFar.setChecked(false);
                 seekBarDistance.setProgress(1);
                 textViewProgressDistance.setText("1km");
-            }else{
-                int progress= seekBarDistance.getProgress();
-                textViewProgressDistance.setText(progress+"km");
+            } else {
+                int progress = seekBarDistance.getProgress();
+                textViewProgressDistance.setText(progress + "km");
             }
         });
 
@@ -587,9 +650,9 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxDisFar.setChecked(false);
                 seekBarDistance.setProgress(7);
                 textViewProgressDistance.setText("7km");
-            }else{
+            } else {
                 int progress = seekBarDistance.getProgress();
-                textViewProgressDistance.setText(progress+"km");
+                textViewProgressDistance.setText(progress + "km");
             }
         });
 
@@ -599,7 +662,7 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxDisMedium.setChecked(false);
                 seekBarDistance.setProgress(20);
                 textViewProgressDistance.setText("20km");
-            }else {
+            } else {
                 int progress = seekBarDistance.getProgress();
                 textViewProgressDistance.setText(progress + "km");
             }
@@ -616,8 +679,9 @@ public class FragmentCafeHomePage extends Fragment {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBarPrice) {}
-            });
+            public void onStopTrackingTouch(SeekBar seekBarPrice) {
+            }
+        });
         resetFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

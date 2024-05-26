@@ -2,6 +2,7 @@
 
 package space.app.UI.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import space.app.Activity.MainActivity;
+import space.app.Activity.RewriteActivity;
 import space.app.R;
 
 /**
@@ -70,5 +72,41 @@ public class FragmentShop extends Fragment {
 // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop, container, false);
 
-        return view;            }
+        // back HomePage
+        ImageView iconBack = view.findViewById(R.id.iconBack);
+        iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentCafeHomePage(), true);
+            }
+        });
+
+        // FindCafe
+        LinearLayout lnfindCafe = view.findViewById(R.id.lnfindCafe);
+        lnfindCafe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentFindCafe(), true);
+            }
+        });
+        // ViewAllComment
+        Button ViewAll = view.findViewById(R.id.ViewAll);
+        ViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new FragmentReviewAll(), true);
+            }
+        });
+        // Review-Write
+        Button btnContribute = view.findViewById(R.id.btnCafeContribute);
+        btnContribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // dung activity
+                Intent intent = new Intent(getActivity(), RewriteActivity.class);
+                startActivity(intent);
+            }
+        });
+        return view;
+    }
 }

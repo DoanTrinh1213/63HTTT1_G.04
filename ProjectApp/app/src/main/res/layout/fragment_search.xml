@@ -42,6 +42,8 @@
                 android:background="@drawable/rounded_rectangle"
                 android:backgroundTint="@color/white"
                 android:hint="Giá rẻ , ngon ,..."
+                android:inputType="text"
+                android:maxLines="1"
                 android:paddingStart="50dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="30dp"
@@ -53,7 +55,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"></EditText>
+                app:layout_constraintVertical_bias="0.0"></EditText>
 
             <ImageView
                 android:id="@+id/closeSearch"
@@ -120,39 +122,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locationSearch">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleViewSearch"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/locationSearch"
-                app:layout_constraintVertical_bias="0.0"></androidx.recyclerview.widget.RecyclerView>
-        </ScrollView>
-<!--        <include-->
-<!--            android:id="@+id/include2"-->
-<!--            layout="@layout/search_guess_compo"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.0"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/locationSearch"-->
-<!--            app:layout_constraintVertical_bias="0.444"></include>-->
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-<!--        <include-->
-<!--            android:id="@+id/include3"-->
-<!--            layout="@layout/research_guess_compo"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.0"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/locationSearch"-->
-<!--            app:layout_constraintVertical_bias="0.662"></include>-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleViewSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/locationSearch"
+                    app:layout_constraintVertical_bias="0.0"></androidx.recyclerview.widget.RecyclerView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleViewSearchResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/locationSearch"
+                    app:layout_constraintVertical_bias="0.0"></androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
+        </ScrollView>
+
+        <!--        <include-->
+        <!--            android:id="@+id/include2"-->
+        <!--            layout="@layout/search_guess_compo"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.0"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/locationSearch"-->
+        <!--            app:layout_constraintVertical_bias="0.444"></include>-->
+
+        <!--        <include-->
+        <!--            android:id="@+id/include3"-->
+        <!--            layout="@layout/research_guess_compo"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.0"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/locationSearch"-->
+        <!--            app:layout_constraintVertical_bias="0.662"></include>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
