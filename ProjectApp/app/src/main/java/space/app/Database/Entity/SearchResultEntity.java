@@ -20,7 +20,6 @@ public class SearchResultEntity {
     public void setSearchQuery(String searchQuery) {
         this.searchQuery = searchQuery;
     }
-
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String searchQuery;
