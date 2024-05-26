@@ -6,5 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.SearchAcitivity">
-    <include layout="@layout/fragment_search"></include>
+    <include
+        layout="@layout/fragment_search"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></include>
 </androidx.constraintlayout.widget.ConstraintLayout>
