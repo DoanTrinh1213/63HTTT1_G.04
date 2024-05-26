@@ -35,6 +35,9 @@
             android:name=".Activity.AuthorizeActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.EditInformationActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SplashScreen"
             android:exported="true">
             <intent-filter>
