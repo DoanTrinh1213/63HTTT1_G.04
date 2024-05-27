@@ -38,7 +38,12 @@ public class SearchRepository {
     public void deleteSearchResult(SearchResultEntity searchResult) {
         databaseWriteExecutor.execute(() -> {
             searchResultDao.deleteSearchResult(searchResult);
-            Log.d("SearchRepository", "Inserted search result: " + searchResult.getSearchQuery());
+        });
+    }
+
+    public void deleteSearchResultWithQuery(String query) {
+        databaseWriteExecutor.execute(() -> {
+            searchResultDao.deleteSearchResultWithQuery(query);
         });
     }
 }

@@ -48,4 +48,12 @@ public class CafeRepository {
     public LiveData<List<CafeEntity>> getCafeByTopEvaluate() {
         return cafeDAO.getCafeByTopEvaluate();
     }
+
+    public LiveData<List<CafeEntity>> getCafesByFindCoffee() {
+        return cafeDAO.getCafesByFindCoffee();
+    }
+
+    public LiveData<List<CafeEntity>> getCafesBySearchTermAndFindCoffee(String searchTerm) {
+        return cafeDAO.getCafesBySearchTermAndFindCoffee(searchTerm);
+    }
 }

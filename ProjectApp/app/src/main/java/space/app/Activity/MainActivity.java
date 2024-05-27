@@ -25,10 +25,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import space.app.Database.CafeDatabase;
 import space.app.Model.Cafe;
 import space.app.R;
 import space.app.UI.Fragment.FragmentAuth;
@@ -41,6 +48,8 @@ import space.app.ViewModel.CafeViewModel;
 public class MainActivity extends AppCompatActivity {
 
     private CafeViewModel cafeViewModel;
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +64,35 @@ public class MainActivity extends AppCompatActivity {
             v.setLayoutParams(mlp);
             return WindowInsetsCompat.CONSUMED;
         });
-
         cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
         List<Cafe> cafeList = (List<Cafe>) getIntent().getSerializableExtra("cafeList");
         if (cafeList != null) {
             cafeViewModel.setCafeList(cafeList);
         }
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference("Cafe").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Cafe> cafeList = new ArrayList<>();
+                executorService.execute(()->{
+                    CafeDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                });
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    Cafe cafe = data.getValue(Cafe.class);
+                    if (cafe != null) {
+                        cafeList.add(cafe);
+                    }
+                }
+                if(cafeList!=null){
+                    cafeViewModel.setCafeList(cafeList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                finish();
+            }
+        });
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
 //        editor.putBoolean("isLoggedIn", false); // Lưu trạng thái đăng nhập là true

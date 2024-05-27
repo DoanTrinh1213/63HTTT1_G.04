@@ -24,6 +24,9 @@ public class CafeViewModel extends AndroidViewModel {
     public LiveData<List<CafeEntity>> getCafesBySearchTerm(String searchTerm) {
         return cafeRepository.getCafesBySearchTerm(searchTerm);
     }
+    public LiveData<List<CafeEntity>> getCafesBySearchTermAndFindCoffee(String searchTerm) {
+        return cafeRepository.getCafesBySearchTermAndFindCoffee(searchTerm);
+    }
 
     public LiveData<List<CafeEntity>> getAllCafe(){
         return cafeRepository.getAllCafe();
@@ -35,6 +38,10 @@ public class CafeViewModel extends AndroidViewModel {
 
     public LiveData<List<CafeEntity>> getCafesByTopEvaluate(){
         return cafeRepository.getCafeByTopEvaluate();
+    }
+
+    public LiveData<List<CafeEntity>> getCafesByFindCoffee(){
+        return cafeRepository.getCafesByFindCoffee();
     }
 
     public void setCafeList(List<Cafe> cafeList) {
@@ -52,7 +59,12 @@ public class CafeViewModel extends AndroidViewModel {
             cafeEntity.setResName(cafe.getResName());
             cafeEntity.setTimeOpen(cafe.getTimeOpen());
             cafeEntity.setImages(cafe.getImages());
+            cafeEntity.setIdUser(cafe.getIdUser());
             cafeRepository.insertCafe(cafeEntity);
         }
+    }
+
+    public LiveData<List<CafeEntity>> getCafeByTopEvaluate() {
+        return cafeRepository.getCafeByTopEvaluate();
     }
 }

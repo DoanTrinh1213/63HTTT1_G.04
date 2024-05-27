@@ -21,4 +21,7 @@ public interface SearchResultDAO {
     void deleteAll();
     @Delete
     void deleteSearchResult(SearchResultEntity searchResult);
+
+    @Query("Delete from searchResult where searchQuery =:query")
+    void deleteSearchResultWithQuery(String query);
 }

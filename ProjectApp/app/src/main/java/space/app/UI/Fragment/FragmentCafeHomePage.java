@@ -52,6 +52,7 @@ import space.app.Adapter.CafeAdapter;
 import space.app.Database.Entity.CafeEntity;
 import space.app.Database.Entity.SearchResultEntity;
 import space.app.Database.SearchDatabase;
+import space.app.Helper.Converter;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
 import space.app.R;
@@ -79,6 +80,8 @@ public class FragmentCafeHomePage extends Fragment {
     private RadioGroup radioGroup;
     private Button resetFilter;
     private SearchViewModel searchViewModel;
+    private RecyclerView recyclerViewOther;
+    private RecyclerView recyclerView;
 
 
     public FragmentCafeHomePage() {
@@ -120,62 +123,47 @@ public class FragmentCafeHomePage extends Fragment {
         List<Cafe> cafes = new ArrayList<Cafe>();
 
         CafeViewModel cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
-        cafeViewModel.getAllCafe().observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
-            @Override
-            public void onChanged(List<CafeEntity> cafeEntities) {
-                cafes.clear();
-                for (CafeEntity cafeEntity : cafeEntities) {
-                    Cafe cafe = new Cafe();
-                    cafe.setIdCafe(cafeEntity.getIdCafe());
-                    Log.d("Cafe",cafe.getIdCafe());
-                    cafe.setAddress(cafeEntity.getAddress());
-                    cafe.setResName(cafeEntity.getResName());
-                    cafe.setContact(cafeEntity.getContact());
-                    cafe.setDescribe(cafeEntity.getDescribe());
-                    cafe.setEvaluate(cafeEntity.getEvaluate());
-                    cafe.setLink(cafeEntity.getLink());
-                    cafe.setImages(cafeEntity.getImages());
-                    cafe.setPrice(cafeEntity.getPrice());
-                    cafe.setPurpose(cafeEntity.getPurpose());
-                    cafe.setTimeOpen(cafeEntity.getTimeOpen());
-                    cafe.setMenu(cafeEntity.getMenu());
-                    cafes.add(cafe);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        Boolean isSearch = sharedPreferences.getBoolean("isSearch", false);
+        Log.d("Cafe","isSearh : "+isSearch.toString());
+        if (isSearch == false) {
+
+            cafeViewModel.getCafesByFindCoffee().observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                @Override
+                public void onChanged(List<CafeEntity> cafeEntities) {
+                    List<Cafe> cafesByFindCoffee = new ArrayList<Cafe>();
+                    for (CafeEntity cafeEntity : cafeEntities) {
+                        Cafe cafe = new Cafe();
+                        cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                        cafesByFindCoffee.add(cafe);
+                    }
+                    updateRecycleViewFindCafe(view, cafesByFindCoffee);
                 }
-            }
-        });
-
-        RecyclerView recycleView = view.findViewById(R.id.recyclerViewCafe);
-        recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycleView.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
-            @Override
-            public void onItemClickCafe(Cafe cafe) {
-                Intent intent = new Intent(getContext(), DetailAcitvity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("Object_Cafe", cafe);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        }));
-
-        RecyclerView recyclerViewOther = view.findViewById(R.id.recyclerViewCafeByOrther);
-        recyclerViewOther.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
-            @Override
-            public void onItemClickCafe(Cafe cafe) {
-                Intent intent = new Intent(getContext(), DetailAcitvity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("Object_Cafe", cafe);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        }));
+            });
+            cafeViewModel.getCafeByTopEvaluate().observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                @Override
+                public void onChanged(List<CafeEntity> cafeEntities) {
+                    cafes.clear();
+                    for (CafeEntity cafeEntity : cafeEntities) {
+                        Cafe cafe = new Cafe();
+                        cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                        cafes.add(cafe);
+                    }
+                    Log.d("Cafe", "Update getCafeByTopEvaluate");
+                    updateRecycleViewOrther(view, cafes);
+                }
+            });
+        }
 
         TextView searchView = view.findViewById(R.id.search_bar_text);
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchAcitivity.class);
-                getActivity().startActivityForResult(intent, 3);
+                Bundle bundle = new Bundle();
+                bundle.putString("textSearch",searchView.getText().toString());
+                intent.putExtra("BundleData",bundle);
+                getActivity().startActivity(intent);
             }
         });
         // Filter
@@ -218,7 +206,6 @@ public class FragmentCafeHomePage extends Fragment {
         searchViewModel.getAllSearchResults().observe(getViewLifecycleOwner(), new Observer<List<SearchResultEntity>>() {
             @Override
             public void onChanged(List<SearchResultEntity> searchResults) {
-                // Cập nhật giao diện khi có dữ liệu mới từ ViewModel
                 if (searchResults.size() == 0) {
                     Log.d("Search Result", "Không có gì");
                 } else {
@@ -228,57 +215,44 @@ public class FragmentCafeHomePage extends Fragment {
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                     Boolean isRefresh = sharedPreferences.getBoolean("isRefresh", true);
                     if (!searchResults.isEmpty() && isRefresh == false) {
-                        // Lấy phần tử cuối cùng trong danh sách
                         SearchResultEntity lastSearchResult = searchResults.get(searchResults.size() - 1);
-                        // Set text của searchView thành searchQuery của phần tử cuối cùng
                         searchView.setText(lastSearchResult.getSearchQuery());
-                        Log.d("Update UI", "Search update");
-                        List<Cafe> cafes = new ArrayList<Cafe>();
+                        Log.d("Update UI", lastSearchResult.getSearchQuery());
+                        List<Cafe> cafesByTerm = new ArrayList<Cafe>();
                         cafeViewModel.getCafesBySearchTerm(lastSearchResult.getSearchQuery()).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
                             @Override
                             public void onChanged(List<CafeEntity> cafeEntities) {
+                                Log.d("Cafe", "Update getCafesBySearchTerm");
                                 if (cafeEntities.size() != 0) {
-                                    cafes.clear();
+                                    cafesByTerm.clear();
                                     for (CafeEntity cafeEntity : cafeEntities) {
                                         Cafe cafe = new Cafe();
-                                        cafe.setIdCafe(cafeEntity.getIdCafe());
-                                        cafe.setAddress(cafeEntity.getAddress());
-                                        cafe.setResName(cafeEntity.getResName());
-                                        cafe.setContact(cafeEntity.getContact());
-                                        cafe.setDescribe(cafeEntity.getDescribe());
-                                        cafe.setEvaluate(cafeEntity.getEvaluate());
-                                        cafe.setLink(cafeEntity.getLink());
-                                        cafe.setImages(cafeEntity.getImages());
-                                        cafe.setPrice(cafeEntity.getPrice());
-                                        cafe.setPurpose(cafeEntity.getPurpose());
-                                        cafe.setTimeOpen(cafeEntity.getTimeOpen());
-                                        cafe.setMenu(cafeEntity.getMenu());
-                                        cafes.add(cafe);
-                                        Log.d("CafeCheck",cafe.getIdCafe());
-                                        recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
-                                            @Override
-                                            public void onItemClickCafe(Cafe cafe) {
-                                                Intent intent = new Intent(getContext(), DetailAcitvity.class);
-                                                Bundle bundle = new Bundle();
-                                                bundle.putSerializable("Object_Cafe", cafe);
-                                                intent.putExtras(bundle);
-                                                startActivity(intent);
-                                            }
-                                        }));
+                                        cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                                        cafesByTerm.add(cafe);
+                                        updateRecycleViewOrther(view, cafesByTerm);
                                     }
+                                } else {
+                                    updateRecycleViewOrther(view, cafesByTerm);
                                 }
                             }
                         });
-                        recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
+                        cafeViewModel.getCafesBySearchTermAndFindCoffee(lastSearchResult.getSearchQuery()).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
                             @Override
-                            public void onItemClickCafe(Cafe cafe) {
-                                Intent intent = new Intent(getContext(), DetailAcitvity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("Object_Cafe", cafe);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
+                            public void onChanged(List<CafeEntity> cafeEntities) {
+                                List<Cafe> cafesByTermFindCoffee = new ArrayList<>();
+                                Log.d("Cafe", "Update getCafesBySearchTermAndFindCoffee");
+                                if (cafeEntities.size() != 0) {
+                                    for (CafeEntity cafeEntity : cafeEntities) {
+                                        Cafe cafe = new Cafe();
+                                        cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                                        cafesByTermFindCoffee.add(cafe);
+                                        updateRecycleViewFindCafe(view, cafesByTermFindCoffee);
+                                    }
+                                } else {
+                                    updateRecycleViewFindCafe(view, cafesByTermFindCoffee);
+                                }
                             }
-                        }));
+                        });
                     } else {
                         searchView.setText("");
                     }
@@ -287,6 +261,37 @@ public class FragmentCafeHomePage extends Fragment {
         });
 
         return view;
+    }
+
+
+    private void updateRecycleViewOrther(View view, List<Cafe> cafes) {
+        RecyclerView recyclerViewOther = view.findViewById(R.id.recyclerViewCafeByOrther);
+        recyclerViewOther.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
+            @Override
+            public void onItemClickCafe(Cafe cafe) {
+                Intent intent = new Intent(getContext(), DetailAcitvity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Object_Cafe", cafe);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }));
+    }
+
+    private void updateRecycleViewFindCafe(View view, List<Cafe> cafes) {
+        RecyclerView recycleView = view.findViewById(R.id.recyclerViewCafe);
+        recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycleView.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
+            @Override
+            public void onItemClickCafe(Cafe cafe) {
+                Intent intent = new Intent(getContext(), DetailAcitvity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Object_Cafe", cafe);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }));
     }
 
     private void openDialogPrice(int gravity) {
