@@ -6,10 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECDCDC"
-    tools:context=".Activity.EditInformationActivity"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="36dp">
-
+    tools:context=".Activity.EditInformationActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -19,7 +16,6 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -28,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:contentDescription="TODO"
+            android:contentDescription="Back"
             app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 
         <TextView
@@ -67,7 +63,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="MissingConstraints" />
 
             <com.google.android.material.button.MaterialButton
@@ -81,12 +76,10 @@
                 android:theme="@style/ButtonProper"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0">
+                app:layout_constraintVertical_bias="1.0" />
 
-            </com.google.android.material.button.MaterialButton>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

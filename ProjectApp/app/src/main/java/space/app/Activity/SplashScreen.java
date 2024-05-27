@@ -9,11 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import space.app.Database.SearchDatabase;
 import space.app.R;
+import space.app.ViewModel.SearchViewModel;
 
 public class SplashScreen extends AppCompatActivity {
 
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +30,9 @@ public class SplashScreen extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        executorService.execute(() -> {
+            SearchDatabase.getInstance(this).searchResultDao().deleteAll();
         });
         new Handler().postDelayed(new Runnable() {
             @Override

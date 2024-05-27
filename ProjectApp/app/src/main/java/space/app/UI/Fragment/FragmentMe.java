@@ -24,7 +24,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import space.app.Activity.ContributeCafeInformationActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -119,7 +121,8 @@ public class FragmentMe extends Fragment {
         lnContributeCafeInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentContributeCafeInformation(), true);
+                Intent intent = new Intent(getActivity(), ContributeCafeInformationActivity.class);
+                startActivity(intent);
             }
         });
         // DeleteAcount
