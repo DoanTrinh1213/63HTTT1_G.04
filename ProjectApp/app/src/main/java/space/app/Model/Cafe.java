@@ -32,6 +32,9 @@ public class Cafe implements Serializable {
         this.purpose = purpose;
     }
 
+    public Cafe(){
+
+    }
 
     public Cafe(String idCafe, String resName, String address, String describe, Float price, String menu, String timeOpen, String contact, String images, String evaluate, String link, String purpose) {
         this.idCafe = idCafe;

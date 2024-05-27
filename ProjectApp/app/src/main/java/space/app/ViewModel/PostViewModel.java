@@ -1,2 +1,4 @@
-package space.app.ViewModel;public class PostViewModel {
+package space.app.ViewModel;
+
+public class PostViewModel {
 }

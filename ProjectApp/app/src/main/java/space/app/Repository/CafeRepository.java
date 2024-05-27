@@ -1,11 +1,9 @@
 package space.app.Repository;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,9 +11,6 @@ import java.util.concurrent.Executors;
 import space.app.DAO.CafeDAO;
 import space.app.Database.CafeDatabase;
 import space.app.Database.Entity.CafeEntity;
-import space.app.Database.Entity.SearchResultEntity;
-import space.app.Database.SearchDatabase;
-import space.app.Model.Cafe;
 
 public class CafeRepository {
     private CafeDAO cafeDAO;
@@ -46,5 +41,11 @@ public class CafeRepository {
     }
 
 
+    public LiveData<List<CafeEntity>> getCafesPostedByUser(String idUser,String idCafe) {
+        return cafeDAO.getCafesPostedByUser(idUser,idCafe);
+    }
 
+    public LiveData<List<CafeEntity>> getCafeByTopEvaluate() {
+        return cafeDAO.getCafeByTopEvaluate();
+    }
 }

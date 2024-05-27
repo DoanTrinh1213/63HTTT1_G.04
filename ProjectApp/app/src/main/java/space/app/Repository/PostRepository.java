@@ -1,2 +1,4 @@
-package space.app.Repository;public class PostRepository {
+package space.app.Repository;
+
+public class PostRepository {
 }

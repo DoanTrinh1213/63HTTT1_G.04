@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,18 +39,23 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
 import space.app.Activity.DetailAcitvity;
+import space.app.Activity.MainActivity;
 import space.app.Activity.SearchAcitivity;
 import space.app.Adapter.CafeAdapter;
+import space.app.Database.Entity.CafeEntity;
 import space.app.Database.Entity.SearchResultEntity;
 import space.app.Database.SearchDatabase;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
 import space.app.R;
+import space.app.ViewModel.CafeViewModel;
 import space.app.ViewModel.SearchViewModel;
 
 /**
@@ -112,14 +118,31 @@ public class FragmentCafeHomePage extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cafe_home_page, container, false);
 
         List<Cafe> cafes = new ArrayList<Cafe>();
-        Cafe cafe = new Cafe("123", "CafePro1", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
-        cafes.add(cafe);
-        Cafe cafe2 = new Cafe("1234", "CafePro12", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
-        cafes.add(cafe2);
-        Cafe cafe3 = new Cafe("1235", "CafePro13", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
-        cafes.add(cafe3);
-        Cafe cafe4 = new Cafe("1236", "CafePro14", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
-        cafes.add(cafe4);
+
+        CafeViewModel cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
+        cafeViewModel.getAllCafe().observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+            @Override
+            public void onChanged(List<CafeEntity> cafeEntities) {
+                cafes.clear();
+                for (CafeEntity cafeEntity : cafeEntities) {
+                    Cafe cafe = new Cafe();
+                    cafe.setIdCafe(cafeEntity.getIdCafe());
+                    Log.d("Cafe",cafe.getIdCafe());
+                    cafe.setAddress(cafeEntity.getAddress());
+                    cafe.setResName(cafeEntity.getResName());
+                    cafe.setContact(cafeEntity.getContact());
+                    cafe.setDescribe(cafeEntity.getDescribe());
+                    cafe.setEvaluate(cafeEntity.getEvaluate());
+                    cafe.setLink(cafeEntity.getLink());
+                    cafe.setImages(cafeEntity.getImages());
+                    cafe.setPrice(cafeEntity.getPrice());
+                    cafe.setPurpose(cafeEntity.getPurpose());
+                    cafe.setTimeOpen(cafeEntity.getTimeOpen());
+                    cafe.setMenu(cafeEntity.getMenu());
+                    cafes.add(cafe);
+                }
+            }
+        });
 
         RecyclerView recycleView = view.findViewById(R.id.recyclerViewCafe);
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -202,19 +225,50 @@ public class FragmentCafeHomePage extends Fragment {
                     for (SearchResultEntity searchResult : searchResults) {
                         Log.d("Search Result", searchResult.getSearchQuery());
                     }
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
-                    Boolean isRefresh = sharedPreferences.getBoolean("isRefresh",true);
-                    if (!searchResults.isEmpty() && isRefresh==false) {
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                    Boolean isRefresh = sharedPreferences.getBoolean("isRefresh", true);
+                    if (!searchResults.isEmpty() && isRefresh == false) {
                         // Lấy phần tử cuối cùng trong danh sách
                         SearchResultEntity lastSearchResult = searchResults.get(searchResults.size() - 1);
                         // Set text của searchView thành searchQuery của phần tử cuối cùng
                         searchView.setText(lastSearchResult.getSearchQuery());
                         Log.d("Update UI", "Search update");
                         List<Cafe> cafes = new ArrayList<Cafe>();
-                        Cafe cafe = new Cafe("Thanh", "CafePro1", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
-                        cafes.add(cafe);
-                        Cafe cafe2 = new Cafe("Lê", "CafePro12", "HaNoi", "Helloworld", (float) 20.3, "Menu", "13:00-24:00", "Hello", "URL", "5", "URL", "Sell");
-                        cafes.add(cafe2);
+                        cafeViewModel.getCafesBySearchTerm(lastSearchResult.getSearchQuery()).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                            @Override
+                            public void onChanged(List<CafeEntity> cafeEntities) {
+                                if (cafeEntities.size() != 0) {
+                                    cafes.clear();
+                                    for (CafeEntity cafeEntity : cafeEntities) {
+                                        Cafe cafe = new Cafe();
+                                        cafe.setIdCafe(cafeEntity.getIdCafe());
+                                        cafe.setAddress(cafeEntity.getAddress());
+                                        cafe.setResName(cafeEntity.getResName());
+                                        cafe.setContact(cafeEntity.getContact());
+                                        cafe.setDescribe(cafeEntity.getDescribe());
+                                        cafe.setEvaluate(cafeEntity.getEvaluate());
+                                        cafe.setLink(cafeEntity.getLink());
+                                        cafe.setImages(cafeEntity.getImages());
+                                        cafe.setPrice(cafeEntity.getPrice());
+                                        cafe.setPurpose(cafeEntity.getPurpose());
+                                        cafe.setTimeOpen(cafeEntity.getTimeOpen());
+                                        cafe.setMenu(cafeEntity.getMenu());
+                                        cafes.add(cafe);
+                                        Log.d("CafeCheck",cafe.getIdCafe());
+                                        recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
+                                            @Override
+                                            public void onItemClickCafe(Cafe cafe) {
+                                                Intent intent = new Intent(getContext(), DetailAcitvity.class);
+                                                Bundle bundle = new Bundle();
+                                                bundle.putSerializable("Object_Cafe", cafe);
+                                                intent.putExtras(bundle);
+                                                startActivity(intent);
+                                            }
+                                        }));
+                                    }
+                                }
+                            }
+                        });
                         recyclerViewOther.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
                             @Override
                             public void onItemClickCafe(Cafe cafe) {
