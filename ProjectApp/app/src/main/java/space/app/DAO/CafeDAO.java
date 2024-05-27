@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import space.app.Database.Entity.CafeEntity;
-import space.app.Database.Entity.SearchResultEntity;
+import space.app.Database.Entity.PostEntity;
 
 @Dao
 public interface CafeDAO {
@@ -26,4 +26,10 @@ public interface CafeDAO {
 
     @Query("SELECT * FROM cafe ORDER BY evaluate DESC")
     LiveData<List<CafeEntity>> getAllCafesSortedByRating();
+
+    @Query("SELECT * FROM cafe WHERE idCafe IN (SELECT idCafe FROM post WHERE idUser = :idUser and idCafe = :idCafe)")
+    LiveData<List<CafeEntity>> getCafesPostedByUser(String idUser,String idCafe);
+
+    @Query("SELECT * From cafe Order by evaluate desc")
+    LiveData<List<CafeEntity>> getCafeByTopEvaluate();
 }

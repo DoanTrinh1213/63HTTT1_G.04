@@ -7,14 +7,18 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import space.app.DAO.CafeDAO;
+import space.app.DAO.PostDAO;
 import space.app.DAO.SearchResultDAO;
 import space.app.Database.Entity.CafeEntity;
+import space.app.Database.Entity.PostEntity;
 import space.app.Database.Entity.SearchResultEntity;
 
-@Database(entities = {CafeEntity.class}, version = 1)
+@Database(entities = {CafeEntity.class, PostEntity.class}, version = 2)
 public abstract class CafeDatabase extends RoomDatabase {
     private static CafeDatabase instance;
     public abstract CafeDAO cafeDAO();
+    public abstract PostDAO postDao();
+
     public static synchronized CafeDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),

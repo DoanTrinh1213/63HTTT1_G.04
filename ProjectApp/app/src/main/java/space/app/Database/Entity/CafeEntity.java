@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import space.app.Model.Cafe;
+
 @Entity(tableName = "cafe")
 public class CafeEntity{
     public String getIdCafe() {

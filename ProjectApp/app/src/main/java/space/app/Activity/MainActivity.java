@@ -21,21 +21,26 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import space.app.Model.Cafe;
 import space.app.R;
 import space.app.UI.Fragment.FragmentAuth;
 import space.app.UI.Fragment.FragmentBookmark;
 import space.app.UI.Fragment.FragmentCafeHomePage;
 import space.app.UI.Fragment.FragmentLogin;
 import space.app.UI.Fragment.FragmentMe;
+import space.app.ViewModel.CafeViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    private CafeViewModel cafeViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
             v.setLayoutParams(mlp);
             return WindowInsetsCompat.CONSUMED;
         });
+
+        cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
+        List<Cafe> cafeList = (List<Cafe>) getIntent().getSerializableExtra("cafeList");
+        if (cafeList != null) {
+            cafeViewModel.setCafeList(cafeList);
+        }
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
 //        editor.putBoolean("isLoggedIn", false); // Lưu trạng thái đăng nhập là true
