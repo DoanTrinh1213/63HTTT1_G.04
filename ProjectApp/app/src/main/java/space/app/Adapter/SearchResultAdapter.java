@@ -60,7 +60,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 notifyItemRemoved(position);
                 SearchAcitivity activity = (SearchAcitivity) holder.itemView.getContext();
                 SearchViewModel searchViewModel = new ViewModelProvider(activity).get(SearchViewModel.class);
-                searchViewModel.deleteSearchResult(searchResult);
+                searchViewModel.deleteSearchResultWithQuery(searchResult.getSearchQuery());
             }
         });
     }

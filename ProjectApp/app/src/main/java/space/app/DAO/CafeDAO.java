@@ -15,7 +15,7 @@ import space.app.Database.Entity.PostEntity;
 public interface CafeDAO {
     @Query("Select * from cafe")
     LiveData<List<CafeEntity>> getAllCafe();
-    @Query("SELECT * FROM cafe WHERE resName LIKE '%' || :searchTerm || '%'")
+    @Query("SELECT * FROM cafe WHERE resName LIKE '%' || :searchTerm || '%' and idUser!='findCoffee'")
     LiveData<List<CafeEntity>> getCafesBySearchTerm(String searchTerm);
 
     @Insert
@@ -30,6 +30,12 @@ public interface CafeDAO {
     @Query("SELECT * FROM cafe WHERE idCafe IN (SELECT idCafe FROM post WHERE idUser = :idUser and idCafe = :idCafe)")
     LiveData<List<CafeEntity>> getCafesPostedByUser(String idUser,String idCafe);
 
-    @Query("SELECT * From cafe Order by evaluate desc")
+    @Query("SELECT * From cafe where idUser !='findCoffee' Order by evaluate desc")
     LiveData<List<CafeEntity>> getCafeByTopEvaluate();
+
+    @Query("SELECT * From cafe where idUser = 'findCoffee' Order by evaluate desc limit 5")
+    LiveData<List<CafeEntity>> getCafesByFindCoffee();
+
+    @Query("SELECT * FROM cafe WHERE resName LIKE '%' || :searchTerm || '%' and idUser = 'findCoffee'" )
+    LiveData<List<CafeEntity>> getCafesBySearchTermAndFindCoffee(String searchTerm);
 }

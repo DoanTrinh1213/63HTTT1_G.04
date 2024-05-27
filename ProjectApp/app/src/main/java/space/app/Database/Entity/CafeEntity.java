@@ -7,7 +7,10 @@ import androidx.room.PrimaryKey;
 import space.app.Model.Cafe;
 
 @Entity(tableName = "cafe")
-public class CafeEntity{
+public class CafeEntity {
+    public CafeEntity() {
+    }
+
     public String getIdCafe() {
         return idCafe;
     }
@@ -118,4 +121,13 @@ public class CafeEntity{
     private String evaluate;
     private String link;
     private String purpose;
+    private String idUser;
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
 }

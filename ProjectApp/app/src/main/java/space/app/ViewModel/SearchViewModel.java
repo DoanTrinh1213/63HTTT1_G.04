@@ -30,4 +30,8 @@ public class SearchViewModel extends AndroidViewModel {
     public void deleteSearchResult(SearchResultEntity searchResult) {
         repository.deleteSearchResult(searchResult);
     }
+
+    public void deleteSearchResultWithQuery(String query){
+        repository.deleteSearchResultWithQuery(query);
+    }
 }
