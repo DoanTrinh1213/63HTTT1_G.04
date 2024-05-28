@@ -77,7 +77,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
         }
 
         public void bind(Cafe cafe) {
-            cafeNameTextView.setText(cafe.getIdCafe());
+            cafeNameTextView.setText(cafe.getResName());
             cafeAddressTextView.setText(cafe.getAddress());
             imageCafe.setImageResource(R.drawable.images);
             timeOpen.setText(cafe.getTimeOpen());

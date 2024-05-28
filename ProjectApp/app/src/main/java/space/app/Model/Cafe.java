@@ -15,6 +15,7 @@ public class Cafe implements Serializable {
     private String evaluate;
     private String link;
     private String purpose;
+    private String idUser;
 
     public String getIdCafe() {
         return idCafe;
@@ -32,8 +33,11 @@ public class Cafe implements Serializable {
         this.purpose = purpose;
     }
 
+    public Cafe(){
 
-    public Cafe(String idCafe, String resName, String address, String describe, Float price, String menu, String timeOpen, String contact, String images, String evaluate, String link, String purpose) {
+    }
+
+    public Cafe(String idCafe, String resName, String address, String describe, Float price, String menu, String timeOpen, String contact, String images, String evaluate, String link, String purpose, String idUser) {
         this.idCafe = idCafe;
         this.resName = resName;
         this.address = address;
@@ -46,6 +50,7 @@ public class Cafe implements Serializable {
         this.evaluate = evaluate;
         this.link = link;
         this.purpose = purpose;
+        this.idUser = idUser;
     }
 
     public String getResName() {
@@ -126,5 +131,13 @@ public class Cafe implements Serializable {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 }
