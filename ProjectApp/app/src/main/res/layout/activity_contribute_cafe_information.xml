@@ -385,13 +385,12 @@
                                 android:text="Chọn ảnh"
                                 android:textColor="@color/black"></TextView>
                         </RelativeLayout>
-                        <androidx.viewpager.widget.ViewPager
-                            android:id="@+id/viewPager"
-                            android:layout_width="120dp"
-                            android:layout_height="100dp"
-                            android:background="@color/white">
 
-                        </androidx.viewpager.widget.ViewPager>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                             />
 
                     </LinearLayout>
 

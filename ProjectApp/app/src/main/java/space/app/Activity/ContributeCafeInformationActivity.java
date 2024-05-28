@@ -17,21 +17,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 import space.app.Adapter.CustomSpinnerAdapter;
-import space.app.Adapter.ViewPagerAdapter;
+import space.app.Adapter.ImageRecyclerViewAdapter;
 import space.app.R;
 import space.app.UI.Fragment.FragmentMe;
 
 public class ContributeCafeInformationActivity extends AppCompatActivity {
     private ImageView BackPerson;
     private RelativeLayout PickImageCafe;
-    private ViewPager viewPager;
+    private RecyclerView recyclerView;
     private FloatingActionButton FloatingActionButtonCafe;
 
     private ArrayList<Uri> ChooseImageList;
@@ -65,11 +66,11 @@ public class ContributeCafeInformationActivity extends AppCompatActivity {
 
         // Initialize image picker
         PickImageCafe = findViewById(R.id.PickImageCafe);
-        viewPager = findViewById(R.id.viewPager);
+        recyclerView = findViewById(R.id.recyclerView);
         ChooseImageList = new ArrayList<>();
         FloatingActionButtonCafe = findViewById(R.id.floatingActionButtonCafe);
 
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         FloatingActionButtonCafe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,8 +120,8 @@ public class ContributeCafeInformationActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this, ChooseImageList);
-        viewPager.setAdapter(adapter);
+        ImageRecyclerViewAdapter adapter = new ImageRecyclerViewAdapter(this, ChooseImageList);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
