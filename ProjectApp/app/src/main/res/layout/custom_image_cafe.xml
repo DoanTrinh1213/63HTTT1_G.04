@@ -7,7 +7,7 @@
 
 
     <ImageView
-        android:id="@+id/UploadImage"
+        android:id="@+id/UploadImageCafe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -16,5 +16,13 @@
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
         tools:ignore="MissingConstraints" />
+    <ImageButton
+        android:id="@+id/removeButtonCafe"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="8dp"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_delete" />
 
 </RelativeLayout>
