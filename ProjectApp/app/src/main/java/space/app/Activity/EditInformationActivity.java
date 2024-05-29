@@ -6,11 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -22,13 +27,21 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.UUID;
 
 import kotlin.Unit;
+import space.app.Helper.Utils;
 import space.app.R;
 import space.app.UI.Fragment.FragmentMe;
 
@@ -36,6 +49,14 @@ public class EditInformationActivity extends AppCompatActivity {
     private ImageView iconBackPerson;
     ImageView imageView;
     MaterialButton materialButton;
+    EditText edtUserName;
+    EditText edtDescription;
+    FirebaseDatabase firebaseDatabase;
+    FirebaseAuth mAuth;
+    FirebaseStorage storage;
+    MaterialButton saveButton;
+
+    Uri uriImage;
 
     private static final int IMAGE_PICKER_REQUEST_CODE = 101;
 
@@ -52,17 +73,38 @@ public class EditInformationActivity extends AppCompatActivity {
 //                iconBackPerson.setVisibility(View.GONE);
 //                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction.replace(R.id.fragment_container_Me,new FragmentMe()).addToBackStack(null).commit();
-
+                finish();
             }
         });
         materialButton = findViewById(R.id.imagePersonChange);
         imageView = findViewById(R.id.imagePerson);
+        saveButton = findViewById(R.id.SendEditInformation);
+        edtUserName = findViewById(R.id.edtUserName);
+        edtDescription = findViewById(R.id.edtDescription);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String imageUrl = sharedPreferences.getString("imageUrl", null);
-        if (imageUrl != null) {
-            Glide.with(this).load(imageUrl).into(imageView);
-        }
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
+        firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String username = snapshot.child("userName").getValue(String.class);
+                edtUserName.setText(username);
+                String description = snapshot.child("describe").getValue(String.class);
+                edtDescription.setText(description);
+                String imageUrl = snapshot.child("image").getValue(String.class);
+                if (!imageUrl.isEmpty()) {
+                    Glide.with(EditInformationActivity.this).load(imageUrl).into(imageView);
+                } else {
+                    Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Database error: " + error.getMessage());
+            }
+        });
 
         materialButton.setOnClickListener(v -> {
             ImagePicker.with(this)
@@ -74,8 +116,29 @@ public class EditInformationActivity extends AppCompatActivity {
                         return Unit.INSTANCE;
                     });
         });
-
-
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (uriImage != null) {
+                    uploadImageToFirebase(uriImage);
+                }
+                if (!edtUserName.getText().toString().isEmpty()) {
+                    firebaseDatabase.getReference("User").child(idUser).child("userName").setValue(edtUserName.getText().toString());
+                    firebaseDatabase.getReference("User").child(idUser).child("describe").setValue(edtDescription.getText().toString());
+                    Toast toast = new Toast(EditInformationActivity.this);
+                    toast.setGravity(Gravity.BOTTOM, 0, 0);
+                    toast.setText("Lưu thành công!");
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    Toast toast = new Toast(EditInformationActivity.this);
+                    toast.setGravity(Gravity.BOTTOM, 0, 0);
+                    toast.setText("Username không thể để trống!");
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
     }
 
 
@@ -84,8 +147,9 @@ public class EditInformationActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
+            Log.d("URI image", uri.toString());
             imageView.setImageURI(uri);
-            uploadImageToFirebase(uri);
+            uriImage = uri;
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
             Toast.makeText(EditInformationActivity.this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
         } else {
@@ -93,17 +157,22 @@ public class EditInformationActivity extends AppCompatActivity {
         }
     }
 
+
     private void uploadImageToFirebase(Uri uri) {
         if (uri != null) {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
+            storage = FirebaseStorage.getInstance();
             StorageReference storageReference = storage.getReference();
 
             String uniqueID = UUID.randomUUID().toString();
-            StorageReference imageRef = storageReference.child("images/" + uniqueID);
-
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            String email = firebaseAuth.getCurrentUser().getEmail();
+            String idUser = Utils.hashEmail(email);
+            deleteImageFromFirebase(idUser);
+            StorageReference imageRef = storageReference.child("Img/users/" + idUser + "/" + uniqueID);
             UploadTask uploadTask = imageRef.putFile(uri);
             uploadTask.addOnSuccessListener(taskSnapshot -> {
                 imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                    deleteImageFromDevice(uri);
                     Toast.makeText(EditInformationActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
                     saveImageUrl(downloadUri.toString());
                 });
@@ -116,7 +185,43 @@ public class EditInformationActivity extends AppCompatActivity {
     private void saveImageUrl(String url) {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        Log.d("Uri", url);
         editor.putString("imageUrl", url);
         editor.apply();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String email = firebaseAuth.getCurrentUser().getEmail();
+        String idUser = Utils.hashEmail(email);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference("User").child(idUser).child("image").setValue(url);
+    }
+
+    private void deleteImageFromDevice(Uri uri) {
+        File file = new File(uri.getPath());
+        if (file.exists()) {
+            if (file.delete()) {
+                Log.d("Delete Image", "Image deleted successfully: " + uri.getPath());
+            } else {
+                Log.d("Delete Image", "Failed to delete image: " + uri.getPath());
+            }
+        }
+    }
+
+    private void deleteImageFromFirebase(String idUser) {
+        storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference userImageRef = storageReference.child("Img/users/" + idUser);
+        userImageRef.listAll().addOnSuccessListener(listResult -> {
+            for (StorageReference item : listResult.getItems()) {
+                item.delete().addOnSuccessListener(aVoid -> {
+                    // Xóa thành công, thực hiện các hành động tiếp theo nếu cần
+                }).addOnFailureListener(exception -> {
+                    // Xảy ra lỗi khi xóa ảnh
+                    Log.e("Firebase", "Error deleting image: ", exception);
+                });
+            }
+        }).addOnFailureListener(exception -> {
+            // Xảy ra lỗi khi liệt kê các tệp trong thư mục
+            Log.e("Firebase", "Error listing images: ", exception);
+        });
     }
 }

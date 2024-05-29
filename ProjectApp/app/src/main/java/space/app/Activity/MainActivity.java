@@ -10,11 +10,13 @@ import androidx.activity.EdgeToEdge;
 
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -67,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
         List<Cafe> cafeList = (List<Cafe>) getIntent().getSerializableExtra("cafeList");
         if (cafeList != null) {
+            executorService.execute(() -> {
+                CafeDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+            });
+            Log.d("Cafe","Insert lần đầu tạo main");
             cafeViewModel.setCafeList(cafeList);
         }
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -74,18 +80,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Cafe> cafeList = new ArrayList<>();
-                executorService.execute(()->{
+                executorService.execute(() -> {
+                    Log.d("Cafe","Insert sau khi có sự thay đổi");
                     CafeDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
-                });
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Cafe cafe = data.getValue(Cafe.class);
-                    if (cafe != null) {
-                        cafeList.add(cafe);
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Cafe cafe = data.getValue(Cafe.class);
+                        if (cafe != null) {
+                            cafeList.add(cafe);
+                        }
                     }
-                }
-                if(cafeList!=null){
-                    cafeViewModel.setCafeList(cafeList);
-                }
+                    if (cafeList != null) {
+                        cafeViewModel.setCafeList(cafeList);
+                    }
+                });
             }
 
             @Override
@@ -108,28 +115,37 @@ public class MainActivity extends AppCompatActivity {
             replaceFragment(new FragmentCafeHomePage(), false);
         }
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
+        for (int i = 0; i < bottomNavigationView.getMenu().size(); i++) {
+            final MenuItem menuItem = bottomNavigationView.getMenu().getItem(i);
+            View view = bottomNavigationView.findViewById(menuItem.getItemId());
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return true; // Trả về true để chỉ định rằng sự kiện đã được xử lý
+                }
+            });
+        }
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                 if (menuItem.getItemId() == R.id.home) {
-                    if(isLoggedIn==false){
+                if (menuItem.getItemId() == R.id.home) {
+                    if (isLoggedIn == false) {
                         replaceFragment(new FragmentAuth(), false);
-                    }
-                    else{
+                    } else {
                         replaceFragment(new FragmentCafeHomePage(), false);
                     }
                     return true;
                 } else if (menuItem.getItemId() == R.id.bookmark) {
-                    if(isLoggedIn==false){
+                    if (isLoggedIn == false) {
+                        replaceFragment(new FragmentLogin(), false);
+                    } else {
                         replaceFragment(new FragmentBookmark(), false);
                     }
                     return true;
                 } else {
-                    if(isLoggedIn==false)
-                    {
+                    if (isLoggedIn == false) {
                         replaceFragment(new FragmentLogin(), false);
-                    }
-                    else
+                    } else
                         replaceFragment(new FragmentMe(), false);
                     return true;
                 }
@@ -139,11 +155,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-               if(bottomNavigationView.getSelectedItemId()==R.id.home){
-                        Log.d("Tag","OnBackPressedCallback : "+fragmentManager.getBackStackEntryCount());
-                        moveTaskToBack(true);
-                }
-                else{
+                if (bottomNavigationView.getSelectedItemId() == R.id.home) {
+                    Log.d("Tag", "OnBackPressedCallback : " + fragmentManager.getBackStackEntryCount());
+                    moveTaskToBack(true);
+                } else {
                     bottomNavigationView.setSelectedItemId(R.id.home);
                 }
             }
@@ -154,37 +169,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("Main","OnStart call");
+        Log.d("Main", "OnStart call");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("Main","OnResume call");
+        Log.d("Main", "OnResume call");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d("Main","OnRestart call");
+        Log.d("Main", "OnRestart call");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("Main","onPause call");
+        Log.d("Main", "onPause call");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("Main","onStop call");
+        Log.d("Main", "onStop call");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("Main","onDestroy call");
+        Log.d("Main", "onDestroy call");
 
     }
 
@@ -199,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    public void openFragmentEditInformation() {
+    //    public void openFragmentEditInformation() {
 //        replaceFragment(new FragmentEditInformation(), true);
 //    }
     public void setSelectedBottomNavItem(int itemId) {
