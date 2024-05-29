@@ -189,6 +189,9 @@ public class SearchAcitivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
+                else{
+                    finish();
+                }
             }
         };
         getOnBackPressedDispatcher().addCallback(this,callback);
