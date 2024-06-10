@@ -160,7 +160,7 @@
                 android:fontFamily="@font/yaldevi"
                 android:gravity="top|start"
                 android:hint="Kẻ mộng mơ"
-                android:inputType="textPassword"
+                android:inputType="textMultiLine"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHint="#BDBDBD"

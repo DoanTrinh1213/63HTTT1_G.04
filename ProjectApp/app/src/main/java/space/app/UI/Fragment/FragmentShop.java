@@ -5,15 +5,18 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import space.app.Activity.MainActivity;
 import space.app.Activity.RewriteActivity;
+import space.app.Model.Cafe;
 import space.app.R;
 
 /**
@@ -28,6 +31,7 @@ public class FragmentShop extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    private Cafe cafe;
 
     public FragmentShop() {
         // Required empty public constructor
@@ -45,9 +49,11 @@ public class FragmentShop extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cafe = new Cafe();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            cafe=(Cafe)getArguments().getSerializable("Object_Cafe");
         }
     }
 
@@ -62,12 +68,13 @@ public class FragmentShop extends Fragment {
         LinearLayout lnfindCafe = view.findViewById(R.id.lnfindCafe);
         Button ViewAll = view.findViewById(R.id.ViewAll);
         Button btnContribute = view.findViewById(R.id.btnCafeContribute);
-
+        TextView nameCafe = view.findViewById(R.id.nameCafe);
+        nameCafe.setText(cafe.getResName());
         // Set click listeners
         iconBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentCafeHomePage(), true);
+                getActivity().finish();
             }
         });
 
