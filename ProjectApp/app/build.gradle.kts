@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.cardview)
     implementation(libs.legacy.support.v4)
     implementation(libs.firebase.auth)
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("com.google.android.gms:play-services-auth:21.1.1")
     implementation("com.google.android.gms:play-services-maps:18.0.0")
     implementation("androidx.room:room-runtime:2.5.0")
