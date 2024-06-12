@@ -70,6 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
         <LinearLayout
+            android:gravity="top|start"
             android:id="@+id/linearLayoutImage"
             android:layout_width="match_parent"
             android:layout_height="217dp"
@@ -80,7 +81,6 @@
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="101dp"
             android:background="@drawable/rounded_coner_review"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -88,47 +88,104 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="91dp">
 
-            <RelativeLayout
-                android:id="@+id/PickImageCafe"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/pick"
-                    android:layout_width="60dp"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/PickImageCafe"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_margin="1dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp"
-                    android:clickable="true"
-                    android:contentDescription="TODO"
-                    android:focusable="true"
-                    android:tint="#ffffff"
-                    app:backgroundTint="#AFAEAE"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/baseline_image_24" />
+                    android:layout_margin="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/pick"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="1dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:clickable="true"
+                        android:contentDescription="TODO"
+                        android:focusable="true"
+                        android:tint="#ffffff"
+                        app:backgroundTint="#AFAEAE"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/baseline_image_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pick"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/yaldevi"
+                        android:text="Chọn ảnh"
+                        android:textColor="@color/black">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pick"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/yaldevi"
+                        android:text="Chọn ảnh"
+                        android:textColor="@color/black">
+
+                    </TextView>
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/pick"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/yaldevi"
-                    android:text="Chọn ảnh"
-                    android:textColor="@color/black">
+                    android:layout_margin="10dp">
 
-                </TextView>
-            </RelativeLayout>
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/deletepick"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="1dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:clickable="true"
+                        android:contentDescription="TODO"
+                        android:focusable="true"
+                        android:tint="#ffffff"
+                        app:backgroundTint="#AFAEAE"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/delete_logput" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/deletepick"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/yaldevi"
+                        android:text="Xóa tất cả"
+                        android:textColor="@color/black">
+
+                    </TextView>
+
+
+                </RelativeLayout>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginLeft="-15dp"
+                android:layout_marginTop="8dp"
                 android:id="@+id/recyclerViewGalleryImages"
                 android:layout_width="match_parent"
-                android:layout_height="190dp" />
+                android:layout_height="200dp" />
 
         </LinearLayout>
 
