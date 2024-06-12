@@ -1,4 +1,4 @@
-package space.app.UI.Fragment;
+package space.app.Activity;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import space.app.R;
 
-public class FragmentCafeContribute extends AppCompatActivity {
+public class CafeContribute extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

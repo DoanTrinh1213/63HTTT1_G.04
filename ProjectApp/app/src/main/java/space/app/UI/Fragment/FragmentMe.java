@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import space.app.Activity.CafeContribute;
 import space.app.Activity.ContributeCafeInformationActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -107,14 +108,15 @@ public class FragmentMe extends Fragment {
             }
         });
 //        // CafeContribute
-//
-//        LinearLayout lnCafeContribute = view.findViewById(R.id.lnCafeContribute);
-//        lnCafeContribute.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((MainActivity) getActivity()).replaceFragment(new FragmentCafeContribute(), true);
-//            }
-//        });
+
+            LinearLayout lnCafeContribute = view.findViewById(R.id.lnCafeContribute);
+            lnCafeContribute.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), CafeContribute.class);
+                    startActivity(intent);
+                }
+            });
 
         // ContributeCafeInformation
         LinearLayout lnContributeCafeInformation = view.findViewById(R.id.lnContributeCafeInformation);
