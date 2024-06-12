@@ -18,8 +18,9 @@ public class Cafe implements Serializable {
     private String purpose;
     private String idUser;
 
-    public Cafe(String cafeId, String resName, String address, String describe, float v, String timeOpen, String contact, String s, String link, String purpose, String s1) {
+    public Cafe(String idCafe, String resName, String address, String describe, float v, String timeOpen, String contact, String s, String link, String purpose, String s1) {
     }
+
 
     public String getIdCafe() {
         return idCafe;

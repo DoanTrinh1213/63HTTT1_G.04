@@ -139,9 +139,9 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
 
     private void uploadImagesAndSaveCafeInfo(String link, String resName, String address, String purpose, String timeOpen, String describe, String price, String contact) {
         DatabaseReference cafeRef = FirebaseDatabase.getInstance().getReference().child("Cafe").push();
-        String cafeId = cafeRef.getKey();
+        String idCafe = cafeRef.getKey();
 
-        Cafe cafe = new Cafe(cafeId, resName, address, describe, Float.parseFloat(price), timeOpen, contact, "", link, purpose, "");
+        Cafe cafe = new Cafe(idCafe, resName, address, describe, Float.parseFloat(price), timeOpen, contact, "", link, purpose, "");
 
         // Lưu URL của ảnh quán vào Firebase Storage và cập nhật vào đối tượng Cafe
         uploadImages(ChooseImageListCafe, "CafeImages", new UploadImagesCallback() {
