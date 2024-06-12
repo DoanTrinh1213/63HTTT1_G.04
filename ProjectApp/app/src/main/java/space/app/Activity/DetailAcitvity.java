@@ -3,6 +3,7 @@ package space.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -31,6 +32,9 @@ import space.app.UI.Fragment.FragmentShop;
 
 public class DetailAcitvity extends AppCompatActivity {
 
+    FragmentShop fragmentShop;
+    FragmentBookmark fragmentBookmark;
+    FragmentMe fragmentMe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,14 @@ public class DetailAcitvity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        fragmentShop= new FragmentShop();
+        fragmentMe=new FragmentMe();
+        fragmentBookmark = new FragmentBookmark();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            fragmentShop.setArguments(extras);
+            replaceFragment(fragmentShop,false);
+        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
             ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
@@ -52,17 +64,27 @@ public class DetailAcitvity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
+        for (int i = 0; i < bottomNavigationView.getMenu().size(); i++) {
+            final MenuItem menuItem = bottomNavigationView.getMenu().getItem(i);
+            View view = bottomNavigationView.findViewById(menuItem.getItemId());
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return true; // Trả về true để chỉ định rằng sự kiện đã được xử lý
+                }
+            });
+        }
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 if (menuItem.getItemId() == R.id.home) {
-                    replaceFragment(new FragmentShop(),false);
+                    replaceFragment(fragmentShop,false);
                     return true;
                 } else if (menuItem.getItemId() == R.id.bookmark) {
-                    replaceFragment(new FragmentBookmark(),false);
+                    replaceFragment(fragmentBookmark,false);
                     return true;
                 } else {
-                    replaceFragment(new FragmentMe(), false);
+                    replaceFragment(fragmentMe, false);
                     return true;
                 }
             }
@@ -94,12 +116,5 @@ public class DetailAcitvity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Bundle extras = getIntent().getExtras();
-        Cafe cafe = null;
-        if (extras != null) {
-            cafe = (Cafe) extras.getSerializable("Object_Cafe");
-        }
-        TextView textViewName = findViewById(R.id.nameCafe);
-        textViewName.setText(cafe.getResName());
     }
 }

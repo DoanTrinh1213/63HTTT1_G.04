@@ -145,8 +145,6 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 }
-                // intent.setAction(Intent.ACTION_GET_CONTENT);
-                // startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
                 activityResultLauncher.launch(intent);
             }
         });
@@ -163,46 +161,6 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
 
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && null != data) {
-//            if (data.getClipData() != null) {
-//                // nhiều hình ảnh
-//                int countOfImages = data.getClipData().getItemCount();
-//                for (int i = 0; i < countOfImages; i++) {
-//                    // gioi han anh
-//                    if (uri.size() < 11) {
-//                        imageuri = data.getClipData().getItemAt(i).getUri();
-//                        uri.add(imageuri);
-//                        uploadToFirebase();
-//                    } else {
-//                        Toast.makeText(RewriteActivity.this, "Không cho phép chọn quá 11 tấm hình", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                }
-//                // thong bao adapter
-//                adapter.notifyDataSetChanged();
-//            } else {
-//                // sắp xếp không có hình ảnh nào được lấy từ dow ngay cả khi một hình ảnh được chọn
-//                if (uri.size() < 11) {
-//                    // chon 1 anh
-//                    imageuri = data.getData();
-//                    // them vao mang
-//                    uri.add(imageuri);
-//                    uploadToFirebase();
-//                } else {
-//                    Toast.makeText(RewriteActivity.this, "Không cho phép chọn quá 11 tấm hình", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//            adapter.notifyDataSetChanged();
-//        } else {
-//            // nguoi dung ko chon anh
-//            Toast.makeText(this, "Bạn không chọn tấm hình nào", Toast.LENGTH_SHORT).show();
-//        }
-//
-//
-//    }
 
 
     @Override
