@@ -129,6 +129,12 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             String describe = edtDescription.getText().toString();
             String price = edtPrice.getText().toString();
             String contact = edtContact.getText().toString();
+            // Kiểm tra số điện thoại có đúng định dạng
+            if (!isValidContact(contact)) {
+                Toast.makeText(this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
             if (ChooseImageListCafe.size() < MIN_IMAGE_COUNT || ChooseImageListMenu.size() < MIN_IMAGE_COUNT) {
                 Toast.makeText(this, "Bạn cần up tối thiểu 3 ảnh", Toast.LENGTH_SHORT).show();
@@ -136,20 +142,15 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             }
             String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-
-            // Log start of method
             Log.d("CafeUpload", "Bắt đầu lưu ảnh và thông tin quán");
 
-            // Create a reference to the ContributeCafe node in Firebase Database
             DatabaseReference cafeRef = FirebaseDatabase.getInstance().getReference().child("Cafe").push();
             String idCafe = cafeRef.getKey();
 
-            // Log generated cafeId
             Log.d("CafeUpload", " cafeId: " + idCafe);
 
             Cafe cafe = new Cafe(idCafe,idUser, resName, address, describe, Float.parseFloat(price), timeOpen, contact, "", link, purpose, "");
 
-            // Upload cafe images and update Cafe object
             uploadImages(ChooseImageListCafe, "CafeImages", new UploadImagesCallback() {
                 @Override
                 public void onImagesUploaded(ArrayList<String> cafeImageUrls) {
@@ -159,10 +160,8 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                     // Convert list of URLs to a single comma-separated string
                     String cafeImagesString = String.join(",", cafeImageUrls);
 
-                    // Update Cafe object with cafe image URLs
                     cafe.setImages(cafeImagesString);
 
-                    // Upload menu images and update Cafe object
                     uploadImages(ChooseImageListMenu, "MenuImages", new UploadImagesCallback() {
                         @Override
                         public void onImagesUploaded(ArrayList<String> menuImageUrls) {
@@ -172,10 +171,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                             // Convert list of URLs to a single comma-separated string
                             String menuImagesString = String.join(",", menuImageUrls);
 
-                            // Update Cafe object with menu image URLs
                             cafe.setMenu(menuImagesString);
-
-                            // Update remaining attributes
                             cafe.setResName(resName);
                             cafe.setLink(link);
                             cafe.setAddress(address);
@@ -187,10 +183,8 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                             cafe.setIdCafe(idCafe);
                             cafe.setIdUser(idUser);
 
-                            // Log complete Cafe object before saving
                             Log.d("CafeUpload", " Cafe : " + cafe.toString());
 
-                            // Save Cafe object to Firebase Database
                             cafeRef.setValue(cafe)
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(ContributeCafeInformationActivity.this, "Thông tin quán đã được lưu thành công!", Toast.LENGTH_SHORT).show();
@@ -207,6 +201,10 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             });
         }
 
+    private boolean isValidContact(String contact) {
+        return contact.matches("^0\\d{9}$");
+    }
+// update số lượng quán đã thêm
     private void updateCafeCount() {
         int currentCount = getCurrentCafeCount();
         currentCount++;
@@ -226,7 +224,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         editor.putInt("cafeCount", count);
         editor.apply();
     }
-
+// up ảnh và thông tin quán
     private void uploadImages(ArrayList<Uri> imageUris, String folderName, UploadImagesCallback callback) {
             ArrayList<String> imageUrls = new ArrayList<>();
             StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName);
@@ -257,8 +255,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             void onImagesUploaded(ArrayList<String> imageUrls);
         }
 
-
-
+// kiểm tra quyền truy cập bộ nhớ ảnh
         private void checkPermissionAndPickImageForCafe(int pickImageRequestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(ContributeCafeInformationActivity.this,
@@ -306,9 +303,6 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE);
     }
 
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -340,7 +334,6 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             }
         }
     }
-
     private void setAdapter(ArrayList<Uri> imageList, int requestCode) {
         RecyclerView.Adapter cafeAdapter;
         if (requestCode == PICK_IMAGE_REQUEST_CODE) {
@@ -351,7 +344,6 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             recyclerViewMenu.setAdapter(menuAdapter);
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
