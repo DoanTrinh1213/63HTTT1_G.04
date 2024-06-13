@@ -1,9 +1,14 @@
 package space.app.Model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Cafe implements Serializable {
+
     private String idCafe;
     private String resName;
     private String address;
@@ -18,7 +23,9 @@ public class Cafe implements Serializable {
     private String purpose;
     private String idUser;
 
-    public Cafe(String idCafe, String resName, String address, String describe, float v, String timeOpen, String contact, String s, String link, String purpose, String s1) {
+
+
+    public Cafe(String idCafe, String idUser, String resName, String address, String describe, float v, String timeOpen, String contact, String s, String link, String purpose, String s1) {
     }
 
 
