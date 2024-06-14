@@ -40,8 +40,6 @@ public class WriteReviewAdapter extends RecyclerView.Adapter<WriteReviewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-//        Uri uri = uriList.get(position);
-//        Glide.with(holder.imageView.getContext()).load(uri).into(holder.imageView);
         Glide.with(context)
                 .load(uriList.get(position))
                 .into(holder.imageView);
