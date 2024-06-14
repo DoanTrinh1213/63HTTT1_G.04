@@ -23,6 +23,7 @@ public class CafeRepository {
         allCafeRepo = cafeDAO.getAllCafe();
         databaseWriteExecutor = Executors.newSingleThreadExecutor();
     }
+
     public LiveData<List<CafeEntity>> getAllCafe() {
         return allCafeRepo;
     }

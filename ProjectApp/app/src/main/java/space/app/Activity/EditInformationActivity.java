@@ -73,9 +73,6 @@ public class EditInformationActivity extends AppCompatActivity {
         iconBackPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                iconBackPerson.setVisibility(View.GONE);
-//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.fragment_container_Me,new FragmentMe()).addToBackStack(null).commit();
                 finish();
             }
         });

@@ -1,9 +1,7 @@
 package space.app.UI.Fragment;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,13 +21,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorBoundsInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import space.app.Activity.CafeContributeActivity;
 import space.app.Activity.ContributeCafeInformationActivity;
 
 import com.bumptech.glide.Glide;
@@ -123,14 +118,15 @@ public class FragmentMe extends Fragment {
             }
         });
 //        // CafeContribute
-//
-//        LinearLayout lnCafeContribute = view.findViewById(R.id.lnCafeContribute);
-//        lnCafeContribute.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ((MainActivity) getActivity()).replaceFragment(new FragmentCafeContribute(), true);
-//            }
-//        });
+
+            LinearLayout lnCafeContribute = view.findViewById(R.id.lnCafeContribute);
+            lnCafeContribute.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), CafeContributeActivity.class);
+                    startActivity(intent);
+                }
+            });
 
         // ContributeCafeInformation
         LinearLayout lnContributeCafeInformation = view.findViewById(R.id.lnContributeCafeInformation);

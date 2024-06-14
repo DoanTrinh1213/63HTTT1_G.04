@@ -1,8 +1,17 @@
 package space.app.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Post implements Serializable {
+    private String id;
+    private String idCafe;
+    private String idUser;
+    private String comment;
+    private String star;
+    private ArrayList<String> imagesCommentsPath;
+
+    // Getters
     public String getId() {
         return id;
     }
@@ -18,13 +27,16 @@ public class Post implements Serializable {
     public String getComment() {
         return comment;
     }
-    public String getImagesCommentsPath(){
+
+    public ArrayList<String> getImagesCommentsPath() {
         return imagesCommentsPath;
     }
-    public String getStar(){
+
+    public String getStar() {
         return star;
     }
 
+    // Setters
     public void setId(String id) {
         this.id = id;
     }
@@ -40,13 +52,17 @@ public class Post implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    public void setImagesCommentsPath(String imagesCommentsPath){
+
+    public void setImagesCommentsPath(ArrayList<String> imagesCommentsPath) {
         this.imagesCommentsPath = imagesCommentsPath;
     }
-    public void setStar(String star){
+
+    public void setStar(String star) {
         this.star = star;
     }
-    public Post(String id, String idCafe, String idUser, String comment,String imagesCommentsPath,String star) {
+
+    // Constructor
+    public Post(String id, String idCafe, String idUser, String comment, ArrayList<String> imagesCommentsPath, String star) {
         this.id = id;
         this.idCafe = idCafe;
         this.idUser = idUser;
@@ -54,14 +70,7 @@ public class Post implements Serializable {
         this.imagesCommentsPath = imagesCommentsPath;
         this.star = star;
     }
-    public Post(){
 
+    public Post() {
     }
-
-    private String id;
-    private String idCafe;
-    private String idUser;
-    private String comment;
-    private String star;
-    private String imagesCommentsPath;
 }
