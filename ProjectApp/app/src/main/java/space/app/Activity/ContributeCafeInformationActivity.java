@@ -36,7 +36,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import space.app.Adapter.CustomSpinnerAdapter;
-import space.app.Adapter.ImageRecyclerViewAdapter;
 import space.app.Database.Entity.UserEntity;
 import space.app.Model.User;
 import space.app.Adapter.CafeImageRecyclerViewAdapter;
@@ -133,7 +132,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                 return;
             }
             if (!contact.isEmpty() && !isValidContact(contact)) {
-                Toast.makeText(this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Số điện thoại không hợp lệ 😢", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (ChooseImageListCafe.size() < MIN_IMAGE_COUNT || ChooseImageListMenu.size() < MIN_IMAGE_COUNT) {
@@ -169,7 +168,6 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             uploadImages(ChooseImageListCafe, "CafeImages", new UploadImagesCallback() {
                 @Override
                 public void onImagesUploaded(ArrayList<String> cafeImageUrls) {
-                    // Log cafe image URLs
                     Log.d("CafeUpload", "Up ảnh quán Cafe: " + cafeImageUrls.toString());
 
                     String cafeImagesString = String.join(",", cafeImageUrls);
