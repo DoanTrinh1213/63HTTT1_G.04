@@ -38,4 +38,6 @@ public interface CafeDAO {
 
     @Query("SELECT * FROM cafe WHERE resName LIKE '%' || :searchTerm || '%' and idUser = 'findCoffee'" )
     LiveData<List<CafeEntity>> getCafesBySearchTermAndFindCoffee(String searchTerm);
+    @Query("select * from cafe")
+    LiveData<List<CafeEntity>> getAllCafe1();
 }

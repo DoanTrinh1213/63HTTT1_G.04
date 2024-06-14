@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,12 +22,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import space.app.Adapter.CustomSpinnerAdapter;
 import space.app.Adapter.ImageRecyclerViewAdapter;
+import space.app.Database.Entity.UserEntity;
+import space.app.Model.User;
 import space.app.R;
+import space.app.Repository.UserRepository;
 import space.app.UI.Fragment.FragmentMe;
 
 public class ContributeCafeInformationActivity extends AppCompatActivity {
@@ -55,6 +63,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.fragment_container_Me, new FragmentMe()).addToBackStack(null).commit();
             }
         });
+
 
         // Spinner
         Spinner spinner = findViewById(R.id.spinner);

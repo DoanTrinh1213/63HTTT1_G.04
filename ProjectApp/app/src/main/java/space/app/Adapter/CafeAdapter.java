@@ -18,6 +18,7 @@ import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
 import space.app.R;
 
+
 public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder> {
 
     private List<Cafe> cafeList;

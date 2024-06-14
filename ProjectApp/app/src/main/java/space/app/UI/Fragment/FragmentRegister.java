@@ -224,6 +224,7 @@ public class FragmentRegister extends Fragment {
 
 
                                     String idUser = Utils.hashEmail(email);
+//                                    idUser =Utils.hash32b(idUser);
                                     User user1 = new User(idUser,email);
 
                                     FirebaseDatabase firebaseDatabase =FirebaseDatabase.getInstance();
