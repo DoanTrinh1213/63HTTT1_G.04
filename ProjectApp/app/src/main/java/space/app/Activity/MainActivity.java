@@ -1,9 +1,8 @@
 package space.app.Activity;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -12,11 +11,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,20 +23,32 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import space.app.Database.CafeDatabase;
+import space.app.DAO.CafeDAO;
+import space.app.Database.Entity.CafeEntity;
+import space.app.Database.Entity.UserEntity;
+import space.app.Database.RoomDatabase;
+import space.app.Helper.Utils;
 import space.app.Model.Cafe;
 import space.app.R;
 import space.app.UI.Fragment.FragmentAuth;
@@ -46,11 +57,15 @@ import space.app.UI.Fragment.FragmentCafeHomePage;
 import space.app.UI.Fragment.FragmentLogin;
 import space.app.UI.Fragment.FragmentMe;
 import space.app.ViewModel.CafeViewModel;
+import space.app.ViewModel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private CafeViewModel cafeViewModel;
+    private UserViewModel userViewModel;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+    private RoomDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +82,16 @@ public class MainActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
         cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
         List<Cafe> cafeList = (List<Cafe>) getIntent().getSerializableExtra("cafeList");
         if (cafeList != null) {
             executorService.execute(() -> {
-                CafeDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                RoomDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                // CafeRepository cafeRepo = new CafeRepository(getApplication());
+                // cafeRepo.deleteAll();
             });
-            Log.d("Cafe","Insert lần đầu tạo main");
+            Log.d("Cafe", "Insert lần đầu tạo main");
             cafeViewModel.setCafeList(cafeList);
         }
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -81,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Cafe> cafeList = new ArrayList<>();
                 executorService.execute(() -> {
-                    Log.d("Cafe","Insert sau khi có sự thay đổi");
-                    CafeDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                    Log.d("Cafe", "Insert sau khi có sự thay đổi");
+                    RoomDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Cafe cafe = data.getValue(Cafe.class);
                         if (cafe != null) {
@@ -112,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         if (isLoggedIn == false) {
             replaceFragment(new FragmentAuth(), false);
         } else {
+            setUser();
             replaceFragment(new FragmentCafeHomePage(), false);
         }
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
@@ -220,5 +240,91 @@ public class MainActivity extends AppCompatActivity {
     public void setSelectedBottomNavItem(int itemId) {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
         bottomNavigationView.setSelectedItemId(itemId);
+    }
+
+    public void setUser() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
+        firebaseDatabase.getReference("User").child(idUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserEntity user = new UserEntity();
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                sharedPreferences.getString("id", "id");
+                sharedPreferences.getString("imageUrl", "imageUrl");
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String name = snapshot.child("userName").getValue(String.class);
+                String id = snapshot.child("id").getValue(String.class);
+                String imageUrl = snapshot.child("image").getValue(String.class);
+                String description = snapshot.child("describe").getValue(String.class);
+
+                user.setIdUser(id);
+                user.setUsername(name);
+                user.setDescribe(description);
+
+                id = Utils.hash32b(id);
+                editor.putString("id", id);
+                StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
+                if (!imageUrl.isEmpty()) {
+                    File directory = new File(getFilesDir(), "userImage");
+                    if (!directory.exists()) {
+                        directory.mkdir();
+                    }
+                    String fileName = id + ".jpg";
+                    int count = 0;
+                    File[] files = directory.listFiles();
+                    if (files != null) {
+                        for (File existingFile : files) {
+                            if (!existingFile.getName().equals(fileName)) {
+                                existingFile.delete();
+                            }
+                            if (existingFile.getName().equals(fileName)) {
+                                count++;
+                            }
+                        }
+                    }
+                    File file = null;
+                    file = new File(directory, fileName);
+                    if (count == 0) {
+                        File finalFile = file;
+                        storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                Uri fileUri = Uri.fromFile(finalFile);
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("imageUrl", fileUri.toString());
+                                Log.d("Image url",fileUri.toString());
+                                user.setImageUrl(fileUri.toString());
+                                editor.apply();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Xử lý trường hợp tải ảnh không thành công
+                                Log.e("Firebase", "Error downloading image: " + e.getMessage());
+                            }
+                        });
+                    }
+                    else{
+                        user.setImageUrl(file.toString());
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
+                }
+
+                executorService.execute(()->{
+                    RoomDatabase.getInstance(MainActivity.this).userDAO().DeleteAllUser();
+                    RoomDatabase.getInstance(MainActivity.this).userDAO().InsertUser(user);
+                });
+                editor.apply();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Database error: " + error.getMessage());
+            }
+        });
     }
 }

@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,18 +28,14 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import space.app.Database.CafeDatabase;
-import space.app.Database.SearchDatabase;
+import space.app.Database.RoomDatabase;
 import space.app.Model.Cafe;
 import space.app.R;
-import space.app.ViewModel.CafeViewModel;
-import space.app.ViewModel.SearchViewModel;
 
 public class SplashScreen extends AppCompatActivity {
 
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private List<Cafe> cafeList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +58,8 @@ public class SplashScreen extends AppCompatActivity {
             return;
         }
         executorService.execute(() -> {
-            SearchDatabase.getInstance(this).searchResultDao().deleteAll();
-            CafeDatabase.getInstance(this).cafeDAO().deleteAll();
+            RoomDatabase.getInstance(this).searchResultDao().deleteAll();
+            RoomDatabase.getInstance(this).cafeDAO().deleteAll();
         });
 //        executorService.execute(() -> {
 //            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();

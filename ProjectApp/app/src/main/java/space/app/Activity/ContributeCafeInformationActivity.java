@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,14 +28,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import space.app.Adapter.CustomSpinnerAdapter;
+import space.app.Adapter.ImageRecyclerViewAdapter;
+import space.app.Database.Entity.UserEntity;
+import space.app.Model.User;
 import space.app.Adapter.CafeImageRecyclerViewAdapter;
 import space.app.Adapter.MenuImageRecyclerViewAdapter;
 import space.app.Model.Cafe;
 import space.app.R;
+import space.app.Repository.UserRepository;
 import space.app.UI.Fragment.FragmentMe;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -75,6 +84,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         BackPerson.setOnClickListener(v -> {
             finish();
         });
+
 
         // Spinner
         Spinner spinner = findViewById(R.id.spinner);
