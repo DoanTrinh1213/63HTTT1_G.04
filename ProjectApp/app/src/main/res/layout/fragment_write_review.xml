@@ -237,7 +237,7 @@
             android:numStars="5"
             android:progressBackgroundTint="#818080"
             android:progressTint="@android:color/holo_orange_dark"
-            android:rating="3"
+            android:rating="5"
             android:scaleX="0.5"
             android:scaleY="0.5"
             android:stepSize="0.5"
