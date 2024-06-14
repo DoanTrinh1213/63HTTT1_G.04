@@ -13,11 +13,13 @@ import space.app.Database.Entity.CafeEntity;
 import space.app.Database.Entity.PostEntity;
 import space.app.Database.Entity.SearchResultEntity;
 
-@Database(entities = {CafeEntity.class, PostEntity.class}, version = 2)
+@Database(entities = {CafeEntity.class, PostEntity.class,SearchResultEntity.class}, version = 3)
 public abstract class CafeDatabase extends RoomDatabase {
     private static CafeDatabase instance;
     public abstract CafeDAO cafeDAO();
     public abstract PostDAO postDao();
+    public abstract SearchResultDAO searchResultDao();
+
 
     public static synchronized CafeDatabase getInstance(Context context) {
         if (instance == null) {
