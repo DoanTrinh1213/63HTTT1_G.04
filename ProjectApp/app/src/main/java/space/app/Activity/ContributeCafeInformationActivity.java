@@ -112,10 +112,25 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference("Cafe");
         btnSendContributeCafe.setOnClickListener(v -> {
-            if (ChooseImageListCafe.size() < MIN_IMAGE_COUNT || ChooseImageListMenu.size() < MIN_IMAGE_COUNT) {
-                Toast.makeText(this, "Bạn cần up tối thiểu 3 ảnh", Toast.LENGTH_SHORT).show();
+            String resName = edtNameCafe.getText().toString();
+            String address = edtAddress.getText().toString();
+            String purpose = ((Spinner) findViewById(R.id.spinner)).getSelectedItem().toString();
+            String price = edtPrice.getText().toString();
+            String contact = edtContact.getText().toString();
+
+            if (resName.isEmpty() || address.isEmpty() || purpose.isEmpty() || price.isEmpty()) {
+                Toast.makeText(this, "Hãy nhập Tên quán, Địa chỉ và Giá tiền bạn nhé 😊 !", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (!contact.isEmpty() && !isValidContact(contact)) {
+                Toast.makeText(this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (ChooseImageListCafe.size() < MIN_IMAGE_COUNT || ChooseImageListMenu.size() < MIN_IMAGE_COUNT) {
+                Toast.makeText(this, "Bạn chưa tải ảnh lên rồi ! 😢", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             uploadImagesAndSaveCafe();
         });
     }
@@ -129,17 +144,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             String describe = edtDescription.getText().toString();
             String price = edtPrice.getText().toString();
             String contact = edtContact.getText().toString();
-            // Kiểm tra số điện thoại có đúng định dạng
-            if (!isValidContact(contact)) {
-                Toast.makeText(this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
-
-            if (ChooseImageListCafe.size() < MIN_IMAGE_COUNT || ChooseImageListMenu.size() < MIN_IMAGE_COUNT) {
-                Toast.makeText(this, "Bạn cần up tối thiểu 3 ảnh", Toast.LENGTH_SHORT).show();
-                return;
-            }
             String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             Log.d("CafeUpload", "Bắt đầu lưu ảnh và thông tin quán");
@@ -157,7 +162,6 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                     // Log cafe image URLs
                     Log.d("CafeUpload", "Up ảnh quán Cafe: " + cafeImageUrls.toString());
 
-                    // Convert list of URLs to a single comma-separated string
                     String cafeImagesString = String.join(",", cafeImageUrls);
 
                     cafe.setImages(cafeImagesString);
@@ -168,7 +172,6 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                             // Log menu image URLs
                             Log.d("CafeUpload", "Up ảnh Menu: " + menuImageUrls.toString());
 
-                            // Convert list of URLs to a single comma-separated string
                             String menuImagesString = String.join(",", menuImageUrls);
 
                             cafe.setMenu(menuImagesString);
