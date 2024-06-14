@@ -23,4 +23,26 @@ public class Utils {
             return null;
         }
     }
+    public static String hash32b(String email) {
+        try {
+            // Sử dụng SHA-256 để băm email
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(email.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            int count =0;
+            for (byte b : hash) {
+                if(count >= 8){
+                    break;
+                }
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+                count ++;
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

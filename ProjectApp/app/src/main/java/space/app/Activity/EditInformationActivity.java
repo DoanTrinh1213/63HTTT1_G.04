@@ -26,6 +26,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +35,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -82,27 +85,17 @@ public class EditInformationActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
-        firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String username = snapshot.child("userName").getValue(String.class);
-                edtUserName.setText(username);
-                String description = snapshot.child("describe").getValue(String.class);
-                edtDescription.setText(description);
-                String imageUrl = snapshot.child("image").getValue(String.class);
-                if (!imageUrl.isEmpty()) {
-                    Glide.with(EditInformationActivity.this).load(imageUrl).into(imageView);
-                } else {
-                    Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Database error: " + error.getMessage());
-            }
-        });
-
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("userName",null);
+        String description = sharedPreferences.getString("description",null);
+        String imageUrl = sharedPreferences.getString("imageUrl",null);
+        edtUserName.setText(username);
+        edtDescription.setText(description);
+        if (!imageUrl.isEmpty()) {
+            Glide.with(EditInformationActivity.this).load(imageUrl).into(imageView);
+        } else {
+            Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
+        }
         materialButton.setOnClickListener(v -> {
             ImagePicker.with(this)
                     .cropSquare()
@@ -116,10 +109,10 @@ public class EditInformationActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (uriImage != null) {
-                    uploadImageToFirebase(uriImage);
-                }
                 if (!edtUserName.getText().toString().isEmpty()) {
+                    if (uriImage != null) {
+                        uploadImageToFirebase(uriImage);
+                    }
                     firebaseDatabase.getReference("User").child(idUser).child("userName").setValue(edtUserName.getText().toString());
                     firebaseDatabase.getReference("User").child(idUser).child("describe").setValue(edtDescription.getText().toString());
                     Toast toast = new Toast(EditInformationActivity.this);
@@ -127,6 +120,8 @@ public class EditInformationActivity extends AppCompatActivity {
                     toast.setText("Lưu thành công!");
                     toast.setDuration(Toast.LENGTH_SHORT);
                     toast.show();
+                    Intent intent = new Intent(EditInformationActivity.this,MainActivity.class);
+                    startActivity(intent);
                 } else {
                     Toast toast = new Toast(EditInformationActivity.this);
                     toast.setGravity(Gravity.BOTTOM, 0, 0);
@@ -185,11 +180,56 @@ public class EditInformationActivity extends AppCompatActivity {
         Log.d("Uri", url);
         editor.putString("imageUrl", url);
         editor.apply();
+        String imageUrl = sharedPreferences.getString("imageUrl",null);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         String email = firebaseAuth.getCurrentUser().getEmail();
         String idUser = Utils.hashEmail(email);
+        String id= Utils.hash32b(idUser);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.getReference("User").child(idUser).child("image").setValue(url);
+        if (!imageUrl.isEmpty()) {
+            StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
+            File directory = new File(getFilesDir(), "userImage");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+            String fileName = id + ".jpg";
+            int count = 0;
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File existingFile : files) {
+                    if (!existingFile.getName().equals(fileName)) {
+                        existingFile.delete();
+                    }
+                    if (existingFile.getName().equals(fileName)) {
+                        count++;
+                    }
+                }
+            }
+            File file = null;
+            if (count == 0) {
+                file = new File(directory, fileName);
+                File finalFile = file;
+                storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Uri fileUri = Uri.fromFile(finalFile);
+                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("imageUrl", fileUri.toString());
+                        editor.apply();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Xử lý trường hợp tải ảnh không thành công
+                        Log.e("Firebase", "Error downloading image: " + e.getMessage());
+                    }
+                });
+            }
+        } else {
+            Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
+        }
     }
 
     private void deleteImageFromDevice(Uri uri) {

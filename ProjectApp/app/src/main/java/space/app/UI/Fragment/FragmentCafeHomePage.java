@@ -51,7 +51,6 @@ import space.app.Activity.SearchAcitivity;
 import space.app.Adapter.CafeAdapter;
 import space.app.Database.Entity.CafeEntity;
 import space.app.Database.Entity.SearchResultEntity;
-import space.app.Database.SearchDatabase;
 import space.app.Helper.Converter;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
