@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
-        firebaseDatabase.getReference("User").child(idUser).addValueEventListener(new ValueEventListener() {
+        firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserEntity user = new UserEntity();
@@ -265,8 +265,8 @@ public class MainActivity extends AppCompatActivity {
 
                 id = Utils.hash32b(id);
                 editor.putString("id", id);
-                StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
                 if (!imageUrl.isEmpty()) {
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
                     File directory = new File(getFilesDir(), "userImage");
                     if (!directory.exists()) {
                         directory.mkdir();
