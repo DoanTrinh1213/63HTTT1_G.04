@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,22 +75,33 @@ public class FragmentShop extends Fragment {
         iconBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                // Chuyển đổi Fragment khi nhấn vào iconBack
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_shop, new FragmentCafeHomePage());
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
         lnfindCafe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentFindCafe(), true);
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_shop, new FragmentFindCafe());
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
         ViewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new FragmentReviewAll(), true);
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_shop, new FragmentReviewAll());
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
+
         });
 
         btnContribute.setOnClickListener(new View.OnClickListener() {
