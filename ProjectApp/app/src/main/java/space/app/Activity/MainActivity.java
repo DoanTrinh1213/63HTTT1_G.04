@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("Main", "onDestroy call");
-
     }
 
     public void replaceFragment(Fragment fragment, boolean backStack) {
@@ -245,86 +244,96 @@ public class MainActivity extends AppCompatActivity {
     public void setUser() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
-        firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserEntity user = new UserEntity();
-                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                sharedPreferences.getString("id", "id");
-                sharedPreferences.getString("imageUrl", "imageUrl");
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                String name = snapshot.child("userName").getValue(String.class);
-                String id = snapshot.child("id").getValue(String.class);
-                String imageUrl = snapshot.child("image").getValue(String.class);
-                String description = snapshot.child("describe").getValue(String.class);
+        if (mAuth.getCurrentUser() != null) {
+            String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
+            firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    UserEntity user = new UserEntity();
+                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                    sharedPreferences.getString("id", "id");
+                    sharedPreferences.getString("imageUrl", "imageUrl");
+                    sharedPreferences.getString("description", "description");
+                    sharedPreferences.getString("userName", "userName");
 
-                user.setIdUser(id);
-                user.setUsername(name);
-                user.setDescribe(description);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                id = Utils.hash32b(id);
-                editor.putString("id", id);
-                if (!imageUrl.isEmpty()) {
-                    StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
-                    File directory = new File(getFilesDir(), "userImage");
-                    if (!directory.exists()) {
-                        directory.mkdir();
+                    String name = snapshot.child("userName").getValue(String.class);
+                    String id = snapshot.child("id").getValue(String.class);
+                    String imageUrl = snapshot.child("image").getValue(String.class);
+                    String description = snapshot.child("describe").getValue(String.class);
+
+                    user.setIdUser(id);
+                    user.setUsername(name);
+                    user.setDescribe(description);
+                    if (id == null) {
+                        Log.d("id", "NULL");
                     }
-                    String fileName = id + ".jpg";
-                    int count = 0;
-                    File[] files = directory.listFiles();
-                    if (files != null) {
-                        for (File existingFile : files) {
-                            if (!existingFile.getName().equals(fileName)) {
-                                existingFile.delete();
-                            }
-                            if (existingFile.getName().equals(fileName)) {
-                                count++;
+                    id = Utils.hash32b(id);
+                    editor.putString("id", id);
+                    editor.putString("userName", name);
+                    editor.putString("description", description);
+
+                    if (!imageUrl.isEmpty()) {
+                        StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
+                        File directory = new File(getFilesDir(), "userImage");
+                        if (!directory.exists()) {
+                            directory.mkdir();
+                        }
+                        String fileName = id + ".jpg";
+                        int count = 0;
+                        File[] files = directory.listFiles();
+                        if (files != null) {
+                            for (File existingFile : files) {
+                                    existingFile.delete();
                             }
                         }
+                        File file = null;
+                        file = new File(directory, fileName);
+                        if (count == 0) {
+                            Log.d("Run count =0", "Runable");
+                            File finalFile = file;
+                            storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Uri fileUri = Uri.fromFile(finalFile);
+                                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("imageUrl", fileUri.toString());
+                                    Log.d("Image url", fileUri.toString());
+                                    user.setImageUrl(fileUri.toString());
+                                    Log.d("user url", user.getImageUrl().toString());
+                                    editor.apply();
+                                    Log.d("Image url editor", sharedPreferences.getString("imageUrl", null));
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Xử lý trường hợp tải ảnh không thành công
+                                    Log.e("Firebase", "Error downloading image: " + e.getMessage());
+                                }
+                            });
+                        } else {
+                            editor.putString("imageUrl", file.toString());
+                            user.setImageUrl(file.toString());
+                            Log.d("Main image", file.toString());
+                        }
+                    } else {
+                        Toast.makeText(MainActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
                     }
-                    File file = null;
-                    file = new File(directory, fileName);
-                    if (count == 0) {
-                        File finalFile = file;
-                        storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                Uri fileUri = Uri.fromFile(finalFile);
-                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("imageUrl", fileUri.toString());
-                                Log.d("Image url",fileUri.toString());
-                                user.setImageUrl(fileUri.toString());
-                                editor.apply();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Xử lý trường hợp tải ảnh không thành công
-                                Log.e("Firebase", "Error downloading image: " + e.getMessage());
-                            }
-                        });
-                    }
-                    else{
-                        user.setImageUrl(file.toString());
-                    }
-                } else {
-                    Toast.makeText(MainActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
+
+                    executorService.execute(() -> {
+                        RoomDatabase.getInstance(MainActivity.this).userDAO().DeleteAllUser();
+                        RoomDatabase.getInstance(MainActivity.this).userDAO().InsertUser(user);
+                    });
+                    editor.apply();
                 }
 
-                executorService.execute(()->{
-                    RoomDatabase.getInstance(MainActivity.this).userDAO().DeleteAllUser();
-                    RoomDatabase.getInstance(MainActivity.this).userDAO().InsertUser(user);
-                });
-                editor.apply();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Database error: " + error.getMessage());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("Firebase", "Database error: " + error.getMessage());
+                }
+            });
+        }
     }
 }

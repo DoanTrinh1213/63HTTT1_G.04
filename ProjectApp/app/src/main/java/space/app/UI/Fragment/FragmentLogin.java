@@ -205,12 +205,6 @@ public class FragmentLogin extends Fragment {
                                         editor.apply();
                                         editor.commit();
 
-                                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        getActivity().finish();
-
-
                                         String hashedEmail = Utils.hashEmail(account.getEmail());
                                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                                         DatabaseReference myRef = database.getReference("User");
@@ -223,10 +217,14 @@ public class FragmentLogin extends Fragment {
                                                     Log.d("FirebaseUtils", "Hashed email already exists in Firebase: " + hashedEmail);
                                                 } else {
                                                     // hashedEmail chưa tồn tại, lưu thông tin người dùng vào Firebase
-                                                    User user = new User(hashedEmail, username.getText().toString());
+                                                    User user = new User(hashedEmail, account.getEmail());
                                                     myRef.child(hashedEmail).setValue(user);
                                                     Log.d("FirebaseUtils", "User saved to Firebase with hashed email: " + hashedEmail);
                                                 }
+                                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                                getActivity().finish();
                                             }
 
                                             @Override

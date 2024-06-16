@@ -43,7 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:minWidth="135dp">
 
             <TextView
                 android:id="@+id/textViewCafeShop"
@@ -52,7 +53,10 @@
                 android:drawableRight="@drawable/outline_check_circle_24"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/yaldevi"
-                android:text="Work Cafe"
+                android:text="Le quang thanh"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:maxWidth="125dp"
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -64,6 +68,9 @@
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/yaldevi"
                 android:text="Tầng 2, 41/26 Nguyên Hồng, \nĐống Đa, Hà Nội"
+                android:maxLines="2"
+                android:maxWidth="125dp"
+                android:ellipsize="middle"
                 android:textAlignment="viewStart"
                 android:textColor="#000"
                 android:textSize="12sp" />
