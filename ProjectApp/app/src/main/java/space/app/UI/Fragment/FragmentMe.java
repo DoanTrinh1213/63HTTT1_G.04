@@ -190,7 +190,7 @@ public class FragmentMe extends Fragment {
         userid.setText(id);
 
         if (imageUri != null) {
-            Glide.with(FragmentMe.this).load(imageUri).into(userImage);
+            userImage.setImageURI(imageUri);
         }
 //        userImage.setImageURI(imageUri);
         Log.d("Uri image", imageUri.toString());
@@ -199,15 +199,15 @@ public class FragmentMe extends Fragment {
             public void onChanged(UserEntity userEntity) {
                 if (userEntity != null) {
                     String name = userEntity.getUsername();
+                    Log.d("name",name);
                     String id = userEntity.getIdUser();
                     id = Utils.hash32b(id);
                     String imageUrl = userEntity.getImageUrl();
+//                    String deString = userEntity.getDescribe();
                     if (imageUrl == null) {
-                        Log.d("LOI", "Image khong co gi");
                         Glide.with(FragmentMe.this).load(R.drawable.image).into(userImage);
                     } else {
-                        Log.d("Error fragment", imageUrl);
-                        Glide.with(FragmentMe.this).load(imageUrl).into(userImage);
+                        userImage.setImageURI(Uri.parse(imageUrl));
                     }
                     username.setText(name);
                     userid.setText(id);

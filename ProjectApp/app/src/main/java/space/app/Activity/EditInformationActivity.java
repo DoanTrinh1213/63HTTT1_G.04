@@ -1,6 +1,7 @@
 package space.app.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -49,10 +51,11 @@ import kotlin.Unit;
 import space.app.Helper.Utils;
 import space.app.R;
 import space.app.UI.Fragment.FragmentMe;
+import space.app.UI.Fragment.FragmentPerson;
 
 public class EditInformationActivity extends AppCompatActivity {
     private ImageView iconBackPerson;
-    ImageView imageView;
+    ImageView userImage;
     MaterialButton materialButton;
     EditText edtUserName;
     EditText edtDescription;
@@ -62,6 +65,8 @@ public class EditInformationActivity extends AppCompatActivity {
     MaterialButton saveButton;
 
     Uri uriImage;
+    private AlertDialog alertDialog;
+
 
     private static final int IMAGE_PICKER_REQUEST_CODE = 101;
 
@@ -79,7 +84,7 @@ public class EditInformationActivity extends AppCompatActivity {
             }
         });
         materialButton = findViewById(R.id.imagePersonChange);
-        imageView = findViewById(R.id.imagePerson);
+        userImage = findViewById(R.id.imagePerson);
         saveButton = findViewById(R.id.SendEditInformation);
         edtUserName = findViewById(R.id.edtUserName);
         edtDescription = findViewById(R.id.edtDescription);
@@ -92,10 +97,14 @@ public class EditInformationActivity extends AppCompatActivity {
         String description = sharedPreferences.getString("description", null);
         String imageUrl = sharedPreferences.getString("imageUrl", null);
 
+
+//        userImage.setImageURI(Uri.parse(imageUrl));
+
         edtUserName.setText(username);
         edtDescription.setText(description);
+
         if (imageUrl != null) {
-            Glide.with(EditInformationActivity.this).load(imageUrl).into(imageView);
+            userImage.setImageURI(Uri.parse(imageUrl));
         } else {
             Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
         }
@@ -114,20 +123,33 @@ public class EditInformationActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!edtUserName.getText().toString().isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EditInformationActivity.this);
+                    LayoutInflater layoutInflater = getLayoutInflater();
+                    View view = layoutInflater.inflate(R.layout.loading_compo,null);
+                    TextView textView = view.findViewById(R.id.nameOfLoading);
+                    textView.setText("Đang tải ảnh lên! Vui lòng chờ ...");
+                    builder.setView(view);
+                    builder.setCancelable(false);
+                    alertDialog = builder.create();
+                    alertDialog.show();
+
+
+                    firebaseDatabase.getReference("User").child(idUser).child("userName").setValue(edtUserName.getText().toString());
+                    firebaseDatabase.getReference("User").child(idUser).child("describe").setValue(edtDescription.getText().toString());
                     if (uriImage != null) {
                         uploadImageToFirebase(uriImage);
                     }
-                    firebaseDatabase.getReference("User").child(idUser).child("userName").setValue(edtUserName.getText().toString());
-                    firebaseDatabase.getReference("User").child(idUser).child("describe").setValue(edtDescription.getText().toString());
+                    else{
+                        Toast toast = new Toast(EditInformationActivity.this);
+                        toast.setGravity(Gravity.BOTTOM, 0, 0);
+                        toast.setText("Lưu thành công!");
+                        toast.setDuration(Toast.LENGTH_SHORT);
+                        toast.show();
 
-                    Toast toast = new Toast(EditInformationActivity.this);
-                    toast.setGravity(Gravity.BOTTOM, 0, 0);
-                    toast.setText("Lưu thành công!");
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-
-                    Intent intent = new Intent(EditInformationActivity.this, MainActivity.class);
-                    startActivity(intent);
+                        Intent intent = new Intent(EditInformationActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
                     Toast toast = new Toast(EditInformationActivity.this);
                     toast.setGravity(Gravity.BOTTOM, 0, 0);
@@ -146,7 +168,7 @@ public class EditInformationActivity extends AppCompatActivity {
         if (requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
             Log.d("URI image", uri.toString());
-            imageView.setImageURI(uri);
+            userImage.setImageURI(uri);
             uriImage = uri;
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
             Toast.makeText(EditInformationActivity.this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
@@ -169,21 +191,21 @@ public class EditInformationActivity extends AppCompatActivity {
             StorageReference imageRef = storageReference.child("Img/users/" + idUser + "/" + uniqueID);
             UploadTask uploadTask = imageRef.putFile(uri);
 
-//            ProgressDialog progressDialog = new ProgressDialog(EditInformationActivity.this);
-//            progressDialog.setMessage("Đang lưu...");
-//            progressDialog.setCancelable(false); // Người dùng không thể đóng ProgressDialog bằng cách nhấn ngoài hoặc nhấn nút quay lại
-//            progressDialog.show();
-//            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-//                    progressDialog.setMessage("Đang tải lên: " + (int) (1 * 100) + "%");
-//                }
-//            });
             uploadTask.addOnSuccessListener(taskSnapshot -> {
                 imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
                     deleteImageFromDevice(uri);
                     saveImageUrl(downloadUri.toString());
+
                     Toast.makeText(EditInformationActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                    Toast toast = new Toast(EditInformationActivity.this);
+                    toast.setGravity(Gravity.BOTTOM, 0, 0);
+                    toast.setText("Lưu thành công!");
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    Intent intent = new Intent(EditInformationActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 });
             }).addOnFailureListener(e -> {
                 Toast.makeText(EditInformationActivity.this, "Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -192,6 +214,9 @@ public class EditInformationActivity extends AppCompatActivity {
     }
 
     private void saveImageUrl(String url) {
+        alertDialog.dismiss();
+
+
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Log.d("Uri", url);
@@ -204,8 +229,8 @@ public class EditInformationActivity extends AppCompatActivity {
         String id = Utils.hash32b(idUser);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.getReference("User").child(idUser).child("image").setValue(url);
-        if (!imageUrl.isEmpty()) {
-            StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
+        if (imageUrl != null) {
+            StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(url);
             File directory = new File(getFilesDir(), "userImage");
             if (!directory.exists()) {
                 directory.mkdir();
@@ -228,6 +253,17 @@ public class EditInformationActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("imageUrl", fileUri.toString());
                     editor.apply();
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(EditInformationActivity.this, "Đã cập nhật ảnh thành công!", Toast.LENGTH_SHORT).show();
+//                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+//                            View view = LayoutInflater.from(getApplication()).inflate(R.layout.fragment_person, null);
+//                            ImageView imageview = view.findViewById(R.id.userImage);
+//                            imageview.setImageURI(Uri.parse(sharedPreferences.getString("imageUrl", null)));
+//
+//                        }
+//                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
