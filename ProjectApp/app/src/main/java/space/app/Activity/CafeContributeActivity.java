@@ -52,7 +52,6 @@ public class CafeContributeActivity extends AppCompatActivity {
     }
 
     private int getCurrentCafeCount() {
-        // Mặc định là 0 nếu không có giá trị
         SharedPreferences sharedPreferences = getSharedPreferences(CAFE_COUNT_PREFS, Context.MODE_PRIVATE);
         return sharedPreferences.getInt("cafeCount", 0);
     }
