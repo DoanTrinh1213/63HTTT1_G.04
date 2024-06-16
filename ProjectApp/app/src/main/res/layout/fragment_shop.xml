@@ -753,6 +753,19 @@
                     android:text="Để lại trải nghiệm của bạn"
                     android:textAllCaps="false"
                     android:textColor="#ffff" />
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="380dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="1dp"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="Chỉnh sửa đánh giá"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    android:theme="@style/ButtonRegis"
+                    tools:ignore="MissingConstraints" />
 
 
             </LinearLayout>

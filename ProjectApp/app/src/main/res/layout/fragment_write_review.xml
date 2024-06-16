@@ -70,17 +70,17 @@
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
         <LinearLayout
-            android:gravity="top|start"
             android:id="@+id/linearLayoutImage"
             android:layout_width="match_parent"
-            android:layout_height="217dp"
+            android:layout_height="232dp"
             android:layout_below="@+id/textView17"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="101dp"
+            android:layout_marginBottom="109dp"
             android:background="@drawable/rounded_coner_review"
+            android:gravity="top|start"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -89,9 +89,10 @@
             tools:layout_editor_absoluteY="91dp">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <RelativeLayout
                     android:id="@+id/PickImageCafe"
                     android:layout_width="80dp"
@@ -141,6 +142,7 @@
 
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
@@ -181,11 +183,11 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginLeft="-15dp"
-                android:layout_marginTop="8dp"
                 android:id="@+id/recyclerViewGalleryImages"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="200dp"
+                android:layout_marginLeft="-15dp"
+                android:layout_marginTop="8dp" />
 
         </LinearLayout>
 
@@ -195,7 +197,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/editTextExperience"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/yaldevi"
             android:text="Hình ảnh"
             android:textColor="#000000"
@@ -208,13 +210,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="49dp"
             android:fontFamily="@font/yaldevi"
             android:text="Để lại trải nghiệm của bạn"
             android:textAllCaps="false"
             android:theme="@style/ButtonRegis"
-            app:cornerRadius="50dp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="1dp"
+            android:fontFamily="@font/yaldevi"
+            android:text="Chỉnh sửa đánh giá"
+            android:textAllCaps="false"
+            android:theme="@style/ButtonRegis"
             tools:ignore="MissingConstraints" />
 
     </RelativeLayout>
