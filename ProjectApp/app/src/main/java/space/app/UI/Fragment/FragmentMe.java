@@ -34,6 +34,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,6 +44,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 
 import space.app.Activity.EditInformationActivity;
 import space.app.Activity.MainActivity;
@@ -243,17 +248,16 @@ public class FragmentMe extends Fragment {
             dialog.setCancelable(false);
 
         }
+        dialog.show();
         TextView txtXacNhan = dialog.findViewById(R.id.txtXacNhan);
         TextView txtHuy = dialog.findViewById(R.id.txtHuy);
+        FirebaseAuth user = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = user.getCurrentUser();
+        String idUser = Utils.hashEmail(currentUser.getEmail().toString());
         txtXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // xoa user
-                FirebaseAuth user = FirebaseAuth.getInstance();
-                FirebaseUser currentUser = user.getCurrentUser();
-                String idUser = Utils.hashEmail(currentUser.getEmail().toString());
-                Log.d("UserDelete", idUser);
-
                 user.signOut();
                 GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),
                         new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -265,37 +269,71 @@ public class FragmentMe extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         // Revoke access
+
+                        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("imageUrl",null);
+                        editor.apply();
                         mGoogleSignInClient.revokeAccess().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                firebaseDatabase.getReference("User").child(idUser).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(context, "Xóa người dùng thành công!", Toast.LENGTH_SHORT).show();
+                                                        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                        editor.putBoolean("isLoggedIn", false);
+                                                        editor.apply();
+
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                                                        StorageReference storageReference = storage.getReference();
+                                                        StorageReference userImageRef = storageReference.child("Img/users/" + idUser);
+                                                        userImageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                                            @Override
+                                                            public void onSuccess(ListResult listResult) {
+                                                                // Lặp qua từng đối tượng và xóa chúng
+                                                                for (StorageReference item : listResult.getItems()) {
+                                                                    item.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            Log.d("FirebaseStorage", "Deleted file: " + item.getName());
+                                                                        }
+                                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Log.e("FirebaseStorage", "Error deleting file " + item.getName(), e);
+                                                                        }
+                                                                    });
+                                                                }
+                                                                // Log thông báo khi đã xóa thành công hết các đối tượng trong thư mục
+                                                                Log.d("FirebaseStorage", "All files have been deleted successfully.");
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.e("FirebaseStorage", "Error listing files", e);
+                                                            }
+                                                        });
+
+                                                        Intent intent = new Intent(context, MainActivity.class);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(context, "Có lỗi xảy ra , vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
                             }
                         });
-                    }
-                });
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                firebaseDatabase.getReference("User").child(idUser).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(context, "Xóa người dùng thành công!", Toast.LENGTH_SHORT).show();
-                                        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putBoolean("isLoggedIn", false);
-                                        editor.apply();
-
-                                        Intent intent = new Intent(context, MainActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(context, "Có lỗi xảy ra , vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        }
                     }
                 });
             }
@@ -307,7 +345,6 @@ public class FragmentMe extends Fragment {
             }
         });
 
-        dialog.show();
     }
 
     private void logOutUser(Dialog dialog) {
@@ -317,6 +354,8 @@ public class FragmentMe extends Fragment {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("isLoggedIn", false);
+        editor.putString("imageUrl",null);
+
         editor.apply();
 
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),
@@ -333,6 +372,7 @@ public class FragmentMe extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         // Redirect to login activity
+
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

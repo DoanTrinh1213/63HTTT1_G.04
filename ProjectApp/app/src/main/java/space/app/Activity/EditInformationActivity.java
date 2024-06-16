@@ -103,10 +103,11 @@ public class EditInformationActivity extends AppCompatActivity {
         edtUserName.setText(username);
         edtDescription.setText(description);
 
-        if (imageUrl != null) {
+        if (imageUrl != null && !imageUrl.isEmpty()) {
             userImage.setImageURI(Uri.parse(imageUrl));
         } else {
-            Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
+            userImage.setImageResource(R.drawable.logo);
+            Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT).show();
         }
         materialButton.setOnClickListener(v -> {
             ImagePicker.with(this)
@@ -127,7 +128,7 @@ public class EditInformationActivity extends AppCompatActivity {
                     LayoutInflater layoutInflater = getLayoutInflater();
                     View view = layoutInflater.inflate(R.layout.loading_compo,null);
                     TextView textView = view.findViewById(R.id.nameOfLoading);
-                    textView.setText("Đang tải ảnh lên! Vui lòng chờ ...");
+                    textView.setText("Đang tải lên! Vui lòng chờ ...");
                     builder.setView(view);
                     builder.setCancelable(false);
                     alertDialog = builder.create();
@@ -229,7 +230,7 @@ public class EditInformationActivity extends AppCompatActivity {
         String id = Utils.hash32b(idUser);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.getReference("User").child(idUser).child("image").setValue(url);
-        if (imageUrl != null) {
+        if (imageUrl != null && !imageUrl.isEmpty()) {
             StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(url);
             File directory = new File(getFilesDir(), "userImage");
             if (!directory.exists()) {

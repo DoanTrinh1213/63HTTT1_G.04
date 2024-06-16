@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                     UserEntity user = new UserEntity();
                     SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                     sharedPreferences.getString("id", "id");
-                    sharedPreferences.getString("imageUrl", "imageUrl");
+                    Log.d("Image URl",sharedPreferences.getString("imageUrl", ""));
                     sharedPreferences.getString("description", "description");
                     sharedPreferences.getString("userName", "userName");
 
@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("userName", name);
                     editor.putString("description", description);
 
-                    if (imageUrl!=null) {
+                    if (imageUrl!=null && !imageUrl.isEmpty()) {
                         Log.d("Image url of user", imageUrl.toString());
                         StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
                         File directory = new File(getFilesDir(), "userImage");
@@ -315,11 +315,22 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 // Xử lý trường hợp tải ảnh không thành công
+
                                 Log.e("Firebase", "Error downloading image: " + e.getMessage());
                             }
                         });
 
                     } else {
+                        File directory = new File(getFilesDir(), "userImage");
+                        if (!directory.exists()) {
+                            directory.mkdir();
+                        }
+                        File[] files = directory.listFiles();
+                        if (files != null) {
+                            for (File existingFile : files) {
+                                existingFile.delete();
+                            }
+                        }
                         Toast.makeText(MainActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
                     }
                     editor.apply();
