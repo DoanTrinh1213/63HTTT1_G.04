@@ -187,7 +187,9 @@ public class FragmentMe extends Fragment {
         String id = sharedPreferences.getString("id","id");
         username.setText(name);
         userid.setText(id);
+
         Glide.with(FragmentMe.this).load(imageUri).into(userImage);
+//        userImage.setImageURI(imageUri);
         userViewModel.getUserById(idUser).observe(getViewLifecycleOwner(), new Observer<UserEntity>() {
             @Override
             public void onChanged(UserEntity userEntity) {
