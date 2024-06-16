@@ -266,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
                     user.setIdUser(id);
                     user.setUsername(name);
                     user.setDescribe(description);
+                    Log.d("print id 1",user.getUsername());
                     if (id == null) {
                         Log.d("id", "NULL");
                     }
@@ -274,64 +275,58 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("userName", name);
                     editor.putString("description", description);
 
-                    if (!imageUrl.isEmpty()) {
+                    if (imageUrl!=null) {
+                        Log.d("Image url of user", imageUrl.toString());
                         StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
                         File directory = new File(getFilesDir(), "userImage");
                         if (!directory.exists()) {
                             directory.mkdir();
                         }
                         String fileName = id + ".jpg";
-                        int count = 0;
                         File[] files = directory.listFiles();
                         if (files != null) {
                             for (File existingFile : files) {
-                                    existingFile.delete();
+                                existingFile.delete();
                             }
                         }
                         File file = null;
                         file = new File(directory, fileName);
-                        if (count == 0) {
-                            Log.d("Run count =0", "Runable");
-                            File finalFile = file;
-                            storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    Uri fileUri = Uri.fromFile(finalFile);
-                                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("imageUrl", fileUri.toString());
-                                    Log.d("Image url", fileUri.toString());
-                                    user.setImageUrl(fileUri.toString());
-                                    Log.d("user url", user.getImageUrl().toString());
-                                    editor.apply();
-                                    Log.d("Image url editor", sharedPreferences.getString("imageUrl", null));
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Xử lý trường hợp tải ảnh không thành công
-                                    Log.e("Firebase", "Error downloading image: " + e.getMessage());
-                                }
-                            });
-                        } else {
-                            editor.putString("imageUrl", file.toString());
-                            user.setImageUrl(file.toString());
-                            Log.d("Main image", file.toString());
-                        }
+                        File finalFile = file;
+                        // cái image nó chưa lưu xong mà cái này đã được chạy rồi nên bị lỗi :v
+                        storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                Uri fileUri = Uri.fromFile(finalFile);
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("imageUrl", fileUri.toString());
+                                user.setImageUrl(fileUri.toString());
+                                editor.apply();
+                                Log.d("Firebase", "Download image");
+                                executorService.execute(() -> {
+                                    Log.d("print id 2",user.getUsername());
+                                    Log.d("Url", user.getImageUrl());
+                                    RoomDatabase.getInstance(MainActivity.this).userDAO().DeleteAllUser();
+                                    RoomDatabase.getInstance(MainActivity.this).userDAO().InsertUser(user);
+                                });
+                                executorService.shutdown();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Xử lý trường hợp tải ảnh không thành công
+                                Log.e("Firebase", "Error downloading image: " + e.getMessage());
+                            }
+                        });
+
                     } else {
                         Toast.makeText(MainActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
                     }
-
-                    executorService.execute(() -> {
-                        RoomDatabase.getInstance(MainActivity.this).userDAO().DeleteAllUser();
-                        RoomDatabase.getInstance(MainActivity.this).userDAO().InsertUser(user);
-                    });
                     editor.apply();
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("Firebase", "Database error: " + error.getMessage());
                 }
             });
         }
