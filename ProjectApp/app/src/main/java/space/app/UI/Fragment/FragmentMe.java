@@ -37,13 +37,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -51,9 +47,8 @@ import com.google.firebase.storage.StorageReference;
 import space.app.Activity.EditInformationActivity;
 import space.app.Activity.MainActivity;
 import space.app.Database.Entity.UserEntity;
-import space.app.Database.RoomDatabase;
+import space.app.Database.DatabaseRoom;
 import space.app.Helper.Utils;
-import space.app.Model.User;
 import space.app.R;
 import space.app.ViewModel.UserViewModel;
 
@@ -72,7 +67,7 @@ public class FragmentMe extends Fragment {
     // Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RoomDatabase roomDatabase;
+    private DatabaseRoom databaseRoom;
     private UserViewModel userViewModel;
 
 
@@ -106,7 +101,7 @@ public class FragmentMe extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        roomDatabase = RoomDatabase.getInstance(getActivity());
+        databaseRoom = DatabaseRoom.getInstance(getActivity());
     }
 
 
@@ -187,6 +182,9 @@ public class FragmentMe extends Fragment {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
+        if(mAuth.getCurrentUser().getEmail().equalsIgnoreCase("findCoffee2003@gmail.com")){
+            idUser="findCoffee";
+        }
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         Uri imageUri = Uri.parse(sharedPreferences.getString("imageUrl", "imageUrl"));
         String name = sharedPreferences.getString("userName", "name");
@@ -204,7 +202,6 @@ public class FragmentMe extends Fragment {
             public void onChanged(UserEntity userEntity) {
                 if (userEntity != null) {
                     String name = userEntity.getUsername();
-                    Log.d("name",name);
                     String id = userEntity.getIdUser();
                     id = Utils.hash32b(id);
                     String imageUrl = userEntity.getImageUrl();
@@ -251,12 +248,17 @@ public class FragmentMe extends Fragment {
         dialog.show();
         TextView txtXacNhan = dialog.findViewById(R.id.txtXacNhan);
         TextView txtHuy = dialog.findViewById(R.id.txtHuy);
+
         FirebaseAuth user = FirebaseAuth.getInstance();
         FirebaseUser currentUser = user.getCurrentUser();
         String idUser = Utils.hashEmail(currentUser.getEmail().toString());
         txtXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentUser.getEmail().equalsIgnoreCase("findCoffee2003@gmail.com")) {
+                    Toast.makeText(context, "Không thể xóa tài khoản admin!!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 // xoa user
                 user.signOut();
                 GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),
@@ -270,9 +272,9 @@ public class FragmentMe extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         // Revoke access
 
-                        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("imageUrl",null);
+                        editor.putString("imageUrl", null);
                         editor.apply();
                         mGoogleSignInClient.revokeAccess().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                             @Override
@@ -354,7 +356,7 @@ public class FragmentMe extends Fragment {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("isLoggedIn", false);
-        editor.putString("imageUrl",null);
+        editor.putString("imageUrl", null);
 
         editor.apply();
 
@@ -408,6 +410,7 @@ public class FragmentMe extends Fragment {
             dialog.setCancelable(false);
 
         }
+        dialog.show();
         TextView txtConfirm = dialog.findViewById(R.id.txtConfirm);
         TextView txtCancle = dialog.findViewById(R.id.txtCancle);
         txtConfirm.setOnClickListener(new View.OnClickListener() {
@@ -422,7 +425,5 @@ public class FragmentMe extends Fragment {
                 dialog.dismiss();
             }
         });
-
-        dialog.show();
     }
 }

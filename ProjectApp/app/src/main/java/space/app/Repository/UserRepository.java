@@ -3,22 +3,21 @@ import android.app.Application;
 
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import space.app.DAO.UserDAO;
 import space.app.Database.Entity.UserEntity;
-import space.app.Database.RoomDatabase;
+import space.app.Database.DatabaseRoom;
 import space.app.Model.User;
 
 public class UserRepository {
     private UserDAO userDao;
     private ExecutorService databaseWriteExecutor;
     public UserRepository(Application application){
-        RoomDatabase roomDatabase = RoomDatabase.getInstance(application);
-        userDao = roomDatabase.userDAO();
+        DatabaseRoom databaseRoom = DatabaseRoom.getInstance(application);
+        userDao = databaseRoom.userDAO();
         databaseWriteExecutor = Executors.newSingleThreadExecutor();
     }
     public void insertUser(UserEntity user){
@@ -42,5 +41,9 @@ public class UserRepository {
     }
     public void convert(User user){
         // conver user nay sang UserEntity
+    }
+
+    public LiveData<UserEntity> getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
     }
 }

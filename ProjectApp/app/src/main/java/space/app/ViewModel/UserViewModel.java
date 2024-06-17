@@ -19,4 +19,7 @@ public class UserViewModel extends AndroidViewModel {
     public LiveData<UserEntity> getUserById(String iduser){
         return userRepository.getUserById(iduser);
     }
+    public LiveData<UserEntity> getUserByEmail(String email){
+        return userRepository.getUserByEmail(email);
+    }
 }

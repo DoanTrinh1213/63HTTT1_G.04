@@ -67,4 +67,8 @@ public class CafeViewModel extends AndroidViewModel {
     public LiveData<List<CafeEntity>> getCafeByTopEvaluate() {
         return cafeRepository.getCafeByTopEvaluate();
     }
+
+    public LiveData<List<CafeEntity>> getCafeByResName(String resname){
+        return cafeRepository.getCafeByResName(resname);
+    }
 }

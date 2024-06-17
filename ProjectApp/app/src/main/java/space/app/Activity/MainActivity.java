@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,10 +43,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import space.app.DAO.CafeDAO;
-import space.app.Database.Entity.CafeEntity;
+import space.app.Database.DatabaseRoom;
 import space.app.Database.Entity.UserEntity;
-import space.app.Database.RoomDatabase;
 import space.app.Helper.Utils;
 import space.app.Model.Cafe;
 import space.app.R;
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    private RoomDatabase database;
+    private DatabaseRoom database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         List<Cafe> cafeList = (List<Cafe>) getIntent().getSerializableExtra("cafeList");
         if (cafeList != null) {
             executorService.execute(() -> {
-                RoomDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                DatabaseRoom.getInstance(MainActivity.this).cafeDAO().deleteAll();
                 // CafeRepository cafeRepo = new CafeRepository(getApplication());
                 // cafeRepo.deleteAll();
             });
@@ -101,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 List<Cafe> cafeList = new ArrayList<>();
                 executorService.execute(() -> {
                     Log.d("Cafe", "Insert sau khi có sự thay đổi");
-                    RoomDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                    DatabaseRoom.getInstance(MainActivity.this).cafeDAO().deleteAll();
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Cafe cafe = data.getValue(Cafe.class);
                         if (cafe != null) {
@@ -246,6 +243,11 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
+            if(mAuth.getCurrentUser().getEmail().equalsIgnoreCase("findCoffee2003@gmail.com")){
+                idUser="findCoffee";
+                Log.d("User admin","True");
+            }
+            Log.d("User admin",idUser);
             firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -262,11 +264,12 @@ public class MainActivity extends AppCompatActivity {
                     String id = snapshot.child("id").getValue(String.class);
                     String imageUrl = snapshot.child("image").getValue(String.class);
                     String description = snapshot.child("describe").getValue(String.class);
-
+                    String email = snapshot.child("email").getValue(String.class);
+                    Log.d("Email",email);
                     user.setIdUser(id);
                     user.setUsername(name);
                     user.setDescribe(description);
-                    Log.d("print id 1",user.getUsername());
+                    user.setEmail(email);
                     if (id == null) {
                         Log.d("id", "NULL");
                     }
@@ -302,14 +305,11 @@ public class MainActivity extends AppCompatActivity {
                                 editor.putString("imageUrl", fileUri.toString());
                                 user.setImageUrl(fileUri.toString());
                                 editor.apply();
-                                Log.d("Firebase", "Download image");
                                 executorService.execute(() -> {
-                                    Log.d("print id 2",user.getUsername());
-                                    Log.d("Url", user.getImageUrl());
-                                    RoomDatabase.getInstance(MainActivity.this).userDAO().DeleteAllUser();
-                                    RoomDatabase.getInstance(MainActivity.this).userDAO().InsertUser(user);
+                                    Log.d("Delete user","User");
+                                    DatabaseRoom.getInstance(MainActivity.this).userDAO().DeleteAllUser();
+                                    DatabaseRoom.getInstance(MainActivity.this).userDAO().InsertUser(user);
                                 });
-                                executorService.shutdown();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
