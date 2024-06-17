@@ -54,17 +54,10 @@ import com.google.firebase.storage.StorageReference;
 
 public class ContributeCafeInformationActivity extends AppCompatActivity implements CafeImageRecyclerViewAdapter.OnImageRemovedListener, MenuImageRecyclerViewAdapter.OnImageRemovedListener {
     private ImageView BackPerson;
-    private RecyclerView recyclerViewCafe;
-    private RecyclerView recyclerViewMenu;
-    private FloatingActionButton FloatingActionButtonCafe;
-    private FloatingActionButton FloatingActionButtonMenu;
-
-    private ArrayList<Uri> ChooseImageListCafe;
-    private ArrayList<Uri> ChooseImageListMenu;
-    private static final int MIN_IMAGE_COUNT = 3;
-
-    private static final int PERMISSION_REQUEST_CODE = 2;
-    private static final int PICK_IMAGE_REQUEST_CODE = 1;
+    private RecyclerView recyclerViewCafe,recyclerViewMenu;
+    private FloatingActionButton FloatingActionButtonCafe,FloatingActionButtonMenu;
+    private ArrayList<Uri> ChooseImageListCafe, ChooseImageListMenu;
+    private static final int MIN_IMAGE_COUNT = 3, PERMISSION_REQUEST_CODE = 2,PICK_IMAGE_REQUEST_CODE = 1;
     private EditText edtMap, edtContact, edtDescription, edtTime, edtPrice, edtNameCafe, edtAddress;
     private MaterialButton btnSendContributeCafe;
     private FirebaseDatabase firebaseDatabase;
@@ -144,130 +137,126 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         });
     }
 
-        private void uploadImagesAndSaveCafe() {
-            String link = edtMap.getText().toString();
-            String resName = edtNameCafe.getText().toString();
-            String address = edtAddress.getText().toString();
-            String purpose = ((Spinner) findViewById(R.id.spinner)).getSelectedItem().toString();
-            String timeOpen = edtTime.getText().toString();
-            String describe = edtDescription.getText().toString();
-            String price = edtPrice.getText().toString();
-            String contact = edtContact.getText().toString();
+    private void uploadImagesAndSaveCafe() {
+        String link = edtMap.getText().toString();
+        String resName = edtNameCafe.getText().toString();
+        String address = edtAddress.getText().toString();
+        String purpose = ((Spinner) findViewById(R.id.spinner)).getSelectedItem().toString();
+        String timeOpen = edtTime.getText().toString();
+        String describe = edtDescription.getText().toString();
+        String price = edtPrice.getText().toString();
+        String contact = edtContact.getText().toString();
 
-            String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            Log.d("CafeUpload", "Bắt đầu lưu ảnh và thông tin quán");
+        Log.d("CafeUpload", "Bắt đầu lưu ảnh và thông tin quán");
 
-            DatabaseReference cafeRef = FirebaseDatabase.getInstance().getReference().child("Cafe").push();
-            String idCafe = cafeRef.getKey();
+        DatabaseReference cafeRef = FirebaseDatabase.getInstance().getReference().child("Cafe").push();
+        String idCafe = cafeRef.getKey();
 
-            Log.d("CafeUpload", " cafeId: " + idCafe);
+        Log.d("CafeUpload", " cafeId: " + idCafe);
 
-            Cafe cafe = new Cafe(idCafe,idUser, resName, address, describe, Float.parseFloat(price), timeOpen, contact, "", link, purpose, "");
+        Cafe cafe = new Cafe(idCafe, idUser, resName, address, describe, Float.parseFloat(price), timeOpen, contact, "", link, purpose, "");
 
-            uploadImages(ChooseImageListCafe, "CafeImages", new UploadImagesCallback() {
-                @Override
-                public void onImagesUploaded(ArrayList<String> cafeImageUrls) {
-                    Log.d("CafeUpload", "Up ảnh quán Cafe: " + cafeImageUrls.toString());
+        uploadImages(ChooseImageListCafe, "CafeImages", new UploadImagesCallback() {
+            @Override
+            public void onImagesUploaded(ArrayList<String> cafeImageUrls) {
+                Log.d("CafeUpload", "Up ảnh quán Cafe: " + cafeImageUrls.toString());
 
-                    String cafeImagesString = String.join(",", cafeImageUrls);
+                String cafeImagesString = String.join(",", cafeImageUrls);
+                cafe.setImages(cafeImagesString);
 
-                    cafe.setImages(cafeImagesString);
+                uploadImages(ChooseImageListMenu, "MenuImages", new UploadImagesCallback() {
+                    @Override
+                    public void onImagesUploaded(ArrayList<String> menuImageUrls) {
+                        Log.d("CafeUpload", "Up ảnh Menu: " + menuImageUrls.toString());
 
-                    uploadImages(ChooseImageListMenu, "MenuImages", new UploadImagesCallback() {
-                        @Override
-                        public void onImagesUploaded(ArrayList<String> menuImageUrls) {
-                            // Log menu image URLs
-                            Log.d("CafeUpload", "Up ảnh Menu: " + menuImageUrls.toString());
+                        String menuImagesString = String.join(",", menuImageUrls);
+                        cafe.setMenu(menuImagesString);
+                        cafe.setResName(resName);
+                        cafe.setLink(link);
+                        cafe.setAddress(address);
+                        cafe.setDescribe(describe);
+                        cafe.setPrice(Float.valueOf(price));
+                        cafe.setTimeOpen(timeOpen);
+                        cafe.setContact(contact);
+                        cafe.setPurpose(purpose);
+                        cafe.setIdCafe(idCafe);
+                        cafe.setIdUser(idUser);
 
-                            String menuImagesString = String.join(",", menuImageUrls);
+                        Log.d("CafeUpload", " Cafe : " + cafe.toString());
 
-                            cafe.setMenu(menuImagesString);
-                            cafe.setResName(resName);
-                            cafe.setLink(link);
-                            cafe.setAddress(address);
-                            cafe.setDescribe(describe);
-                            cafe.setPrice(Float.valueOf(price));
-                            cafe.setTimeOpen(timeOpen);
-                            cafe.setContact(contact);
-                            cafe.setPurpose(purpose);
-                            cafe.setIdCafe(idCafe);
-                            cafe.setIdUser(idUser);
-
-                            Log.d("CafeUpload", " Cafe : " + cafe.toString());
-
-                            cafeRef.setValue(cafe)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(ContributeCafeInformationActivity.this, "Thông tin quán đã được lưu thành công!", Toast.LENGTH_SHORT).show();
-                                        updateCafeCount();
-                                        finish();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Log.e("CafeUpload", "Lỗi khi thêm quán: " + e.getMessage());
-                                        Toast.makeText(ContributeCafeInformationActivity.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    });
-                        }
-                    });
-                }
-            });
-        }
+                        cafeRef.setValue(cafe)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(ContributeCafeInformationActivity.this, "Thông tin quán đã được lưu thành công!", Toast.LENGTH_SHORT).show();
+                                    updateCafeCount();
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("CafeUpload", "Lỗi khi thêm quán: " + e.getMessage());
+                                    Toast.makeText(ContributeCafeInformationActivity.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    }
+                });
+            }
+        });
+    }
 
     private boolean isValidContact(String contact) {
         return contact.matches("^0\\d{9}$");
     }
-// update số lượng quán đã thêm
+    // update số lượng quán đã thêm
     private void updateCafeCount() {
         int currentCount = getCurrentCafeCount();
         currentCount++;
         saveCafeCount(currentCount);
-
     }
     private int getCurrentCafeCount() {
         SharedPreferences sharedPreferences = getSharedPreferences("CafeCountPrefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("cafeCount", 0); // Trả về số lượng quán, mặc định là 0
+        return sharedPreferences.getInt("cafeCount", 0);
     }
 
     private void saveCafeCount(int count) {
-        // Lưu số lượng quán mới vào SharedPreferences hoặc cập nhật vào Database
-        // Ví dụ: lưu vào SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("CafeCountPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("cafeCount", count);
         editor.apply();
     }
-// up ảnh và thông tin quán
+
+
+    // up ảnh và thông tin quán
     private void uploadImages(ArrayList<Uri> imageUris, String folderName, UploadImagesCallback callback) {
-            ArrayList<String> imageUrls = new ArrayList<>();
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName);
+        ArrayList<String> imageUrls = new ArrayList<>();
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName);
 
-            for (Uri imageUri : imageUris) {
-                StorageReference imageRef = storageRef.child(imageUri.getLastPathSegment());
-                imageRef.putFile(imageUri)
-                        .addOnSuccessListener(taskSnapshot -> {
-                            // Get URL of the uploaded image
-                            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                                // Add URL to the list
-                                imageUrls.add(uri.toString());
+        for (Uri imageUri : imageUris) {
+            StorageReference imageRef = storageRef.child(imageUri.getLastPathSegment());
+            imageRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Get URL of the uploaded image
+                        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            // Add URL to the list
+                            imageUrls.add(uri.toString());
 
-                                // Check if all images have been uploaded
-                                if (imageUrls.size() == imageUris.size()) {
-                                    // Call callback to return the list of image URLs
-                                    callback.onImagesUploaded(imageUrls);
-                                }
-                            });
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(ContributeCafeInformationActivity.this, "Lỗi khi tải ảnh lên: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            // Check if all images have been uploaded
+                            if (imageUrls.size() == imageUris.size()) {
+                                // Call callback to return the list of image URLs
+                                callback.onImagesUploaded(imageUrls);
+                            }
                         });
-            }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ContributeCafeInformationActivity.this, "Lỗi khi tải ảnh lên: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         }
+    }
 
-        interface UploadImagesCallback {
-            void onImagesUploaded(ArrayList<String> imageUrls);
-        }
+    interface UploadImagesCallback {
+        void onImagesUploaded(ArrayList<String> imageUrls);
+    }
 
-// kiểm tra quyền truy cập bộ nhớ ảnh
-        private void checkPermissionAndPickImageForCafe(int pickImageRequestCode) {
+    // kiểm tra quyền truy cập bộ nhớ ảnh
+    private void checkPermissionAndPickImageForCafe(int pickImageRequestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(ContributeCafeInformationActivity.this,
                     android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -369,9 +358,6 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             }
         }
     }
-
-
-
     @Override
     public void onImageRemoved() {
         // Handle image removal, if needed

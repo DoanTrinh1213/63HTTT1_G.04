@@ -2,19 +2,19 @@ package space.app.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-        import android.content.SharedPreferences;
-        import android.os.Bundle;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-        import androidx.core.graphics.Insets;
-        import androidx.core.view.ViewCompat;
-        import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-        import space.app.R;
+import space.app.R;
 
 public class CafeContributeActivity extends AppCompatActivity {
     private EditText etdCount;
@@ -46,10 +46,10 @@ public class CafeContributeActivity extends AppCompatActivity {
     }
 
     private void updateCafeCountDisplay() {
-        // Lấy số lượng quán từ SharedPreferences và hiển thị lên etdCount
         int currentCount = getCurrentCafeCount();
         etdCount.setText(String.valueOf(currentCount));
     }
+
 
     private int getCurrentCafeCount() {
         SharedPreferences sharedPreferences = getSharedPreferences(CAFE_COUNT_PREFS, Context.MODE_PRIVATE);
