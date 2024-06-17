@@ -37,6 +37,14 @@ public class UserEntity {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     @PrimaryKey()
     @NonNull
@@ -44,5 +52,6 @@ public class UserEntity {
     private String username;
     private String describe;
     private String imageUrl;
+    private String email;
 
 }

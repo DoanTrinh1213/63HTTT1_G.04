@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import space.app.DAO.SearchResultDAO;
-import space.app.Database.RoomDatabase;
+import space.app.Database.DatabaseRoom;
 import space.app.Database.Entity.SearchResultEntity;
 
 public class SearchRepository {
@@ -19,7 +19,7 @@ public class SearchRepository {
     private ExecutorService databaseWriteExecutor;
 
     public SearchRepository(Application application) {
-        RoomDatabase database = RoomDatabase.getInstance(application);
+        DatabaseRoom database = DatabaseRoom.getInstance(application);
         searchResultDao = database.searchResultDao();
         allSearchResults = searchResultDao.getAllSearch();
         databaseWriteExecutor = Executors.newSingleThreadExecutor();
