@@ -85,10 +85,7 @@ public class FragmentShop extends Fragment {
             @Override
             public void onClick(View v) {
                 // Chuyển đổi Fragment khi nhấn vào iconBack
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_shop, new FragmentCafeHomePage());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                getActivity().finish();
             }
         });
 

@@ -1,6 +1,9 @@
 package space.app.Activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +11,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,9 +26,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,9 +46,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import space.app.Adapter.CustomSpinnerAdapter;
+import space.app.Database.Entity.CafeEntity;
 import space.app.Database.Entity.UserEntity;
+import space.app.Helper.Utils;
 import space.app.Model.User;
 import space.app.Adapter.CafeImageRecyclerViewAdapter;
 import space.app.Adapter.MenuImageRecyclerViewAdapter;
@@ -44,26 +60,42 @@ import space.app.Model.Cafe;
 import space.app.R;
 import space.app.Repository.UserRepository;
 import space.app.UI.Fragment.FragmentMe;
+import space.app.ViewModel.CafeViewModel;
+import space.app.ViewModel.UserViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
 public class ContributeCafeInformationActivity extends AppCompatActivity implements CafeImageRecyclerViewAdapter.OnImageRemovedListener, MenuImageRecyclerViewAdapter.OnImageRemovedListener {
     private ImageView BackPerson;
-    private RecyclerView recyclerViewCafe,recyclerViewMenu;
-    private FloatingActionButton FloatingActionButtonCafe,FloatingActionButtonMenu;
-    private ArrayList<Uri> ChooseImageListCafe, ChooseImageListMenu;
-    private static final int MIN_IMAGE_COUNT = 3, PERMISSION_REQUEST_CODE = 2,PICK_IMAGE_REQUEST_CODE = 1;
+    private RecyclerView recyclerViewCafe;
+    private RecyclerView recyclerViewMenu;
+    private FloatingActionButton FloatingActionButtonCafe;
+    private FloatingActionButton FloatingActionButtonMenu;
+
+    private ArrayList<Uri> ChooseImageListCafe;
+    private ArrayList<Uri> ChooseImageListMenu;
+    private static final int MIN_IMAGE_COUNT = 3;
+
+    private static final int PERMISSION_REQUEST_CODE = 2;
+    private static final int PICK_IMAGE_REQUEST_CODE = 1;
     private EditText edtMap, edtContact, edtDescription, edtTime, edtPrice, edtNameCafe, edtAddress;
     private MaterialButton btnSendContributeCafe;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+
+    private FirebaseAuth firebaseAuth;
+
+    private AlertDialog alertDialog;
+
+    private UserEntity user = new UserEntity();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -77,7 +109,8 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             finish();
         });
 
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        String email = firebaseAuth.getCurrentUser().getEmail();
         // Spinner
         Spinner spinner = findViewById(R.id.spinner);
         String[] items = {"1 mình", "Bar/Pub", "Bạn bè", "Hẹn hò", "Làm việc", "Mở muộn", "Sống ảo", "Đọc sách", "Đồ uống ngon"};
@@ -98,6 +131,15 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         FloatingActionButtonCafe.setOnClickListener(v -> checkPermissionAndPickImageForCafe(PICK_IMAGE_REQUEST_CODE));
         FloatingActionButtonMenu.setOnClickListener(v -> checkPermissionAndPickImageForMenu(PICK_IMAGE_REQUEST_CODE + 1));
 
+        UserViewModel userViewModel = new ViewModelProvider(ContributeCafeInformationActivity.this).get(UserViewModel.class);
+        userViewModel.getUserByEmail(email).observe(ContributeCafeInformationActivity.this, new Observer<UserEntity>() {
+            @Override
+            public void onChanged(UserEntity userEntity) {
+                if (userEntity != null) {
+                    user = userEntity;
+                }
+            }
+        });
 
 
         // InformationCafe
@@ -114,6 +156,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference("Cafe");
         btnSendContributeCafe.setOnClickListener(v -> {
+
             String resName = edtNameCafe.getText().toString();
             String address = edtAddress.getText().toString();
             String purpose = ((Spinner) findViewById(R.id.spinner)).getSelectedItem().toString();
@@ -132,7 +175,14 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                 Toast.makeText(this, "Bạn chưa tải ảnh lên rồi ! 😢", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.loading_compo,null);
+            TextView textView = view.findViewById(R.id.nameOfLoading);
+            textView.setText("Đang thêm quán! Vui lòng chờ ...");
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ContributeCafeInformationActivity.this);
+            builder.setView(view);
+            builder.setCancelable(false);
+            alertDialog = builder.create();
+            alertDialog.show();
             uploadImagesAndSaveCafe();
         });
     }
@@ -147,57 +197,82 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         String price = edtPrice.getText().toString();
         String contact = edtContact.getText().toString();
 
-        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        Log.d("CafeUpload", "Bắt đầu lưu ảnh và thông tin quán");
-
-        DatabaseReference cafeRef = FirebaseDatabase.getInstance().getReference().child("Cafe").push();
-        String idCafe = cafeRef.getKey();
-
-        Log.d("CafeUpload", " cafeId: " + idCafe);
-
-        Cafe cafe = new Cafe(idCafe, idUser, resName, address, describe, Float.parseFloat(price), timeOpen, contact, "", link, purpose, "");
-
-        uploadImages(ChooseImageListCafe, "CafeImages", new UploadImagesCallback() {
+        CafeViewModel cafeViewModel = new ViewModelProvider(ContributeCafeInformationActivity.this).get(CafeViewModel.class);
+        cafeViewModel.getCafeByResName(resName).observe(ContributeCafeInformationActivity.this, new Observer<List<CafeEntity>>() {
             @Override
-            public void onImagesUploaded(ArrayList<String> cafeImageUrls) {
-                Log.d("CafeUpload", "Up ảnh quán Cafe: " + cafeImageUrls.toString());
+            public void onChanged(List<CafeEntity> cafeEntities) {
+                if(cafeEntities.isEmpty()){
+                    Log.d("CafeUpload", "Bắt đầu lưu ảnh và thông tin quán");
 
-                String cafeImagesString = String.join(",", cafeImageUrls);
-                cafe.setImages(cafeImagesString);
+                    FirebaseDatabase firebase = FirebaseDatabase.getInstance();
+                    String idCafe = Utils.hashEmail(resName);
+                    DatabaseReference cafeRef = firebase.getReference("Cafe").child(idCafe);
 
-                uploadImages(ChooseImageListMenu, "MenuImages", new UploadImagesCallback() {
-                    @Override
-                    public void onImagesUploaded(ArrayList<String> menuImageUrls) {
-                        Log.d("CafeUpload", "Up ảnh Menu: " + menuImageUrls.toString());
+                    Log.d("CafeUpload", " cafeId: " + idCafe);
 
-                        String menuImagesString = String.join(",", menuImageUrls);
-                        cafe.setMenu(menuImagesString);
-                        cafe.setResName(resName);
-                        cafe.setLink(link);
-                        cafe.setAddress(address);
-                        cafe.setDescribe(describe);
-                        cafe.setPrice(Float.valueOf(price));
-                        cafe.setTimeOpen(timeOpen);
-                        cafe.setContact(contact);
-                        cafe.setPurpose(purpose);
-                        cafe.setIdCafe(idCafe);
-                        cafe.setIdUser(idUser);
+                    Cafe cafe = new Cafe();
 
-                        Log.d("CafeUpload", " Cafe : " + cafe.toString());
+                    MutableLiveData<Integer> count = new MutableLiveData<>();
+                    count.setValue(0);
+                    uploadImages(ChooseImageListCafe, "CafeImages",idCafe, new UploadImagesCallback() {
+                        @Override
+                        public void onImagesUploaded(String imageUrl) {
 
-                        cafeRef.setValue(cafe)
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(ContributeCafeInformationActivity.this, "Thông tin quán đã được lưu thành công!", Toast.LENGTH_SHORT).show();
-                                    updateCafeCount();
-                                    finish();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Log.e("CafeUpload", "Lỗi khi thêm quán: " + e.getMessage());
-                                    Toast.makeText(ContributeCafeInformationActivity.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
-                    }
-                });
+                            cafe.setImages(imageUrl);
+                            count.postValue(count.getValue() + 1);
+                        }
+                    });
+
+                    uploadImages(ChooseImageListMenu, "MenuImages",idCafe, new UploadImagesCallback() {
+                        @Override
+                        public void onImagesUploaded(String imageUrl) {
+                            // Log menu image URLs
+                            cafe.setMenu(imageUrl);
+                            cafe.setResName(resName);
+                            cafe.setLink(link);
+                            cafe.setAddress(address);
+                            cafe.setDescribe(describe);
+                            cafe.setPrice(Float.valueOf(price));
+                            cafe.setTimeOpen(timeOpen);
+                            cafe.setContact(contact);
+                            cafe.setPurpose(purpose);
+                            cafe.setIdCafe(idCafe);
+                            cafe.setIdUser(user.getIdUser());
+                            Log.d("CafeUpload", " Cafe : " + cafe.toString());
+                            count.postValue(count.getValue() + 1);
+                        }
+                    });
+
+                    count.observe(ContributeCafeInformationActivity.this, new Observer<Integer>() {
+                        @Override
+                        public void onChanged(@Nullable Integer value) {
+                            if (value != null && value == 2) {
+                                alertDialog.dismiss();
+                                cafeRef.setValue(cafe)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(ContributeCafeInformationActivity.this, "Thông tin quán đã được lưu thành công!", Toast.LENGTH_SHORT).show();
+                                            updateCafeCount();
+                                            count.removeObservers(ContributeCafeInformationActivity.this);
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Log.e("CafeUpload", "Lỗi khi thêm quán: " + e.getMessage());
+                                            Toast.makeText(ContributeCafeInformationActivity.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        });
+                            }
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(ContributeCafeInformationActivity.this, "Quán đã tồn tại!", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    },3000);
+                }
             }
         });
     }
@@ -205,43 +280,47 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
     private boolean isValidContact(String contact) {
         return contact.matches("^0\\d{9}$");
     }
+
     // update số lượng quán đã thêm
     private void updateCafeCount() {
         int currentCount = getCurrentCafeCount();
         currentCount++;
         saveCafeCount(currentCount);
+
     }
+
     private int getCurrentCafeCount() {
         SharedPreferences sharedPreferences = getSharedPreferences("CafeCountPrefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("cafeCount", 0);
+        return sharedPreferences.getInt("cafeCount", 0); // Trả về số lượng quán, mặc định là 0
     }
 
     private void saveCafeCount(int count) {
+        // Lưu số lượng quán mới vào SharedPreferences hoặc cập nhật vào Database
+        // Ví dụ: lưu vào SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("CafeCountPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("cafeCount", count);
         editor.apply();
     }
 
-
     // up ảnh và thông tin quán
-    private void uploadImages(ArrayList<Uri> imageUris, String folderName, UploadImagesCallback callback) {
+    private void uploadImages(ArrayList<Uri> imageUris, String folderName,String idRes, UploadImagesCallback callback) {
         ArrayList<String> imageUrls = new ArrayList<>();
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName);
 
         for (Uri imageUri : imageUris) {
-            StorageReference imageRef = storageRef.child(imageUri.getLastPathSegment());
-            imageRef.putFile(imageUri)
-                    .addOnSuccessListener(taskSnapshot -> {
+            String uniqueID = UUID.randomUUID().toString();
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Img/restaurents/"+idRes+"/"+folderName+"/"+uniqueID);
+            UploadTask uploadTask = storageRef.putFile(imageUri);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
                         // Get URL of the uploaded image
-                        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                             // Add URL to the list
                             imageUrls.add(uri.toString());
 
                             // Check if all images have been uploaded
                             if (imageUrls.size() == imageUris.size()) {
                                 // Call callback to return the list of image URLs
-                                callback.onImagesUploaded(imageUrls);
+                                callback.onImagesUploaded("Img/restaurents/"+idRes);
                             }
                         });
                     })
@@ -252,7 +331,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
     }
 
     interface UploadImagesCallback {
-        void onImagesUploaded(ArrayList<String> imageUrls);
+        void onImagesUploaded(String imageUrl);
     }
 
     // kiểm tra quyền truy cập bộ nhớ ảnh
@@ -269,6 +348,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             pickImageGalleryForCafe(pickImageRequestCode);
         }
     }
+
     private void pickImageGalleryForCafe(int requestCode) {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -282,17 +362,15 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(ContributeCafeInformationActivity.this,
                     android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Log.d("Message", "Chưa cấp quyền");
                 ActivityCompat.requestPermissions(ContributeCafeInformationActivity.this,
                         new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
             } else {
-                pickImageGalleryForMenu();
+                pickImageGalleryForMenu(i);
             }
         } else {
-            pickImageGalleryForMenu();
+            pickImageGalleryForMenu(i);
         }
-    }
-
-    private void pickImageGalleryForMenu() {
     }
 
     private void pickImageGalleryForMenu(int requestCode) {
@@ -300,7 +378,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE + 1);
     }
 
     @Override
@@ -334,6 +412,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             }
         }
     }
+
     private void setAdapter(ArrayList<Uri> imageList, int requestCode) {
         RecyclerView.Adapter cafeAdapter;
         if (requestCode == PICK_IMAGE_REQUEST_CODE) {
@@ -344,6 +423,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
             recyclerViewMenu.setAdapter(menuAdapter);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -352,12 +432,15 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                 pickImageGalleryForCafe(requestCode);
                 pickImageGalleryForMenu(requestCode);
             } else {
-                pickImageGalleryForCafe(requestCode);
-                pickImageGalleryForMenu(requestCode);
-
+                Toast.makeText(this, "Permission denied. Cannot pick images.", Toast.LENGTH_SHORT).show();
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    ActivityCompat.requestPermissions(ContributeCafeInformationActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                }, 2000);
             }
         }
     }
+
+
     @Override
     public void onImageRemoved() {
         // Handle image removal, if needed

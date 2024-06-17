@@ -73,16 +73,18 @@ public class SearchAcitivity extends AppCompatActivity {
                 RecyclerView recyclerView = findViewById(R.id.recycleViewSearch);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchAcitivity.this);
                 recyclerView.setLayoutManager(linearLayoutManager);
-                recyclerView.setAdapter(new SearchGuessAdapter(new ArrayList<>(cafes), new RecyclerViewOnClickItem() {
-                    @Override
-                    public void onItemClickCafe(Cafe cafe) {
-                        Intent intent = new Intent(SearchAcitivity.this, DetailAcitvity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("Object_Cafe", cafe);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                }));
+                if(!cafes.isEmpty()){
+                    recyclerView.setAdapter(new SearchGuessAdapter(new ArrayList<>(cafes), new RecyclerViewOnClickItem() {
+                        @Override
+                        public void onItemClickCafe(Cafe cafe) {
+                            Intent intent = new Intent(SearchAcitivity.this, DetailAcitvity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("Object_Cafe", cafe);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    }));
+                }
             }
         });
 

@@ -91,7 +91,11 @@ public class EditInformationActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
+        String idUser =Utils.hashEmail(mAuth.getCurrentUser().getEmail());;
+
+        if(mAuth.getCurrentUser().getEmail().equalsIgnoreCase("findCoffee2003@gmail.com"))
+            idUser ="findCoffee";
+
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("userName", null);
         String description = sharedPreferences.getString("description", null);
@@ -119,6 +123,7 @@ public class EditInformationActivity extends AppCompatActivity {
                         return Unit.INSTANCE;
                     });
         });
+        String finalIdUser = idUser;
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,8 +140,8 @@ public class EditInformationActivity extends AppCompatActivity {
                     alertDialog.show();
 
 
-                    firebaseDatabase.getReference("User").child(idUser).child("userName").setValue(edtUserName.getText().toString());
-                    firebaseDatabase.getReference("User").child(idUser).child("describe").setValue(edtDescription.getText().toString());
+                    firebaseDatabase.getReference("User").child(finalIdUser).child("userName").setValue(edtUserName.getText().toString());
+                    firebaseDatabase.getReference("User").child(finalIdUser).child("describe").setValue(edtDescription.getText().toString());
                     if (uriImage != null) {
                         uploadImageToFirebase(uriImage);
                     }
@@ -188,6 +193,8 @@ public class EditInformationActivity extends AppCompatActivity {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             String email = firebaseAuth.getCurrentUser().getEmail();
             String idUser = Utils.hashEmail(email);
+            if(email.equalsIgnoreCase("findCoffee2003@gmail.com"))
+                idUser="findCoffee";
             deleteImageFromFirebase(idUser);
             StorageReference imageRef = storageReference.child("Img/users/" + idUser + "/" + uniqueID);
             UploadTask uploadTask = imageRef.putFile(uri);
@@ -227,6 +234,8 @@ public class EditInformationActivity extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         String email = firebaseAuth.getCurrentUser().getEmail();
         String idUser = Utils.hashEmail(email);
+        if(email.equalsIgnoreCase("findCoffee2003@gmail.com"))
+            idUser ="findCoffee";
         String id = Utils.hash32b(idUser);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.getReference("User").child(idUser).child("image").setValue(url);
@@ -254,17 +263,17 @@ public class EditInformationActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("imageUrl", fileUri.toString());
                     editor.apply();
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(EditInformationActivity.this, "Đã cập nhật ảnh thành công!", Toast.LENGTH_SHORT).show();
-//                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-//                            View view = LayoutInflater.from(getApplication()).inflate(R.layout.fragment_person, null);
-//                            ImageView imageview = view.findViewById(R.id.userImage);
-//                            imageview.setImageURI(Uri.parse(sharedPreferences.getString("imageUrl", null)));
-//
-//                        }
-//                    });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(EditInformationActivity.this, "Đã cập nhật ảnh thành công!", Toast.LENGTH_SHORT).show();
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                            View view = LayoutInflater.from(getApplication()).inflate(R.layout.fragment_person, null);
+                            ImageView imageview = view.findViewById(R.id.userImage);
+                            imageview.setImageURI(Uri.parse(sharedPreferences.getString("imageUrl", null)));
+
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

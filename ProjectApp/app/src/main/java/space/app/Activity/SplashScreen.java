@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import space.app.Database.RoomDatabase;
+import space.app.Database.DatabaseRoom;
 import space.app.Model.Cafe;
 import space.app.R;
 
@@ -58,8 +58,8 @@ public class SplashScreen extends AppCompatActivity {
             return;
         }
         executorService.execute(() -> {
-            RoomDatabase.getInstance(this).searchResultDao().deleteAll();
-            RoomDatabase.getInstance(this).cafeDAO().deleteAll();
+            DatabaseRoom.getInstance(this).searchResultDao().deleteAll();
+            DatabaseRoom.getInstance(this).cafeDAO().deleteAll();
         });
 //        executorService.execute(() -> {
 //            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();

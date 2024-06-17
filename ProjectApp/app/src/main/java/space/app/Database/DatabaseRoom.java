@@ -14,19 +14,19 @@ import space.app.Database.Entity.PostEntity;
 import space.app.Database.Entity.SearchResultEntity;
 import space.app.Database.Entity.UserEntity;
 
-@Database(entities = {CafeEntity.class, PostEntity.class,SearchResultEntity.class, UserEntity.class}, version = 4)
-public abstract class RoomDatabase extends androidx.room.RoomDatabase {
-    private static RoomDatabase instance;
+@Database(entities = {CafeEntity.class, PostEntity.class,SearchResultEntity.class, UserEntity.class}, version = 5)
+public abstract class DatabaseRoom extends androidx.room.RoomDatabase {
+    private static DatabaseRoom instance;
     public abstract CafeDAO cafeDAO();
     public abstract PostDAO postDao();
     public abstract UserDAO userDAO();
     public abstract SearchResultDAO searchResultDao();
 
 
-    public static synchronized RoomDatabase getInstance(Context context) {
+    public static synchronized DatabaseRoom getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                            RoomDatabase.class, "Cafe_database")
+                            DatabaseRoom.class, "Cafe_database")
                     .fallbackToDestructiveMigration()
                     .build();
         }

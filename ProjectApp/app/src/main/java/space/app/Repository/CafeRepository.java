@@ -9,16 +9,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import space.app.DAO.CafeDAO;
-import space.app.Database.RoomDatabase;
+import space.app.Database.DatabaseRoom;
 import space.app.Database.Entity.CafeEntity;
-import space.app.Model.Cafe;
 
 public class CafeRepository {
     private CafeDAO cafeDAO;
     private LiveData<List<CafeEntity>> allCafeRepo;
     private ExecutorService databaseWriteExecutor;
     public CafeRepository(Application application) {
-        RoomDatabase database = RoomDatabase.getInstance(application);
+        DatabaseRoom database = DatabaseRoom.getInstance(application);
         cafeDAO = database.cafeDAO();
         allCafeRepo = cafeDAO.getAllCafe();
         databaseWriteExecutor = Executors.newSingleThreadExecutor();
@@ -59,7 +58,7 @@ public class CafeRepository {
         return cafeDAO.getCafesBySearchTermAndFindCoffee(searchTerm);
     }
 
-    public LiveData<List<CafeEntity>> helloWorld(){
-        return cafeDAO.getAllCafe1();
+    public LiveData<List<CafeEntity>> getCafeByResName(String resname) {
+        return cafeDAO.getCafeByResName(resname);
     }
 }
