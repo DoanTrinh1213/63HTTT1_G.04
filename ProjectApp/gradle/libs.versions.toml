@@ -17,6 +17,7 @@ navigationUi = "2.7.7"
 legacySupportV4 = "1.0.0"
 firebaseAuth = "23.0.0"
 roomCommon = "2.6.1"
+cameraCore = "1.3.4"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +40,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 imagepicker = {group = "com.github.dhaval2404",name = "imagepicker",version = "2.1"}
 glide =  {group = "com.github.bumptech.glide",name = "glide",version = "4.16.0"}
 room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraCore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,10 +43,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import space.app.DAO.CafeDAO;
-import space.app.Database.Entity.CafeEntity;
+import space.app.Database.DatabaseRoom;
 import space.app.Database.Entity.UserEntity;
-import space.app.Database.RoomDatabase;
 import space.app.Helper.Utils;
 import space.app.Model.Cafe;
 import space.app.R;
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    private RoomDatabase database;
+    private DatabaseRoom database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         List<Cafe> cafeList = (List<Cafe>) getIntent().getSerializableExtra("cafeList");
         if (cafeList != null) {
             executorService.execute(() -> {
-                RoomDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                DatabaseRoom.getInstance(MainActivity.this).cafeDAO().deleteAll();
                 // CafeRepository cafeRepo = new CafeRepository(getApplication());
                 // cafeRepo.deleteAll();
             });
@@ -101,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 List<Cafe> cafeList = new ArrayList<>();
                 executorService.execute(() -> {
                     Log.d("Cafe", "Insert sau khi có sự thay đổi");
-                    RoomDatabase.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                    DatabaseRoom.getInstance(MainActivity.this).cafeDAO().deleteAll();
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Cafe cafe = data.getValue(Cafe.class);
                         if (cafe != null) {
@@ -220,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("Main", "onDestroy call");
-
     }
 
     public void replaceFragment(Fragment fragment, boolean backStack) {
@@ -245,49 +241,61 @@ public class MainActivity extends AppCompatActivity {
     public void setUser() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
-        firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserEntity user = new UserEntity();
-                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                sharedPreferences.getString("id", "id");
-                sharedPreferences.getString("imageUrl", "imageUrl");
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                String name = snapshot.child("userName").getValue(String.class);
-                String id = snapshot.child("id").getValue(String.class);
-                String imageUrl = snapshot.child("image").getValue(String.class);
-                String description = snapshot.child("describe").getValue(String.class);
+        if (mAuth.getCurrentUser() != null) {
+            String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
+            if(mAuth.getCurrentUser().getEmail().equalsIgnoreCase("findCoffee2003@gmail.com")){
+                idUser="findCoffee";
+                Log.d("User admin","True");
+            }
+            Log.d("User admin",idUser);
+            firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    UserEntity user = new UserEntity();
+                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                    sharedPreferences.getString("id", "id");
+                    Log.d("Image URl",sharedPreferences.getString("imageUrl", ""));
+                    sharedPreferences.getString("description", "description");
+                    sharedPreferences.getString("userName", "userName");
 
-                user.setIdUser(id);
-                user.setUsername(name);
-                user.setDescribe(description);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                id = Utils.hash32b(id);
-                editor.putString("id", id);
-                if (!imageUrl.isEmpty()) {
-                    StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
-                    File directory = new File(getFilesDir(), "userImage");
-                    if (!directory.exists()) {
-                        directory.mkdir();
+                    String name = snapshot.child("userName").getValue(String.class);
+                    String id = snapshot.child("id").getValue(String.class);
+                    String imageUrl = snapshot.child("image").getValue(String.class);
+                    String description = snapshot.child("describe").getValue(String.class);
+                    String email = snapshot.child("email").getValue(String.class);
+                    Log.d("Email",email);
+                    user.setIdUser(id);
+                    user.setUsername(name);
+                    user.setDescribe(description);
+                    user.setEmail(email);
+                    if (id == null) {
+                        Log.d("id", "NULL");
                     }
-                    String fileName = id + ".jpg";
-                    int count = 0;
-                    File[] files = directory.listFiles();
-                    if (files != null) {
-                        for (File existingFile : files) {
-                            if (!existingFile.getName().equals(fileName)) {
+                    id = Utils.hash32b(id);
+                    editor.putString("id", id);
+                    editor.putString("userName", name);
+                    editor.putString("description", description);
+
+                    if (imageUrl!=null && !imageUrl.isEmpty()) {
+                        Log.d("Image url of user", imageUrl.toString());
+                        StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
+                        File directory = new File(getFilesDir(), "userImage");
+                        if (!directory.exists()) {
+                            directory.mkdir();
+                        }
+                        String fileName = id + ".jpg";
+                        File[] files = directory.listFiles();
+                        if (files != null) {
+                            for (File existingFile : files) {
                                 existingFile.delete();
                             }
-                            if (existingFile.getName().equals(fileName)) {
-                                count++;
-                            }
                         }
-                    }
-                    File file = null;
-                    file = new File(directory, fileName);
-                    if (count == 0) {
+                        File file = null;
+                        file = new File(directory, fileName);
                         File finalFile = file;
+                        // cái image nó chưa lưu xong mà cái này đã được chạy rồi nên bị lỗi :v
                         storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -295,36 +303,43 @@ public class MainActivity extends AppCompatActivity {
                                 SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("imageUrl", fileUri.toString());
-                                Log.d("Image url",fileUri.toString());
                                 user.setImageUrl(fileUri.toString());
                                 editor.apply();
+                                executorService.execute(() -> {
+                                    Log.d("Delete user","User");
+                                    DatabaseRoom.getInstance(MainActivity.this).userDAO().DeleteAllUser();
+                                    DatabaseRoom.getInstance(MainActivity.this).userDAO().InsertUser(user);
+                                });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 // Xử lý trường hợp tải ảnh không thành công
+
                                 Log.e("Firebase", "Error downloading image: " + e.getMessage());
                             }
                         });
+
+                    } else {
+                        File directory = new File(getFilesDir(), "userImage");
+                        if (!directory.exists()) {
+                            directory.mkdir();
+                        }
+                        File[] files = directory.listFiles();
+                        if (files != null) {
+                            for (File existingFile : files) {
+                                existingFile.delete();
+                            }
+                        }
+                        Toast.makeText(MainActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
                     }
-                    else{
-                        user.setImageUrl(file.toString());
-                    }
-                } else {
-                    Toast.makeText(MainActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT);
+                    editor.apply();
                 }
 
-                executorService.execute(()->{
-                    RoomDatabase.getInstance(MainActivity.this).userDAO().DeleteAllUser();
-                    RoomDatabase.getInstance(MainActivity.this).userDAO().InsertUser(user);
-                });
-                editor.apply();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Database error: " + error.getMessage());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
     }
 }

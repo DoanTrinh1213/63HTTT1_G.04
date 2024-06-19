@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import space.app.Activity.CafeContributeActivity;
 import space.app.Activity.ContributeCafeInformationActivity;
@@ -33,19 +34,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 
 import space.app.Activity.EditInformationActivity;
 import space.app.Activity.MainActivity;
 import space.app.Database.Entity.UserEntity;
-import space.app.Database.RoomDatabase;
+import space.app.Database.DatabaseRoom;
 import space.app.Helper.Utils;
-import space.app.Model.User;
 import space.app.R;
 import space.app.ViewModel.UserViewModel;
 
@@ -64,7 +67,7 @@ public class FragmentMe extends Fragment {
     // Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RoomDatabase roomDatabase;
+    private DatabaseRoom databaseRoom;
     private UserViewModel userViewModel;
 
 
@@ -98,9 +101,8 @@ public class FragmentMe extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        roomDatabase = RoomDatabase.getInstance(getActivity());
+        databaseRoom = DatabaseRoom.getInstance(getActivity());
     }
-
 
 
     @Override
@@ -120,14 +122,14 @@ public class FragmentMe extends Fragment {
         });
 //        // CafeContribute
 
-            LinearLayout lnCafeContribute = view.findViewById(R.id.lnCafeContribute);
-            lnCafeContribute.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), CafeContributeActivity.class);
-                    startActivity(intent);
-                }
-            });
+        LinearLayout lnCafeContribute = view.findViewById(R.id.lnCafeContribute);
+        lnCafeContribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CafeContributeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // ContributeCafeInformation
         LinearLayout lnContributeCafeInformation = view.findViewById(R.id.lnContributeCafeInformation);
@@ -148,7 +150,6 @@ public class FragmentMe extends Fragment {
         });
 
 
-        
         // Contact
         LinearLayout lnContact = view.findViewById(R.id.lnContact);
         lnContact.setOnClickListener(new View.OnClickListener() {
@@ -181,28 +182,38 @@ public class FragmentMe extends Fragment {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
-        Uri imageUri = Uri.parse(sharedPreferences.getString("imageUrl","imageUrl"));
-        String name = sharedPreferences.getString("userName","name");
-        String id = sharedPreferences.getString("id","id");
+        if(mAuth.getCurrentUser().getEmail().equalsIgnoreCase("findCoffee2003@gmail.com")){
+            idUser="findCoffee";
+        }
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        Uri imageUri = Uri.parse(sharedPreferences.getString("imageUrl", "imageUrl"));
+        String name = sharedPreferences.getString("userName", "name");
+        String id = sharedPreferences.getString("id", "id");
         username.setText(name);
         userid.setText(id);
 
-        Glide.with(FragmentMe.this).load(imageUri).into(userImage);
+        if (imageUri != null) {
+            userImage.setImageURI(imageUri);
+        }
 //        userImage.setImageURI(imageUri);
+        Log.d("Uri image", imageUri.toString());
         userViewModel.getUserById(idUser).observe(getViewLifecycleOwner(), new Observer<UserEntity>() {
             @Override
             public void onChanged(UserEntity userEntity) {
-                String name =userEntity.getUsername();
-                String id = userEntity.getIdUser();
-                id = Utils.hash32b(id);
-                String imageUrl = userEntity.getImageUrl();
-                if(imageUrl==null){
-                    Log.d("LOI","Image khong co gi");
+                if (userEntity != null) {
+                    String name = userEntity.getUsername();
+                    String id = userEntity.getIdUser();
+                    id = Utils.hash32b(id);
+                    String imageUrl = userEntity.getImageUrl();
+//                    String deString = userEntity.getDescribe();
+                    if (imageUrl == null) {
+                        Glide.with(FragmentMe.this).load(R.drawable.image).into(userImage);
+                    } else {
+                        userImage.setImageURI(Uri.parse(imageUrl));
+                    }
+                    username.setText(name);
+                    userid.setText(id);
                 }
-                username.setText(name);
-                userid.setText(id);
-                Glide.with(FragmentMe.this).load(imageUrl).into(userImage);
             }
         });
 
@@ -211,34 +222,122 @@ public class FragmentMe extends Fragment {
 
     private void openDialogDeleteAcount(int gravity) {
         Context context = getActivity();
-        if(context==null){
+        if (context == null) {
             return;
         }
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog_deleteacount);
         Window window = dialog.getWindow();
-        if(window==null){
+        if (window == null) {
             return;
         }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT );
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
-        windowAttributesribute.gravity=gravity;
+        windowAttributesribute.gravity = gravity;
         window.setAttributes(windowAttributesribute);
 
-        if (Gravity.CENTER==gravity){
+        if (Gravity.CENTER == gravity) {
             dialog.setCancelable(true);
-        }else {
+        } else {
             dialog.setCancelable(false);
 
         }
-        TextView txtXacNhan= dialog.findViewById(R.id.txtXacNhan);
-        TextView txtHuy= dialog.findViewById(R.id.txtHuy);
+        dialog.show();
+        TextView txtXacNhan = dialog.findViewById(R.id.txtXacNhan);
+        TextView txtHuy = dialog.findViewById(R.id.txtHuy);
+
+        FirebaseAuth user = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = user.getCurrentUser();
+        String idUser = Utils.hashEmail(currentUser.getEmail().toString());
         txtXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentUser.getEmail().equalsIgnoreCase("findCoffee2003@gmail.com")) {
+                    Toast.makeText(context, "Không thể xóa tài khoản admin!!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // xoa user
+                user.signOut();
+                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),
+                        new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                .requestIdToken(getString(R.string.default_web_client_id))
+                                .requestEmail()
+                                .build());
+
+                mGoogleSignInClient.signOut().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // Revoke access
+
+                        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("imageUrl", null);
+                        editor.apply();
+                        mGoogleSignInClient.revokeAccess().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                firebaseDatabase.getReference("User").child(idUser).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(context, "Xóa người dùng thành công!", Toast.LENGTH_SHORT).show();
+                                                        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                        editor.putBoolean("isLoggedIn", false);
+                                                        editor.apply();
+
+                                                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                                                        StorageReference storageReference = storage.getReference();
+                                                        StorageReference userImageRef = storageReference.child("Img/users/" + idUser);
+                                                        userImageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                                            @Override
+                                                            public void onSuccess(ListResult listResult) {
+                                                                // Lặp qua từng đối tượng và xóa chúng
+                                                                for (StorageReference item : listResult.getItems()) {
+                                                                    item.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            Log.d("FirebaseStorage", "Deleted file: " + item.getName());
+                                                                        }
+                                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Log.e("FirebaseStorage", "Error deleting file " + item.getName(), e);
+                                                                        }
+                                                                    });
+                                                                }
+                                                                // Log thông báo khi đã xóa thành công hết các đối tượng trong thư mục
+                                                                Log.d("FirebaseStorage", "All files have been deleted successfully.");
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.e("FirebaseStorage", "Error listing files", e);
+                                                            }
+                                                        });
+
+                                                        Intent intent = new Intent(context, MainActivity.class);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(context, "Có lỗi xảy ra , vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
         });
         txtHuy.setOnClickListener(new View.OnClickListener() {
@@ -248,7 +347,6 @@ public class FragmentMe extends Fragment {
             }
         });
 
-        dialog.show();
     }
 
     private void logOutUser(Dialog dialog) {
@@ -258,6 +356,8 @@ public class FragmentMe extends Fragment {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("isLoggedIn", false);
+        editor.putString("imageUrl", null);
+
         editor.apply();
 
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),
@@ -274,6 +374,7 @@ public class FragmentMe extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         // Redirect to login activity
+
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -309,6 +410,7 @@ public class FragmentMe extends Fragment {
             dialog.setCancelable(false);
 
         }
+        dialog.show();
         TextView txtConfirm = dialog.findViewById(R.id.txtConfirm);
         TextView txtCancle = dialog.findViewById(R.id.txtCancle);
         txtConfirm.setOnClickListener(new View.OnClickListener() {
@@ -323,7 +425,5 @@ public class FragmentMe extends Fragment {
                 dialog.dismiss();
             }
         });
-
-        dialog.show();
     }
 }

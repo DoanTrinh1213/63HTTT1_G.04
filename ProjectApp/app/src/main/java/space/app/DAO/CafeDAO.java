@@ -39,4 +39,7 @@ public interface CafeDAO {
     LiveData<List<CafeEntity>> getCafesBySearchTermAndFindCoffee(String searchTerm);
     @Query("select * from cafe")
     LiveData<List<CafeEntity>> getAllCafe1();
+
+    @Query("SELect * from cafe where resName = :resname")
+    LiveData<List<CafeEntity>> getCafeByResName(String resname);
 }

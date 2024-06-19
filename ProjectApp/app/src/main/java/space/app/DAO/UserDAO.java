@@ -18,4 +18,7 @@ public interface UserDAO {
     void DeleteAllUser();
     @Query("Select * from users where idUser = :idUser")
     LiveData<UserEntity> getUserById(String idUser);
+
+    @Query("Select * from users where email = :email")
+    LiveData<UserEntity> getUserByEmail(String email);
 }
