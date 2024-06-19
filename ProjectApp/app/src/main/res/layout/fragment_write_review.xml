@@ -228,6 +228,7 @@
             android:fontFamily="@font/yaldevi"
             android:text="Chỉnh sửa đánh giá"
             android:textAllCaps="false"
+            android:visibility="gone"
             android:theme="@style/ButtonRegis"
             tools:ignore="MissingConstraints" />
 

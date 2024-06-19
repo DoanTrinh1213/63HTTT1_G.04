@@ -2,8 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/fragment_shop"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -740,7 +740,8 @@
                     android:padding="10dp"
                     android:text="Xem tất cả"
                     android:textAllCaps="false"
-                    android:textColor="#7A2A2A"/>
+                    android:textColor="#7A2A2A" />
+
                 <Button
                     android:id="@+id/btnCafeContribute"
                     android:layout_width="match_parent"
@@ -753,6 +754,7 @@
                     android:text="Để lại trải nghiệm của bạn"
                     android:textAllCaps="false"
                     android:textColor="#ffff" />
+
                 <Button
                     android:id="@+id/btnUpdate"
                     android:layout_width="380dp"
@@ -763,14 +765,15 @@
                     android:fontFamily="@font/yaldevi"
                     android:text="Chỉnh sửa đánh giá"
                     android:textAllCaps="false"
-                    android:visibility="gone"
                     android:theme="@style/ButtonRegis"
+                    android:visibility="gone"
                     tools:ignore="MissingConstraints" />
 
 
             </LinearLayout>
 
-            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            <HorizontalScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true">
@@ -781,7 +784,9 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp">
 
-                    <include layout="@layout/fragment_tools_shop"></include>
+                    <include layout="@layout/fragment_tools_shop">
+
+                    </include>
                 </LinearLayout>
             </HorizontalScrollView>
 
