@@ -2,8 +2,12 @@ package space.app.Repository;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,5 +64,21 @@ public class CafeRepository {
 
     public LiveData<List<CafeEntity>> getCafeByResName(String resname) {
         return cafeDAO.getCafeByResName(resname);
+    }
+
+    public LiveData<List<CafeEntity>> getCafeByOpen() {
+        return cafeDAO.getCafeByOpen();
+    }
+
+    public LiveData<List<CafeEntity>> getCafeByPurpose(List<String> purpose) {
+        return cafeDAO.getCafeByPurpose(purpose);
+    }
+
+    public LiveData<List<CafeEntity>> getCafeByDistance(String distance) {
+        return cafeDAO.getCafeByDistance(distance);
+    }
+
+    public LiveData<List<CafeEntity>> getCafeByPrice(String price) {
+        return cafeDAO.getCafeByPrice(price);
     }
 }

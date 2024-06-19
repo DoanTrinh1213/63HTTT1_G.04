@@ -23,12 +23,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import space.app.Database.DatabaseRoom;
+import space.app.Helper.LocationUtils;
 import space.app.Model.Cafe;
 import space.app.R;
 
@@ -47,6 +49,22 @@ public class SplashScreen extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+//        executorService.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                String url = "https://maps.app.goo.gl/2USx1NPhGjaunFbV7";
+//                try {
+//                    url = LocationUtils.expandUrl(url);
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                LocationUtils.LatLng laslong = LocationUtils.extractLatLngFromUrl(url);
+//                Log.d("Location",String.valueOf(laslong.getLatitude()) +","+ String.valueOf(laslong.getLongitude()));
+//            }
+//        });
+
         if (!isNetworkAvailable()) {
             Toast.makeText(this, "Không có kết nối mạng. Vui lòng kiểm tra kết nối và thử lại!", Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
@@ -93,6 +111,9 @@ public class SplashScreen extends AppCompatActivity {
 //                finish();
 //            }
 //        }, 2000);
+
+
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference connectedRef = database.getReference("Cafe");
 
