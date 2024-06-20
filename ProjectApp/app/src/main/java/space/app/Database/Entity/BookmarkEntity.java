@@ -30,7 +30,7 @@ public class BookmarkEntity {
         this.idCafe = idCafe;
     }
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     int id;
     String idUser;

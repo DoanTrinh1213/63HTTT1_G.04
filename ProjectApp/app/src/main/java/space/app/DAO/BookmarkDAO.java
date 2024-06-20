@@ -13,12 +13,15 @@ import space.app.Database.Entity.BookmarkEntity;
 @Dao
 public interface BookmarkDAO {
     @Insert
-    public void insertBookmark(BookmarkEntity bookmarkEntity);
-    @Delete
-    public void deleteBookmark(BookmarkEntity bookmarkEntity);
+    void insertBookmark(BookmarkEntity bookmarkEntity);
+    @Query("Delete from bookmarks where idCafe = :idCafe and idUser = :idUser")
+    void deleteBookmark(String idCafe,String idUser);
+
+    @Query("Delete from bookmarks")
+    void deleteAllBookmark();
 
     @Query("Select * from bookmarks where idUser= :idUser")
-    public LiveData<List<BookmarkEntity>> getAllBookmarkByIdUser(String idUser);
+    LiveData<List<BookmarkEntity>> getAllBookmarkByIdUser(String idUser);
 
     @Query("Select * from bookmarks where idUser= :idUser and idCafe= :idCafe")
     LiveData<BookmarkEntity> getBookmarkByIdUserAndIdCafe(String idUser, String idCafe);

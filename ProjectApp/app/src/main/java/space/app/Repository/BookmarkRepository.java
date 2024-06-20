@@ -27,9 +27,9 @@ public class BookmarkRepository {
             bookmarkDAO.insertBookmark(bookmarkEntity);
         });
     }
-    public void deleteBookmark(BookmarkEntity bookmarkEntity){
+    public void deleteBookmark(String idCafe,String idUser){
         executorService.execute(()->{
-            bookmarkDAO.deleteBookmark(bookmarkEntity);
+            bookmarkDAO.deleteBookmark(idCafe,idUser);
         });
     }
 

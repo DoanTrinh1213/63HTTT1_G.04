@@ -81,4 +81,12 @@ public class CafeRepository {
     public LiveData<List<CafeEntity>> getCafeByPrice(String price) {
         return cafeDAO.getCafeByPrice(price);
     }
+
+    public LiveData<CafeEntity> getCafeByIdCafe(String idCafe) {
+        return cafeDAO.getCafeByIdCafe( idCafe);
+    }
+
+    public LiveData<List<CafeEntity>> getAllCafeByBookmark(String idUser) {
+        return cafeDAO.getCafeByBookmark(idUser);
+    }
 }

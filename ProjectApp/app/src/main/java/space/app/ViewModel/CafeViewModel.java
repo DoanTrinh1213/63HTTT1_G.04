@@ -195,6 +195,13 @@ public class CafeViewModel extends AndroidViewModel {
         return orderedLiveData;
     }
 
+    public LiveData<CafeEntity> getCafeByIdCafe(String idCafe){
+        return cafeRepository.getCafeByIdCafe(idCafe);
+    };
+
+    public LiveData<List<CafeEntity>> getAllCafeByBookmark(String idUser){
+        return cafeRepository.getAllCafeByBookmark(idUser);
+    }
 
     private void sortCafesByDistance(List<CafeEntity> cafes) {
         Collections.sort(cafes, new Comparator<CafeEntity>() {

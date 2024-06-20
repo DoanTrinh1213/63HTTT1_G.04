@@ -59,4 +59,10 @@ public interface CafeDAO {
             "((SUBSTR(timeOpen, 1, 5) < SUBSTR(timeOpen, 7, 5) AND strftime('%H:%M', 'now','localtime') BETWEEN SUBSTR(timeOpen, 1, 5) AND SUBSTR(timeOpen, 7, 5))" +
             "OR (SUBSTR(timeOpen, 1, 5) > SUBSTR(timeOpen, 7, 5) AND (strftime('%H:%M', 'now','localtime') >= SUBSTR(timeOpen, 1, 5) OR strftime('%H:%M', 'now','localtime') <= SUBSTR(timeOpen, 7, 5))))")
     LiveData<List<CafeEntity>> getCafeByOpen();
+
+    @Query("Select* from cafe where idCafe = :idCafe")
+    LiveData<CafeEntity> getCafeByIdCafe(String idCafe);
+
+    @Query("Select * from cafe where idCafe in (Select idCafe from bookmarks where idUser = :idUser)")
+    LiveData<List<CafeEntity>> getCafeByBookmark(String idUser);
 }

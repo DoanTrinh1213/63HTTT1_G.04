@@ -78,6 +78,7 @@ public class SplashScreen extends AppCompatActivity {
         executorService.execute(() -> {
             DatabaseRoom.getInstance(this).searchResultDao().deleteAll();
             DatabaseRoom.getInstance(this).cafeDAO().deleteAll();
+            DatabaseRoom.getInstance(this).bookmarkDAO().deleteAllBookmark();
         });
 //        executorService.execute(() -> {
 //            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
