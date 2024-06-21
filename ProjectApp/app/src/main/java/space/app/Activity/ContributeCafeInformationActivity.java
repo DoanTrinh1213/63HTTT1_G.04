@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,8 +46,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import space.app.Adapter.CustomSpinnerAdapter;
@@ -83,7 +89,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
 
     private static final int PERMISSION_REQUEST_CODE = 2;
     private static final int PICK_IMAGE_REQUEST_CODE = 1;
-    private EditText edtMap, edtContact, edtDescription, edtTime, edtPrice, edtNameCafe, edtAddress;
+    private EditText edtMap, edtContact, edtDescription, edtPrice, edtNameCafe, edtAddress;
     private MaterialButton btnSendContributeCafe;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -93,6 +99,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
     private FirebaseAuth firebaseAuth;
 
     private AlertDialog alertDialog;
+    private TextView openTime, closeTime;
 
     private UserEntity user = new UserEntity();
 
@@ -130,6 +137,60 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         FloatingActionButtonCafe.setOnClickListener(v -> pickImageGalleryForCafe(PICK_IMAGE_REQUEST_CODE));
         FloatingActionButtonMenu.setOnClickListener(v -> pickImageGalleryForMenu(PICK_IMAGE_REQUEST_CODE + 1));
 
+        openTime = findViewById(R.id.openTime);
+        closeTime = findViewById(R.id.closeTime);
+        openTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                Date openDate = null;
+                try {
+                    openDate = sdf.parse(openTime.getText().toString());
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(openDate);
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    int minute = calendar.get(Calendar.MINUTE);
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(ContributeCafeInformationActivity.this,
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                    String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
+                                    openTime.setText(selectedTime);
+                                }
+                            }, hour, minute, true);
+                    timePickerDialog.show();
+                } catch (Exception e) {
+
+                }
+
+            }
+        });
+        closeTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                    Date closeDate = sdf.parse(closeTime.getText().toString());
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(closeDate);
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    int minute = calendar.get(Calendar.MINUTE);
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(ContributeCafeInformationActivity.this,
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                    String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
+                                    closeTime.setText(selectedTime);
+                                }
+                            }, hour, minute, true);
+                    timePickerDialog.show();
+                } catch (Exception e) {
+                }
+
+            }
+        });
+
+
         UserViewModel userViewModel = new ViewModelProvider(ContributeCafeInformationActivity.this).get(UserViewModel.class);
         userViewModel.getUserByEmail(email).observe(ContributeCafeInformationActivity.this, new Observer<UserEntity>() {
             @Override
@@ -145,7 +206,6 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         edtMap = findViewById(R.id.edtMap);
         edtContact = findViewById(R.id.edtContact);
         edtDescription = findViewById(R.id.edtDescription);
-        edtTime = findViewById(R.id.edtTime);
         edtPrice = findViewById(R.id.edtPrice);
         edtNameCafe = findViewById(R.id.edtNameCafe);
         edtAddress = findViewById(R.id.edtAddress);
@@ -174,7 +234,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                 Toast.makeText(this, "Bạn chưa tải ảnh lên rồi ! 😢", Toast.LENGTH_SHORT).show();
                 return;
             }
-            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.loading_compo,null);
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.loading_compo, null);
             TextView textView = view.findViewById(R.id.nameOfLoading);
             textView.setText("Đang thêm quán! Vui lòng chờ ...");
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ContributeCafeInformationActivity.this);
@@ -191,7 +251,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         String resName = edtNameCafe.getText().toString();
         String address = edtAddress.getText().toString();
         String purpose = ((Spinner) findViewById(R.id.spinner)).getSelectedItem().toString();
-        String timeOpen = edtTime.getText().toString();
+        String timeOpen = openTime.getText().toString() + "-"+closeTime.getText().toString();
         String describe = edtDescription.getText().toString();
         String price = edtPrice.getText().toString();
         String contact = edtContact.getText().toString();
@@ -200,7 +260,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         cafeViewModel.getCafeByResName(resName).observe(ContributeCafeInformationActivity.this, new Observer<List<CafeEntity>>() {
             @Override
             public void onChanged(List<CafeEntity> cafeEntities) {
-                if(cafeEntities.isEmpty()){
+                if (cafeEntities.isEmpty()) {
                     Log.d("CafeUpload", "Bắt đầu lưu ảnh và thông tin quán");
 
                     FirebaseDatabase firebase = FirebaseDatabase.getInstance();
@@ -213,7 +273,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
 
                     MutableLiveData<Integer> count = new MutableLiveData<>();
                     count.setValue(0);
-                    uploadImages(ChooseImageListCafe, "CafeImages",idCafe, new UploadImagesCallback() {
+                    uploadImages(ChooseImageListCafe, "CafeImages", idCafe, new UploadImagesCallback() {
                         @Override
                         public void onImagesUploaded(String imageUrl) {
 
@@ -222,7 +282,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                         }
                     });
 
-                    uploadImages(ChooseImageListMenu, "MenuImages",idCafe, new UploadImagesCallback() {
+                    uploadImages(ChooseImageListMenu, "MenuImages", idCafe, new UploadImagesCallback() {
                         @Override
                         public void onImagesUploaded(String imageUrl) {
                             // Log menu image URLs
@@ -261,8 +321,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                             }
                         }
                     });
-                }
-                else{
+                } else {
                     Toast.makeText(ContributeCafeInformationActivity.this, "Quán đã tồn tại!", Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
                     new Handler().postDelayed(new Runnable() {
@@ -270,7 +329,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                         public void run() {
                             finish();
                         }
-                    },3000);
+                    }, 3000);
                 }
             }
         });
@@ -303,12 +362,12 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
     }
 
     // up ảnh và thông tin quán
-    private void uploadImages(ArrayList<Uri> imageUris, String folderName,String idRes, UploadImagesCallback callback) {
+    private void uploadImages(ArrayList<Uri> imageUris, String folderName, String idRes, UploadImagesCallback callback) {
         ArrayList<String> imageUrls = new ArrayList<>();
 
         for (Uri imageUri : imageUris) {
             String uniqueID = UUID.randomUUID().toString();
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Img/restaurents/"+idRes+"/"+folderName+"/"+uniqueID);
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Img/restaurents/" + idRes + "/" + folderName + "/" + uniqueID);
             UploadTask uploadTask = storageRef.putFile(imageUri);
             uploadTask.addOnSuccessListener(taskSnapshot -> {
                         // Get URL of the uploaded image
@@ -319,7 +378,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                             // Check if all images have been uploaded
                             if (imageUrls.size() == imageUris.size()) {
                                 // Call callback to return the list of image URLs
-                                callback.onImagesUploaded("Img/restaurents/"+idRes);
+                                callback.onImagesUploaded("Img/restaurents/" + idRes);
                             }
                         });
                     })
