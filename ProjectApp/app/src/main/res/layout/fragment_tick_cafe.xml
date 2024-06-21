@@ -41,14 +41,15 @@
 
         <Button
             android:id="@+id/btnContribute"
-            android:layout_width="379dp"
-            android:layout_height="40dp"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_btn"
+            android:backgroundTint="#7A2A2A"
             android:fontFamily="@font/yaldevi"
             android:text="Mình có quán muốn đóng góp"
             android:textAllCaps="false"
-            android:textColor="#ffff"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="10dp"
             android:theme="@style/ButtonRegis"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,18 +58,17 @@
 
         <Button
             android:id="@+id/btnUnderstood"
-            android:layout_width="379dp"
+            android:layout_width="350dp"
             android:layout_height="40dp"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_outline_tick_cafe"
             android:fontFamily="@font/yaldevi"
             android:text="Đã hiểu"
             android:textAllCaps="false"
             android:textColor="#7A2A2A"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnContribute" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

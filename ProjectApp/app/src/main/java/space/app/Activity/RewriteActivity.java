@@ -177,6 +177,7 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
             } else {
                 Toast.makeText(this, "Quyền truy cập bị từ chối", Toast.LENGTH_SHORT).show();
             }
+            openImagePicker();
         }
     }
 
