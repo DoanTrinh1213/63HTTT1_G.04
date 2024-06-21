@@ -26,7 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.Camera;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
@@ -128,8 +127,8 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         FloatingActionButtonMenu = findViewById(R.id.floatingActionButtonMenu);
         recyclerViewCafe.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        FloatingActionButtonCafe.setOnClickListener(v -> checkPermissionAndPickImageForCafe(PICK_IMAGE_REQUEST_CODE));
-        FloatingActionButtonMenu.setOnClickListener(v -> checkPermissionAndPickImageForMenu(PICK_IMAGE_REQUEST_CODE + 1));
+        FloatingActionButtonCafe.setOnClickListener(v -> pickImageGalleryForCafe(PICK_IMAGE_REQUEST_CODE));
+        FloatingActionButtonMenu.setOnClickListener(v -> pickImageGalleryForMenu(PICK_IMAGE_REQUEST_CODE + 1));
 
         UserViewModel userViewModel = new ViewModelProvider(ContributeCafeInformationActivity.this).get(UserViewModel.class);
         userViewModel.getUserByEmail(email).observe(ContributeCafeInformationActivity.this, new Observer<UserEntity>() {
@@ -335,19 +334,19 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
     }
 
     // kiểm tra quyền truy cập bộ nhớ ảnh
-    private void checkPermissionAndPickImageForCafe(int pickImageRequestCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(ContributeCafeInformationActivity.this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(ContributeCafeInformationActivity.this,
-                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-            } else {
-                pickImageGalleryForCafe(pickImageRequestCode);
-            }
-        } else {
-            pickImageGalleryForCafe(pickImageRequestCode);
-        }
-    }
+//    private void checkPermissionAndPickImageForCafe(int pickImageRequestCode) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(ContributeCafeInformationActivity.this,
+//                    android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(ContributeCafeInformationActivity.this,
+//                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+//            } else {
+//                pickImageGalleryForCafe(pickImageRequestCode);
+//            }
+//        } else {
+//            pickImageGalleryForCafe(pickImageRequestCode);
+//        }
+//    }
 
     private void pickImageGalleryForCafe(int requestCode) {
         Intent intent = new Intent();
@@ -358,20 +357,19 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
     }
 
 
-    private void checkPermissionAndPickImageForMenu(int i) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(ContributeCafeInformationActivity.this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                Log.d("Message", "Chưa cấp quyền");
-                ActivityCompat.requestPermissions(ContributeCafeInformationActivity.this,
-                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-            } else {
-                pickImageGalleryForMenu(i);
-            }
-        } else {
-            pickImageGalleryForMenu(i);
-        }
-    }
+//    private void checkPermissionAndPickImageForMenu(int i) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(ContributeCafeInformationActivity.this,
+//                    android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(ContributeCafeInformationActivity.this,
+//                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+//            } else {
+//                pickImageGalleryForMenu(i);
+//            }
+//        } else {
+//            pickImageGalleryForMenu(i);
+//        }
+//    }
 
     private void pickImageGalleryForMenu(int requestCode) {
         Intent intent = new Intent();
@@ -397,19 +395,34 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
                 selectedImages.add(imageUri);
             }
 
-            if (selectedImages.size() < MIN_IMAGE_COUNT) {
-                Toast.makeText(this, "Bạn cần up tối thiểu 3 ảnh", Toast.LENGTH_SHORT).show();
-            } else {
-                if (requestCode == PICK_IMAGE_REQUEST_CODE) {
-                    ChooseImageListCafe.clear();
-                    ChooseImageListCafe.addAll(selectedImages);
-                    setAdapter(ChooseImageListCafe, requestCode);
-                } else if (requestCode == PICK_IMAGE_REQUEST_CODE + 1) {
-                    ChooseImageListMenu.clear();
-                    ChooseImageListMenu.addAll(selectedImages);
-                    setAdapter(ChooseImageListMenu, requestCode);
+//            if (selectedImages.size() < MIN_IMAGE_COUNT) {
+//                Toast.makeText(this, "Bạn cần up tối thiểu 3 ảnh", Toast.LENGTH_SHORT).show();
+//            } else {
+//                if (requestCode == PICK_IMAGE_REQUEST_CODE) {
+//                    ChooseImageListCafe.clear();
+//                    ChooseImageListCafe.addAll(selectedImages);
+//                    setAdapter(ChooseImageListCafe, requestCode);
+//                } else if (requestCode == PICK_IMAGE_REQUEST_CODE + 1) {
+//                    ChooseImageListMenu.clear();
+//                    ChooseImageListMenu.addAll(selectedImages);
+//                    setAdapter(ChooseImageListMenu, requestCode);
+//                }
+//            }
+            runOnUiThread(() -> {
+                if (selectedImages.size() < MIN_IMAGE_COUNT) {
+                    Toast.makeText(this, "Bạn cần up tối thiểu 3 ảnh", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (requestCode == PICK_IMAGE_REQUEST_CODE) {
+                        ChooseImageListCafe.clear();
+                        ChooseImageListCafe.addAll(selectedImages);
+                        setAdapter(ChooseImageListCafe, requestCode);
+                    } else if (requestCode == PICK_IMAGE_REQUEST_CODE + 1) {
+                        ChooseImageListMenu.clear();
+                        ChooseImageListMenu.addAll(selectedImages);
+                        setAdapter(ChooseImageListMenu, requestCode);
+                    }
                 }
-            }
+            });
         }
     }
 
@@ -424,21 +437,21 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                pickImageGalleryForCafe(requestCode);
-//                pickImageGalleryForMenu(requestCode);
-            } else {
-                Toast.makeText(this, "Permission denied. Cannot pick images.", Toast.LENGTH_SHORT).show();
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    ActivityCompat.requestPermissions(ContributeCafeInformationActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-                }, 2000);
-            }
-        }
-    }
+//        @Override
+//        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//            if (requestCode == PERMISSION_REQUEST_CODE) {
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//    //                pickImageGalleryForCafe(requestCode);
+//    //                pickImageGalleryForMenu(requestCode);
+//                } else {
+//                    Toast.makeText(this, "Permission denied. Cannot pick images.", Toast.LENGTH_SHORT).show();
+//    //                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+//    //                    ActivityCompat.requestPermissions(ContributeCafeInformationActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+//    //                }, 2000);
+//                }
+//            }
+//        }
 
 
     @Override

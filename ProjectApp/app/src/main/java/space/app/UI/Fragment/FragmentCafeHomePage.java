@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.play.integrity.internal.o;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.BreakIterator;
@@ -124,7 +127,7 @@ public class FragmentCafeHomePage extends Fragment {
         CafeViewModel cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         Boolean isSearch = sharedPreferences.getBoolean("isSearch", false);
-        Log.d("Cafe","isSearh : "+isSearch.toString());
+        Log.d("Cafe", "isSearh : " + isSearch.toString());
         if (isSearch == false) {
 
             cafeViewModel.getCafesByFindCoffee().observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
@@ -154,14 +157,15 @@ public class FragmentCafeHomePage extends Fragment {
             });
         }
 
+
         TextView searchView = view.findViewById(R.id.search_bar_text);
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchAcitivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("textSearch",searchView.getText().toString());
-                intent.putExtra("BundleData",bundle);
+                bundle.putString("textSearch", searchView.getText().toString());
+                intent.putExtra("BundleData", bundle);
                 getActivity().startActivity(intent);
             }
         });
@@ -228,9 +232,7 @@ public class FragmentCafeHomePage extends Fragment {
                                         Cafe cafe = new Cafe();
                                         cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
                                         cafesByTerm.add(cafe);
-                                        updateRecycleViewOrther(view, cafesByTerm);
                                     }
-                                } else {
                                     updateRecycleViewOrther(view, cafesByTerm);
                                 }
                             }
@@ -245,9 +247,7 @@ public class FragmentCafeHomePage extends Fragment {
                                         Cafe cafe = new Cafe();
                                         cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
                                         cafesByTermFindCoffee.add(cafe);
-                                        updateRecycleViewFindCafe(view, cafesByTermFindCoffee);
                                     }
-                                } else {
                                     updateRecycleViewFindCafe(view, cafesByTermFindCoffee);
                                 }
                             }
@@ -256,6 +256,32 @@ public class FragmentCafeHomePage extends Fragment {
                         searchView.setText("");
                     }
                 }
+            }
+        });
+
+
+        MaterialTextView openShop = view.findViewById(R.id.textTime);
+        openShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CafeViewModel cafeViewModel = new ViewModelProvider(getActivity()).get(CafeViewModel.class);
+                cafeViewModel.getCafeByOpen().observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                    @Override
+                    public void onChanged(List<CafeEntity> cafeEntities) {
+                        if(!cafeEntities.isEmpty()){
+                            List<Cafe> cafe = new ArrayList<>();
+                            List<Cafe> cafes= new ArrayList<>();
+
+                            for(CafeEntity cafeEntity : cafeEntities){
+                                Cafe cafe2 = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                                cafes.add(cafe2);
+                            }
+
+                            updateRecycleViewOrther(view,cafes);
+                            updateRecycleViewFindCafe(view,cafe);
+                        }
+                    }
+                });
             }
         });
 
@@ -277,6 +303,7 @@ public class FragmentCafeHomePage extends Fragment {
             }
         }));
     }
+
 
     private void updateRecycleViewFindCafe(View view, List<Cafe> cafes) {
         RecyclerView recycleView = view.findViewById(R.id.recyclerViewCafe);
@@ -399,6 +426,34 @@ public class FragmentCafeHomePage extends Fragment {
                 dialog.dismiss();
             }
         });
+
+        Button searchClick = dialog.findViewById(R.id.apply);
+        searchClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String price = String.valueOf(seekBarPrice.getProgress());
+                CafeViewModel cafeViewModel = new ViewModelProvider(getActivity()).get(CafeViewModel.class);
+                cafeViewModel.getCafeByPrice(price).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                    @Override
+                    public void onChanged(List<CafeEntity> cafeEntities) {
+                        if(!cafeEntities.isEmpty()){
+                            List<Cafe> cafes = new ArrayList<>();
+                            for(CafeEntity cafeEntity : cafeEntities){
+                                Cafe cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                                cafes.add(cafe);
+                            }
+                            View view = getView();
+                            updateRecycleViewOrther(view,cafes);
+
+                            List<Cafe> cafe= new ArrayList<>();
+                            updateRecycleViewFindCafe(view,cafe);
+                        }
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
         dialog.show();
     }
 
@@ -504,6 +559,33 @@ public class FragmentCafeHomePage extends Fragment {
             }
         });
 
+        Button searchClick= dialog.findViewById(R.id.apply);
+        searchClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String distance = String.valueOf(seekBarDistance.getProgress());
+                CafeViewModel cafeViewModel = new ViewModelProvider(getActivity()).get(CafeViewModel.class);
+                cafeViewModel.getCafeByDistance(distance).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                    @Override
+                    public void onChanged(List<CafeEntity> cafeEntities) {
+                        if(!cafeEntities.isEmpty()){
+                            List<Cafe> cafes = new ArrayList<>();
+                            for(CafeEntity cafeEntity : cafeEntities){
+                                Cafe cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                                cafes.add(cafe);
+                            }
+                            View view = getView();
+                            updateRecycleViewOrther(view,cafes);
+
+                            List<Cafe> cafe= new ArrayList<>();
+                            updateRecycleViewFindCafe(view,cafe);
+                        }
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
         dialog.show();
 
     }
@@ -569,6 +651,59 @@ public class FragmentCafeHomePage extends Fragment {
             }
         });
 
+        Button searchClick = dialog.findViewById(R.id.apply);
+        searchClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> purposes = new ArrayList<>();
+                if (cBoxAlone.isChecked()) {
+                    purposes.add("1 mình");
+                }
+                if (cBoxDate.isChecked()) {
+                    purposes.add("Hẹn hò");
+                }
+                if (cBoxDrink.isChecked()) {
+                    purposes.add("Đồ uống ngon");
+                }
+                if (cBoxSelfie.isChecked()) {
+                    purposes.add("Sống ảo");
+                }
+                if (cBoxReadBook.isChecked()) {
+                    purposes.add("Đọc sách");
+                }
+                if (cBoxFriends.isChecked()) {
+                    purposes.add("Bạn bè");
+                }
+                if (cBoxBar.isChecked()) {
+                    purposes.add("Bar/Pub");
+                }
+                if (cBoxTime.isChecked()) {
+                    purposes.add("Mở muộn");
+                }
+                if (cBoxWork.isChecked()) {
+                    purposes.add("Làm việc");
+                }
+                if(!purposes.isEmpty()){
+                    CafeViewModel cafeViewModel = new ViewModelProvider(getActivity()).get(CafeViewModel.class);
+                    cafeViewModel.getCafeByPurpose(purposes).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                        @Override
+                        public void onChanged(List<CafeEntity> cafeEntities) {
+                            List<Cafe> cafes = new ArrayList<>();
+                            for(CafeEntity cafeEntity:cafeEntities){
+                                Cafe cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                                cafes.add(cafe);
+                            }
+                            List<Cafe> cafe = new ArrayList<>();
+                            View view = getView();
+                            updateRecycleViewFindCafe(view,cafe);
+                            updateRecycleViewOrther(view,cafes);
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+        });
+
         dialog.show();
 
     }
@@ -587,6 +722,8 @@ public class FragmentCafeHomePage extends Fragment {
         if (window == null) {
             return;
         }
+
+
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -629,9 +766,13 @@ public class FragmentCafeHomePage extends Fragment {
         SeekBar seekBarDistance = dialog.findViewById(R.id.seekBarDistance);
         TextView textViewProgressDistance = dialog.findViewById(R.id.textViewProgressDistance);
 
+        textViewProgressDistance.setText(seekBarDistance.getProgress() + "km");
+
         //price
         SeekBar seekBarPrice = dialog.findViewById(R.id.seekBarPrice);
         TextView textViewProgressPrice = dialog.findViewById(R.id.textViewProgressPrice);
+        textViewProgressPrice.setText(seekBarPrice.getProgress() + "k");
+
 
         CheckBox cBoxPriceCheap = dialog.findViewById(R.id.cBoxPriceCheap);
         CheckBox cBoxPriceMedium = dialog.findViewById(R.id.cBoxPriceMedium);
@@ -779,6 +920,84 @@ public class FragmentCafeHomePage extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+
+        Button clickSearch = dialog.findViewById(R.id.apply);
+        clickSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String time = null;
+                if (checkBox.isChecked()) {
+                    time = "time";
+                }
+
+
+                List<String> orders = new ArrayList<>();
+                if (nearlyRadioBtn.isChecked()) {
+                    orders.add("distance");
+                } else if (cheapestRadioBtn.isChecked()) {
+                    orders.add("cheap_price");
+                } else if (expensiveRadioBtn.isChecked()) {
+                    orders.add("expensive_price");
+                }
+
+
+                List<String> purposes = new ArrayList<>();
+                if (cBoxAlone.isChecked()) {
+                    purposes.add("1 mình");
+                }
+                if (cBoxDate.isChecked()) {
+                    purposes.add("Hẹn hò");
+                }
+                if (cBoxDrink.isChecked()) {
+                    purposes.add("Đồ uống ngon");
+                }
+                if (cBoxSelfie.isChecked()) {
+                    purposes.add("Sống ảo");
+                }
+                if (cBoxReadBook.isChecked()) {
+                    purposes.add("Đọc sách");
+                }
+                if (cBoxFriends.isChecked()) {
+                    purposes.add("Bạn bè");
+                }
+                if (cBoxBar.isChecked()) {
+                    purposes.add("Bar/Pub");
+                }
+                if (cBoxTime.isChecked()) {
+                    purposes.add("Mở muộn");
+                }
+                if (cBoxWork.isChecked()) {
+                    purposes.add("Làm việc");
+                }
+
+                String distance = String.valueOf(seekBarDistance.getProgress());
+                String price = String.valueOf(seekBarPrice.getProgress());
+
+                CafeViewModel cafeViewModel = new ViewModelProvider(getActivity()).get(CafeViewModel.class);
+                cafeViewModel.getCafesOrderBy(orders, time, purposes, distance, price).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                    @Override
+                    public void onChanged(List<CafeEntity> cafeEntities) {
+                        if (!cafeEntities.isEmpty()) {
+                            List<Cafe> cafes = new ArrayList<>();
+                            for (CafeEntity cafeEntity : cafeEntities) {
+                                Cafe cafe = new Cafe();
+                                cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                                cafes.add(cafe);
+                            }
+                            Log.d("List cafe search", String.valueOf(cafeEntities.size()));
+                            View view = getView();
+                            updateRecycleViewOrther(view,cafes);
+
+                            List<Cafe> cafe = new ArrayList<>();
+                            updateRecycleViewFindCafe(view,cafe);
+                        } else {
+                            Toast.makeText(context, "Có vẻ là bạn chưa chọn bộ lọc !", Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
             }
         });
 
