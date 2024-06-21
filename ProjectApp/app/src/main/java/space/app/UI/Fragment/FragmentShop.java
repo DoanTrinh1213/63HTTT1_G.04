@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import space.app.Activity.MainActivity;
+import space.app.Activity.ReviewAllActivity;
 import space.app.Activity.RewriteActivity;
 import space.app.Model.Cafe;
 import space.app.R;
@@ -102,10 +103,12 @@ public class FragmentShop extends Fragment {
         ViewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_shop, new FragmentReviewAll());
-                transaction.addToBackStack(null);
-                transaction.commit();
+//                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_shop, new FragmentReviewAll());
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+                Intent intent = new Intent(getActivity(), ReviewAllActivity.class);
+                startActivity(intent);
             }
 
         });

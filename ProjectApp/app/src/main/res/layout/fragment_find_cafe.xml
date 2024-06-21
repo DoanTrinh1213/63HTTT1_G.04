@@ -38,22 +38,23 @@
 
     <LinearLayout
         android:id="@+id/linearShop"
-        android:layout_width="400dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_coner_review"
-        android:gravity="center"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
         android:padding="4dp">
 
         <LinearLayout
             android:id="@+id/linearTextShop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
             android:layout_weight="3"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="15dp">
 
             <TextView
                 android:id="@+id/textAdmin"
@@ -86,8 +87,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top">
-
+            android:layout_gravity="top"
+            >
             <ImageView
                 android:id="@+id/imageAdmin"
                 android:layout_width="45dp"
