@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -25,8 +26,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +42,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -46,9 +53,11 @@ import java.util.concurrent.Executors;
 
 import space.app.Database.DatabaseRoom;
 import space.app.Database.Entity.BookmarkEntity;
+import space.app.Database.Entity.UriEntity;
 import space.app.Database.Entity.UserEntity;
 import space.app.Helper.Utils;
 import space.app.Model.Cafe;
+import space.app.Model.User;
 import space.app.R;
 import space.app.UI.Fragment.FragmentAuth;
 import space.app.UI.Fragment.FragmentBookmark;
@@ -57,6 +66,7 @@ import space.app.UI.Fragment.FragmentLogin;
 import space.app.UI.Fragment.FragmentMe;
 import space.app.ViewModel.BookmarkViewModel;
 import space.app.ViewModel.CafeViewModel;
+import space.app.ViewModel.UriViewModel;
 import space.app.ViewModel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
             v.setLayoutParams(mlp);
             return WindowInsetsCompat.CONSUMED;
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        },1000);
+
         cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
@@ -106,6 +124,114 @@ public class MainActivity extends AppCompatActivity {
                         Cafe cafe = data.getValue(Cafe.class);
                         if (cafe != null) {
                             cafeList.add(cafe);
+
+                            RequestOptions requestOptions = new RequestOptions()
+                                    .skipMemoryCache(false)
+                                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                            UriViewModel uriViewModel = new ViewModelProvider(MainActivity.this).get(UriViewModel.class);
+                            uriViewModel.deleteAllUri();
+
+                            FirebaseStorage storage = FirebaseStorage.getInstance();
+                            storage.getReference().child(cafe.getImages() + "/CafeImages").listAll().addOnCompleteListener(new OnCompleteListener<ListResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<ListResult> task) {
+                                    if (task.isSuccessful()) {
+                                        ListResult list = task.getResult();
+                                        List<StorageReference> items = list.getItems();
+                                        if (!items.isEmpty()) {
+                                            for (StorageReference firstImageRef : items) {
+                                                firstImageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Uri> task) {
+                                                        if (task.isSuccessful()) {
+                                                            UriEntity uri = new UriEntity();
+                                                            uri.setUri(task.getResult().toString());
+                                                            uri.setIdCafe(cafe.getIdCafe());
+                                                            uri.setType("Cafe");
+                                                            uriViewModel.insertUri(uri);
+                                                            Glide.with(MainActivity.this)
+                                                                    .load(task.getResult())
+                                                                    .apply(requestOptions)
+                                                                    .preload();
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            storage.getReference().child(cafe.getImages() + "/MenuImages").listAll().addOnCompleteListener(new OnCompleteListener<ListResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<ListResult> task) {
+                                    if (task.isSuccessful()) {
+                                        ListResult list = task.getResult();
+                                        List<StorageReference> items = list.getItems();
+                                        if (!items.isEmpty()) {
+                                            for (StorageReference firstImageRef : items) {
+                                                firstImageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Uri> task) {
+                                                        if (task.isSuccessful()) {
+                                                            UriEntity uri = new UriEntity();
+                                                            uri.setUri(task.getResult().toString());
+                                                            uri.setIdCafe(cafe.getIdCafe());
+                                                            uri.setType("Menu");
+                                                            uriViewModel.insertUri(uri);
+                                                            Glide.with(MainActivity.this)
+                                                                    .load(task.getResult())
+                                                                    .apply(requestOptions)
+                                                                    .preload();
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+                            firebaseDatabase.getReference("User").child(cafe.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    User user = snapshot.getValue(User.class);
+                                    if(user!=null){
+                                        UriEntity uri = new UriEntity();
+                                        if(user.getImage()!=null){
+                                            uri.setUri(user.getImage());
+                                            uri.setIdCafe(cafe.getIdCafe());
+                                            uri.setType("User");
+                                            uriViewModel.insertUri(uri);
+                                            Glide.with(MainActivity.this)
+                                                    .load(user.getImage())
+                                                    .apply(requestOptions)
+                                                    .preload();
+                                        }
+                                        else{
+                                            uri.setUri(String.valueOf("android.resource://" + getResources().getResourcePackageName(R.drawable.coc_cafe)
+                                                    + '/' + getResources().getResourceTypeName(R.drawable.coc_cafe)
+                                                    + '/' + getResources().getResourceEntryName(R.drawable.coc_cafe)));
+
+                                            Log.d("Uri",String.valueOf("android.resource://" + getResources().getResourcePackageName(R.drawable.coc_cafe)
+                                                    + '/' + getResources().getResourceTypeName(R.drawable.coc_cafe)
+                                                    + '/' + getResources().getResourceEntryName(R.drawable.coc_cafe)));
+
+                                            uri.setIdCafe(cafe.getIdCafe());
+                                            uri.setType("User");
+                                            uriViewModel.insertUri(uri);
+                                            Glide.with(MainActivity.this)
+                                                    .load(uri.getUri())
+                                                    .apply(requestOptions)
+                                                    .preload();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         }
                     }
                     if (cafeList != null) {
@@ -201,13 +327,13 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 String email = firebaseAuth.getCurrentUser().getEmail();
                 String idUser = Utils.hashEmail(email);
-                FirebaseDatabase firebase= FirebaseDatabase.getInstance();
+                FirebaseDatabase firebase = FirebaseDatabase.getInstance();
                 firebase.getReference("Bookmark").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot snap : snapshot.getChildren()){
+                        for (DataSnapshot snap : snapshot.getChildren()) {
                             BookmarkEntity bookmark = snap.getValue(BookmarkEntity.class);
-                            if(bookmark!=null)
+                            if (bookmark != null)
                                 executorService.execute(new Runnable() {
                                     @Override
                                     public void run() {
@@ -223,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        },200);
+        }, 200);
     }
 
     @Override
@@ -286,18 +412,18 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             String idUser = Utils.hashEmail(mAuth.getCurrentUser().getEmail());
-            if(mAuth.getCurrentUser().getEmail().equalsIgnoreCase("findCoffee2003@gmail.com")){
-                idUser="findCoffee";
-                Log.d("User admin","True");
+            if (mAuth.getCurrentUser().getEmail().equalsIgnoreCase("findCoffee2003@gmail.com")) {
+                idUser = "findCoffee";
+                Log.d("User admin", "True");
             }
-            Log.d("User admin",idUser);
+            Log.d("User admin", idUser);
             firebaseDatabase.getReference("User").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     UserEntity user = new UserEntity();
                     SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                     sharedPreferences.getString("id", "id");
-                    Log.d("Image URl",sharedPreferences.getString("imageUrl", ""));
+                    Log.d("Image URl", sharedPreferences.getString("imageUrl", ""));
                     sharedPreferences.getString("description", "description");
                     sharedPreferences.getString("userName", "userName");
 
@@ -308,9 +434,9 @@ public class MainActivity extends AppCompatActivity {
                     String imageUrl = snapshot.child("image").getValue(String.class);
                     String description = snapshot.child("describe").getValue(String.class);
                     String email = snapshot.child("email").getValue(String.class);
-                    Log.d("Email",email);
+                    Log.d("Email", email);
                     user.setIdUser(id);
-                    editor.putString("idUser",id);
+                    editor.putString("idUser", id);
                     user.setUsername(name);
                     user.setDescribe(description);
                     user.setEmail(email);
@@ -321,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("id", id);
                     editor.putString("userName", name);
                     editor.putString("description", description);
-                    if (imageUrl!=null && !imageUrl.isEmpty()) {
+                    if (imageUrl != null && !imageUrl.isEmpty()) {
                         Log.d("Image url of user", imageUrl.toString());
                         StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
                         File directory = new File(getFilesDir(), "userImage");
@@ -338,7 +464,6 @@ public class MainActivity extends AppCompatActivity {
                         File file = null;
                         file = new File(directory, fileName);
                         File finalFile = file;
-                        // cái image nó chưa lưu xong mà cái này đã được chạy rồi nên bị lỗi :v
                         storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -349,7 +474,7 @@ public class MainActivity extends AppCompatActivity {
                                 user.setImageUrl(fileUri.toString());
                                 editor.apply();
                                 executorService.execute(() -> {
-                                    Log.d("Delete user","User");
+                                    Log.d("Delete user", "User");
                                     DatabaseRoom.getInstance(MainActivity.this).userDAO().DeleteAllUser();
                                     DatabaseRoom.getInstance(MainActivity.this).userDAO().InsertUser(user);
                                 });
