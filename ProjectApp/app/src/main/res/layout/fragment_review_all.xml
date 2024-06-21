@@ -2,6 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/ReviewAll"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#ECDCDC"
     android:orientation="vertical">
 
@@ -79,22 +82,12 @@
         android:orientation="vertical"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/linearReview"
-            android:orientation="vertical"
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="10dp">
-            <include layout="@layout/fragment_evalute" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </LinearLayout>
+            android:id="@+id/rcvReview"
+            tools:listitem="@layout/fragment_evalute"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </LinearLayout>
 

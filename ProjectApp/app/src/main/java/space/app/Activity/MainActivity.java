@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +45,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import space.app.Database.DatabaseRoom;
+import space.app.Database.Entity.BookmarkEntity;
 import space.app.Database.Entity.UserEntity;
 import space.app.Helper.Utils;
 import space.app.Model.Cafe;
@@ -53,6 +55,7 @@ import space.app.UI.Fragment.FragmentBookmark;
 import space.app.UI.Fragment.FragmentCafeHomePage;
 import space.app.UI.Fragment.FragmentLogin;
 import space.app.UI.Fragment.FragmentMe;
+import space.app.ViewModel.BookmarkViewModel;
 import space.app.ViewModel.CafeViewModel;
 import space.app.ViewModel.UserViewModel;
 
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             replaceFragment(new FragmentAuth(), false);
         } else {
             setUser();
+            setBookmark();
             replaceFragment(new FragmentCafeHomePage(), false);
         }
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomMenu);
@@ -181,6 +185,45 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    private void setBookmark() {
+
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                DatabaseRoom.getInstance(MainActivity.this).bookmarkDAO().deleteAllBookmark();
+            }
+        });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                String email = firebaseAuth.getCurrentUser().getEmail();
+                String idUser = Utils.hashEmail(email);
+                FirebaseDatabase firebase= FirebaseDatabase.getInstance();
+                firebase.getReference("Bookmark").child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot snap : snapshot.getChildren()){
+                            BookmarkEntity bookmark = snap.getValue(BookmarkEntity.class);
+                            if(bookmark!=null)
+                                executorService.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        DatabaseRoom.getInstance(MainActivity.this).bookmarkDAO().insertBookmark(bookmark);
+                                    }
+                                });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        },200);
     }
 
     @Override
@@ -267,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
                     String email = snapshot.child("email").getValue(String.class);
                     Log.d("Email",email);
                     user.setIdUser(id);
+                    editor.putString("idUser",id);
                     user.setUsername(name);
                     user.setDescribe(description);
                     user.setEmail(email);
@@ -277,7 +321,6 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("id", id);
                     editor.putString("userName", name);
                     editor.putString("description", description);
-
                     if (imageUrl!=null && !imageUrl.isEmpty()) {
                         Log.d("Image url of user", imageUrl.toString());
                         StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);

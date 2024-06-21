@@ -58,7 +58,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.0.0")
     implementation("androidx.room:room-runtime:2.5.0")
     implementation(libs.room.common)
-    implementation(libs.camera.core)
     annotationProcessor("androidx.room:room-compiler:2.5.0") // For Java
     implementation("androidx.room:room-ktx:2.5.0") // For coroutines support
     testImplementation(libs.junit)

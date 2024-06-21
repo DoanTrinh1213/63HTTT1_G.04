@@ -30,13 +30,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
-            android:layout_marginEnd="32dp"
             android:fontFamily="@font/yaldevi"
             android:text="Quán đã được đội ngũ FindCafe đến trải nghiệm và giúp bạn \n khám phá mọi góc cạnh của quán trước khi bạn bước chân vào!"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView" />
 
         <Button
@@ -55,7 +55,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
             tools:ignore="MissingConstraints" />
-
         <Button
             android:id="@+id/btnUnderstood"
             android:layout_width="350dp"
@@ -65,10 +64,12 @@
             android:fontFamily="@font/yaldevi"
             android:text="Đã hiểu"
             android:textAllCaps="false"
-            android:textColor="#7A2A2A"
+            android:textColor="#7a2a2a"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnContribute" />
+            app:layout_constraintTop_toBottomOf="@+id/btnContribute"
+            tools:ignore="MissingConstraints" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
