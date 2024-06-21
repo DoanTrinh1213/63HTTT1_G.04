@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 import space.app.Model.Cafe;
 
 @Entity(tableName = "cafe")
@@ -129,5 +131,18 @@ public class CafeEntity {
 
     public void setIdUser(String idUser) {
         this.idUser = idUser;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CafeEntity that = (CafeEntity) o;
+        return Objects.equals(idCafe, that.idCafe);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idCafe);
     }
 }

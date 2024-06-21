@@ -14,15 +14,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/yaldevi"
         android:text="Trải nghiệm của bạn về"
         android:textColor="#000000"
         android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/iconClose"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="612dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -239,10 +242,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="-50dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNameShop">
+        app:layout_constraintTop_toBottomOf="@+id/textNameShop"
+        app:layout_constraintVertical_bias="0.222">
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -261,16 +266,17 @@
     </LinearLayout>
 
     <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/textNameShop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:fontFamily="@font/yaldevi"
         android:text="Hầm trú ẩn (Hoàng Ngọc Phách)"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -278,11 +284,12 @@
         android:id="@+id/iconClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/baseline_close_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.067">
 
     </ImageView>
 
