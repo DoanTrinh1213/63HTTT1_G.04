@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corners_tick"
-        android:paddingBottom="20dp">
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/textView"
@@ -29,21 +29,22 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
             android:fontFamily="@font/yaldevi"
             android:text="Quán đã được đội ngũ FindCafe đến trải nghiệm và giúp bạn \n khám phá mọi góc cạnh của quán trước khi bạn bước chân vào!"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView" />
 
         <Button
             android:id="@+id/btnContribute"
-            android:layout_width="379dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/rounded_btn"
             android:fontFamily="@font/yaldevi"
             android:text="Mình có quán muốn đóng góp"
@@ -52,23 +53,21 @@
             android:theme="@style/ButtonRegis"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintTop_toBottomOf="@id/textView4" />
 
         <Button
             android:id="@+id/btnUnderstood"
-            android:layout_width="379dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_outline_tick_cafe"
             android:fontFamily="@font/yaldevi"
             android:text="Đã hiểu"
             android:textAllCaps="false"
             android:textColor="#7A2A2A"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnContribute" />
-
+            app:layout_constraintTop_toBottomOf="@id/btnContribute" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
