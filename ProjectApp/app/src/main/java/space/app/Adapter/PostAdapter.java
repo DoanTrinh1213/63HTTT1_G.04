@@ -36,7 +36,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             return;
         }
         holder.bind(post);
-
     }
 
     @Override
@@ -63,10 +62,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         public void bind(Post post) {
-            textUser.setText(post.getIdUser());
-            textTimeReview.setText(post.getTimestamp());
-            textReview.setText(post.getComment());
-            ratingBar.setRating(Float.parseFloat(post.getStar()));
         }
     }
 }
