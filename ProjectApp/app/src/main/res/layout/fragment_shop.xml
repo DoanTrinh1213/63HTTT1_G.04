@@ -66,19 +66,6 @@
                             android:gravity="end"
                             android:orientation="horizontal">
 
-                            <ImageView
-                                android:id="@+id/iconBookmark"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/bookmark_white" />
-
-                            <ImageView
-                                android:id="@+id/iconShare"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="5dp"
-                                android:src="@drawable/share" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -89,10 +76,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="10dp"
-                        android:backgroundTint="#59DFDCDC"
+                        android:backgroundTint="#7CDFDCDC"
                         android:text="Xem tất cả ảnh"
                         android:textAllCaps="false"
-                        android:textColor="#979393" />
+                        android:textColor="#494949" />
 
                 </FrameLayout>
             </FrameLayout>
@@ -141,6 +128,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/yaldevi"
@@ -153,6 +141,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/open"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/yaldevi"
@@ -161,6 +150,7 @@
                             android:textSize="14dp" />
 
                         <TextView
+                            android:id="@+id/timeOpen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/yaldevi"
@@ -186,12 +176,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/userImage"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/circle_background"
-                        android:src="@drawable/usernone"></ImageView>
+                        app:cardCornerRadius="20dp">
+                        <ImageView
+                            android:id="@+id/userImage"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/circle_background"
+                            android:src="@drawable/usernone"></ImageView>
+                    </androidx.cardview.widget.CardView>
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -199,6 +195,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/username"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
@@ -208,6 +205,7 @@
                             android:textSize="14dp" />
 
                         <TextView
+                            android:id="@+id/userid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
@@ -247,6 +245,7 @@
                     android:textSize="12dp" />
 
                 <TextView
+                    android:id="@+id/price"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/yaldevi"
@@ -272,6 +271,7 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/timeOpen1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/yaldevi"
@@ -297,6 +297,7 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/hotline"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/yaldevi"
@@ -322,6 +323,7 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/purpose"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/yaldevi"
@@ -348,149 +350,157 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/yaldevi"
-                        android:text="Không gian:"
-                        android:textColor="#000000"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/iconImage"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/dots" />
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/secondTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/iconImage"
                             android:fontFamily="@font/yaldevi"
-                            android:text="Tách biệt, yên tĩnh, nhiều không gian, trong nhà, decor độc lạ."
+                            android:text="Không gian:"
                             android:textColor="#000000"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/iconImage"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/dots" />
+
+                            <TextView
+                                android:id="@+id/secondTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/iconImage"
+                                android:fontFamily="@font/yaldevi"
+                                android:text="Tách biệt, yên tĩnh, nhiều không gian, trong nhà, decor độc lạ."
+                                android:textColor="#000000"
+                                android:textSize="12dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/dots" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/iconImage"
+                                android:fontFamily="@font/yaldevi"
+                                android:text="Điểm trừ: có muỗi, hơi nóng."
+                                android:textColor="#000000"
+                                android:textSize="12dp" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/dots" />
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/iconImage"
                             android:fontFamily="@font/yaldevi"
-                            android:text="Điểm trừ: có muỗi, hơi nóng."
+                            android:text="Đồ uống:"
                             android:textColor="#000000"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/dots" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/iconImage"
+                                android:fontFamily="@font/yaldevi"
+                                android:text="Quán chỉ dùng hạt ngoại, hơi ngọt so với khẩu vị."
+                                android:textColor="#000000"
+                                android:textSize="12dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/yaldevi"
+                                android:text="Gợi ý trải nghiệm:"
+                                android:textColor="#000000"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:src="@drawable/dots" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@id/iconImage"
+                                    android:fontFamily="@font/yaldevi"
+                                    android:text="Gác lại mọi deadline rồi đi trốn thôi bạn ơi, dù là workmate hay là coffeemate thì cũng hẹn một ngày đẹp quá Hầm Trú  Ẩn nhé!"
+                                    android:textColor="#000000"
+                                    android:textSize="12dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
                     </LinearLayout>
-
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/yaldevi"
-                        android:text="Đồ uống:"
-                        android:textColor="#000000"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/dots" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/iconImage"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="Quán chỉ dùng hạt ngoại, hơi ngọt so với khẩu vị."
-                            android:textColor="#000000"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/yaldevi"
-                        android:text="Gợi ý trải nghiệm:"
-                        android:textColor="#000000"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/dots" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/iconImage"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="Gác lại mọi deadline rồi đi trốn thôi bạn ơi, dù là workmate hay là coffeemate thì cũng hẹn một ngày đẹp quá Hầm Trú  Ẩn nhé!"
-                            android:textColor="#000000"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -542,6 +552,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/star"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/yaldevi"
@@ -558,6 +569,7 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="-15dp"
@@ -589,12 +601,13 @@
                                 android:textSize="13sp" />
 
                             <ProgressBar
+                                android:id="@+id/prog5s"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="150dp"
                                 android:layout_height="3dp"
                                 android:layout_marginStart="10dp"
-                                android:max="5"
-                                android:progress="3"
+                                android:max="100"
+                                android:progress="60"
                                 android:progressDrawable="@drawable/progressbar_gray" />
                         </LinearLayout>
 
@@ -613,12 +626,13 @@
                                 android:textSize="13sp" />
 
                             <ProgressBar
+                                android:id="@+id/prog4s"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="150dp"
                                 android:layout_height="3dp"
                                 android:layout_marginStart="10dp"
-                                android:max="5"
-                                android:progress="3"
+                                android:max="100"
+                                android:progress="60"
                                 android:progressDrawable="@drawable/progressbar_gray" />
                         </LinearLayout>
 
@@ -637,12 +651,13 @@
                                 android:textSize="13sp" />
 
                             <ProgressBar
+                                android:id="@+id/prog3s"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="150dp"
                                 android:layout_height="3dp"
                                 android:layout_marginStart="10dp"
-                                android:max="5"
-                                android:progress="3"
+                                android:max="100"
+                                android:progress="60"
                                 android:progressDrawable="@drawable/progressbar_red" />
                         </LinearLayout>
 
@@ -661,12 +676,13 @@
                                 android:textSize="13sp" />
 
                             <ProgressBar
+                                android:id="@+id/prog2s"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="150dp"
                                 android:layout_height="3dp"
                                 android:layout_marginStart="10dp"
-                                android:max="5"
-                                android:progress="3"
+                                android:max="100"
+                                android:progress="60"
                                 android:progressDrawable="@drawable/progressbar_gray" />
                         </LinearLayout>
 
@@ -685,12 +701,13 @@
                                 android:textSize="13sp" />
 
                             <ProgressBar
+                                android:id="@+id/prog1s"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="150dp"
                                 android:layout_height="3dp"
                                 android:layout_marginStart="10dp"
-                                android:max="5"
-                                android:progress="3"
+                                android:max="100"
+                                android:progress="60"
                                 android:progressDrawable="@drawable/progressbar_gray" />
                         </LinearLayout>
 
@@ -774,8 +791,7 @@
 
             </LinearLayout>
 
-            <HorizontalScrollView
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true">

@@ -5,555 +5,588 @@
     android:id="@+id/fragment_container_Me"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.ContributeCafeInformationActivity"
-    android:background="#ECDCDC">
+    android:background="#ECDCDC"
+    tools:context=".Activity.ContributeCafeInformationActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints,UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/BackPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="20dp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="80dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/yaldevi"
+            android:text="Đóng góp thông tin quán"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:gravity="center_vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints,UseCompoundDrawables">
-
-            <ImageView
-                android:id="@+id/BackPerson"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
-                tools:layout_editor_absoluteX="20dp"
-                tools:layout_editor_absoluteY="20dp"
-                android:contentDescription="TODO" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="80dp"
-                android:layout_weight="1"
-                android:text="Đóng góp thông tin quán"
-                android:fontFamily="@font/yaldevi"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-
-                />
-        </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            android:paddingBottom="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:id="@+id/layoutMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/TextViewMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="Lấy dữ liệu từ GoogleMap "
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edtMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/yaldevi"
+                    android:hint="Liên kết GG Map của bạn"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BDBDBD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintTop_toTopOf="parent"></EditText>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:paddingBottom="40dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_margin="16dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/layoutMap"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/TextViewMap"
-                        android:layout_width="match_parent"
+                        android:id="@+id/TextCafeName"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/yaldevi"
-                        android:text="Lấy dữ liệu từ GoogleMap "
+                        android:text="Tên Quán "
                         android:textColor="@color/black" />
-
-                    <EditText
-                        android:id="@+id/edtMap"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rounded_rectangle"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/yaldevi"
-                        android:hint="Liên kết GG Map của bạn"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
-                        app:layout_constraintTop_toTopOf="parent"></EditText>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/TextCafeName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="Tên Quán "
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="*"
-                            android:textColor="@color/red">
-
-                        </TextView>
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/edtNameCafe"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rounded_rectangle"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/yaldevi"
-                        android:hint="Cộng Cafe"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </EditText>
-
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </ScrollView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/TextDiaChi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="Địa chỉ "
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="*"
-                            android:textColor="@color/red">
-
-                        </TextView>
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/edtAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rounded_rectangle"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/yaldevi"
-                        android:hint="Số nhà + Tên đường"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </EditText>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="Mục đích"
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="*"
-                            android:textColor="@color/red">
-
-                        </TextView>
-                    </LinearLayout>
-
-                    <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rounded_rectangle"
-                        android:backgroundTint="@color/white"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteX="1dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layoutCafeName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/txtTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/yaldevi"
-                            android:text="Giờ hoạt động "
-                            android:textColor="@color/black" />
-
-
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/edtTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rounded_rectangle"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/yaldevi"
-                        android:hint="Từ 8:00 đến 22:00"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </EditText>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/yaldevi"
-                        android:text="Mô tả quán "
-                        android:textColor="@color/black" />
+                        android:text="*"
+                        android:textColor="@color/red">
 
-                    <EditText
-                        android:id="@+id/edtDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rounded_rectangle"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/yaldevi"
-                        android:hint="Nhập mô tả quán"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
-                        app:layout_constraintStart_toEndOf="@id/TextViewMap"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </EditText>
+                    </TextView>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/yaldevi"
-                        android:text="Ảnh/video của quán (tối thiểu 3 ảnh) "
-                        android:textColor="@color/black" />
-
-                    <LinearLayout
-                        android:id="@+id/linearLayoutCafe"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@drawable/rounded_rectangle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="91dp">
-
-                        <RelativeLayout
-                            android:id="@+id/PickImageCafe"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                           >
-                            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                                android:id="@+id/floatingActionButtonCafe"
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="1dp"
-                                android:clickable="true"
-                                android:contentDescription="TODO"
-                                android:focusable="true"
-                                android:tint="#ffffff"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/baseline_image_24" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/floatingActionButtonCafe"
-                                android:layout_marginTop="2dp"
-                                android:fontFamily="@font/yaldevi"
-                                android:text="Chọn ảnh"
-                                android:textColor="@color/black"></TextView>
-                        </RelativeLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerViewCafe"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                             />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/yaldevi"
-                        android:text="Ảnh/video của menu (tối thiểu 3 ảnh) "
-                        android:textColor="@color/black" />
-
-                    <LinearLayout
-                        android:id="@+id/linearLayoutMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@drawable/rounded_rectangle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="91dp">
-
-                        <RelativeLayout
-                            android:id="@+id/PickImageMenu"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            >
-                            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                                android:id="@+id/floatingActionButtonMenu"
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="1dp"
-                                android:clickable="true"
-                                android:contentDescription="TODO"
-                                android:focusable="true"
-                                android:tint="#ffffff"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/baseline_image_24" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/floatingActionButtonMenu"
-                                android:layout_marginTop="2dp"
-                                android:fontFamily="@font/yaldevi"
-                                android:text="Chọn ảnh"
-                                android:textColor="@color/black"></TextView>
-                        </RelativeLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerViewMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/yaldevi"
-                        android:text="Giá trung bình "
-                        android:textColor="@color/black" />
-
-                    <EditText
-                        android:id="@+id/edtPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rounded_rectangle"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/yaldevi"
-                        android:hint="45000"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </EditText>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/yaldevi"
-                        android:text="Điện thoại liên hệ của quán "
-                        android:textColor="@color/black" />
-
-                    <EditText
-                        android:id="@+id/edtContact"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rounded_rectangle"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/yaldevi"
-                        android:hint="035xxxxxxx"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="#BDBDBD"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </EditText>
-                </LinearLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSendContributeCafe"
+                <EditText
+                    android:id="@+id/edtNameCafe"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:backgroundTint="#7A2A2A"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:backgroundTint="@color/white"
                     android:fontFamily="@font/yaldevi"
-                    android:text="Gửi"
-                    android:textColor="@color/white"
-                    app:cornerRadius="10dp"
+                    android:hint="Cộng Cafe"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BDBDBD"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edtContact"
-                    tools:ignore="DuplicateIds" />
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </EditText>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </ScrollView>
             </LinearLayout>
-        </ScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/TextDiaChi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/yaldevi"
+                        android:text="Địa chỉ "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/yaldevi"
+                        android:text="*"
+                        android:textColor="@color/red">
+
+                    </TextView>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edtAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/yaldevi"
+                    android:hint="Số nhà + Tên đường"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BDBDBD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/yaldevi"
+                        android:text="Mục đích"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/yaldevi"
+                        android:text="*"
+                        android:textColor="@color/red">
+
+                    </TextView>
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:backgroundTint="@color/white"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="1dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutCafeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/yaldevi"
+                        android:text="Giờ hoạt động "
+                        android:textColor="@color/black" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/edtTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/yaldevi"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BDBDBD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:fontFamily="@font/yaldevi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#BDBDBD"
+                        android:text="Từ">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/openTime"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/yaldevi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#d09c1c"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="18dp"
+                        android:text="08:00">
+                    </TextView>
+                    <TextView
+                        android:fontFamily="@font/yaldevi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#BDBDBD"
+                        android:text="tới">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/closeTime"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/yaldevi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#d09c1c"
+                        android:textSize="18dp"
+                        android:text="22:00">
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="Mô tả quán "
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/yaldevi"
+                    android:hint="Nhập mô tả quán"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BDBDBD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toEndOf="@id/TextViewMap"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="Ảnh/video của quán (tối thiểu 3 ảnh) "
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutCafe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="91dp">
+
+                    <RelativeLayout
+                        android:id="@+id/PickImageCafe"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/floatingActionButtonCafe"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:clickable="true"
+                            android:contentDescription="TODO"
+                            android:focusable="true"
+                            android:tint="#ffffff"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/baseline_image_24" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/floatingActionButtonCafe"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/yaldevi"
+                            android:text="Chọn ảnh"
+                            android:textColor="@color/black"></TextView>
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewCafe"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="Ảnh/video của menu (tối thiểu 3 ảnh) "
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="91dp">
+
+                    <RelativeLayout
+                        android:id="@+id/PickImageMenu"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/floatingActionButtonMenu"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:clickable="true"
+                            android:contentDescription="TODO"
+                            android:focusable="true"
+                            android:tint="#ffffff"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/baseline_image_24" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/floatingActionButtonMenu"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/yaldevi"
+                            android:text="Chọn ảnh"
+                            android:textColor="@color/black"></TextView>
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="Giá trung bình "
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edtPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/yaldevi"
+                    android:hint="45000"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BDBDBD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="Điện thoại liên hệ của quán "
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edtContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/yaldevi"
+                    android:hint="035xxxxxxx"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BDBDBD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </EditText>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSendContributeCafe"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:backgroundTint="#7A2A2A"
+                android:fontFamily="@font/yaldevi"
+                android:text="Gửi"
+                android:textColor="@color/white"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtContact"
+                tools:ignore="DuplicateIds" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
