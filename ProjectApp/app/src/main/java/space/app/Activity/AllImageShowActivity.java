@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class AllImageShowActivity extends AppCompatActivity {
             return insets;
         });
         Intent intent = getIntent();
+        String txtName = intent.getStringExtra("nameCafe");
         List<Uri> uri = (List<Uri>) intent.getSerializableExtra("ImageList");
         RecyclerView recyclerView = findViewById(R.id.allImage);
         recyclerView.setAdapter(new ImageAdapter(AllImageShowActivity.this, uri, new RecyclerViewOnClickItem() {
@@ -62,5 +64,8 @@ public class AllImageShowActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        TextView name = findViewById(R.id.name);
+        name.setText(txtName);
     }
 }
