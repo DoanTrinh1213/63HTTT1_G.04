@@ -205,11 +205,7 @@ public class EditInformationActivity extends AppCompatActivity {
                     saveImageUrl(downloadUri.toString());
 
                     Toast.makeText(EditInformationActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                    Toast toast = new Toast(EditInformationActivity.this);
-                    toast.setGravity(Gravity.BOTTOM, 0, 0);
-                    toast.setText("Lưu thành công!");
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(this, "Lưu thành công!", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(EditInformationActivity.this, MainActivity.class);
                     startActivity(intent);
