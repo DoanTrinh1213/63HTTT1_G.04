@@ -216,6 +216,7 @@ public class FragmentShop extends Fragment {
                         public void onClick(View v) {
                             Intent intent = new Intent(getActivity(), AllImageShowActivity.class);
                             intent.putExtra("ImageList", uriImageCafe);
+                            intent.putExtra("nameCafe",cafe.getResName());
                             startActivity(intent);
                         }
                     });
