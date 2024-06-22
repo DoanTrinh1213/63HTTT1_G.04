@@ -57,16 +57,6 @@
                             android:layout_marginTop="10dp"
                             android:src="@drawable/arrow_left" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_weight="2"
-                            android:gravity="end"
-                            android:orientation="horizontal">
-
-                        </LinearLayout>
                     </LinearLayout>
 
 
@@ -180,12 +170,15 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:cardCornerRadius="20dp">
+
                         <ImageView
                             android:id="@+id/userImage"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/circle_background"
-                            android:src="@drawable/usernone"></ImageView>
+                            android:src="@drawable/usernone">
+
+                        </ImageView>
                     </androidx.cardview.widget.CardView>
 
 
@@ -504,6 +497,34 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="#ffff"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/yaldevi"
+                    android:text="Menu"
+                    android:textColor="#000000"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                </androidx.core.widget.NestedScrollView>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -726,8 +747,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp">
-
-                    <include layout="@layout/fragment_evalute"></include>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rcvReview"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                 </LinearLayout>
 
                 <!-- Second Divider -->
@@ -791,27 +815,33 @@
 
             </LinearLayout>
 
-            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp">
-
-                    <include layout="@layout/fragment_tools_shop">
-
-                    </include>
-                </LinearLayout>
-            </HorizontalScrollView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="9" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="170dp"/>
         </LinearLayout>
     </ScrollView>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_marginBottom="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <include layout="@layout/fragment_tools_shop" />
+        </LinearLayout>
+    </HorizontalScrollView>
 </FrameLayout>
