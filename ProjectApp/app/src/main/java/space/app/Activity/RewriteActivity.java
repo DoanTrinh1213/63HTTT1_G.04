@@ -206,7 +206,7 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
 
     private void uploadToFirebase(Uri imageUri) {
         final String randomName = UUID.randomUUID().toString();
-        storageReference = firebaseStorage.getReference().child("images/" + randomName);
+        storageReference = firebaseStorage.getReference().child("Img/comments/" + randomName);
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

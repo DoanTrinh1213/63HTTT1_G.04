@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.Gravity;
@@ -25,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -36,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,10 +49,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import space.app.Activity.AllImageShowActivity;
 import space.app.Activity.MainActivity;
 import space.app.Activity.ReviewAllActivity;
 import space.app.Activity.RewriteActivity;
+import space.app.Adapter.ImageAdapter;
 import space.app.Database.Entity.UriEntity;
+import space.app.Interface.HeightWidthOnSet;
+import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
 import space.app.Model.User;
 import space.app.R;
@@ -108,6 +118,12 @@ public class FragmentShop extends Fragment {
 
         ImageView imageShop = view.findViewById(R.id.imageShop);
         Button btnImage = view.findViewById(R.id.btnImage);
+        btnImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Không có ảnh để hiển thị!", Toast.LENGTH_SHORT).show();
+            }
+        });
         TextView address = view.findViewById(R.id.address);
         TextView open = view.findViewById(R.id.open);
         TextView timeOpen = view.findViewById(R.id.timeOpen);
@@ -144,17 +160,16 @@ public class FragmentShop extends Fragment {
         TextView username = view.findViewById(R.id.username);
         TextView userid = view.findViewById(R.id.userid);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        if(cafe.getIdUser()!=null){
+        if (cafe.getIdUser() != null) {
             firebaseDatabase.getReference("User").child(cafe.getIdUser()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User user = new User();
                     user = snapshot.getValue(User.class);
-                    if(user!=null){
+                    if (user != null) {
                         username.setText(user.getUserName());
                         userid.setText(user.getId());
-                    }
-                    else{
+                    } else {
                         username.setText("NonIdentity");
                         userid.setText("NonIdentity");
                     }
@@ -167,6 +182,8 @@ public class FragmentShop extends Fragment {
             });
         }
 
+        ArrayList<Uri> uriImageCafe = new ArrayList<>();
+
         RequestOptions requestOptions = new RequestOptions()
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -175,10 +192,33 @@ public class FragmentShop extends Fragment {
             @Override
             public void onChanged(List<UriEntity> uriEntities) {
                 if (!uriEntities.isEmpty()) {
-                    Glide.with(getContext())
-                            .load(uriEntities.get(uriEntities.size() - 1).getUri())
-                            .apply(requestOptions)
-                            .into(imageShop);
+                    Uri uri = Uri.parse(uriEntities.get(uriEntities.size() - 1).getUri());
+                    if (getActivity() != null) {
+                        Glide.with(getActivity())
+                                .load(uri)
+                                .apply(requestOptions)
+                                .into(imageShop);
+                    }
+
+                    imageShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openDialogImage(uri);
+                        }
+                    });
+
+                    uriImageCafe.clear();
+                    for (UriEntity uriImage : uriEntities) {
+                        uriImageCafe.add(Uri.parse(uriImage.getUri()));
+                    }
+                    btnImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), AllImageShowActivity.class);
+                            intent.putExtra("ImageList", uriImageCafe);
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
         });
@@ -187,11 +227,15 @@ public class FragmentShop extends Fragment {
             @Override
             public void onChanged(List<UriEntity> uriEntities) {
                 if (!uriEntities.isEmpty()) {
-                    Log.d("Image uri", uriEntities.get(0).getUri().toString());
-                    Glide.with(getContext())
-                            .load(uriEntities.get(0).getUri())
-                            .apply(requestOptions)
-                            .into(imageUser);
+                    if (getActivity() != null) {
+                        Log.d("Image uri", uriEntities.get(0).getUri().toString());
+                        if (getActivity() != null) {
+                            Glide.with(getActivity())
+                                    .load(uriEntities.get(0).getUri())
+                                    .apply(requestOptions)
+                                    .into(imageUser);
+                        }
+                    }
                 }
             }
         });
@@ -201,41 +245,46 @@ public class FragmentShop extends Fragment {
 
 
         if (cafe.getTimeOpen() != null) {
-            timeOpen.setText(cafe.getTimeOpen());
-            timeOpen1.setText(cafe.getTimeOpen());
-            String timeShop = cafe.getTimeOpen();
-            String[] parts = timeShop.split("-");
-            String openTime = parts[0];
-            String closeTime = parts[1];
+            if (cafe.getTimeOpen().equals("00:00-00:00")) {
+                open.setText("Đang mở cửa ");
+                open.setTextColor(Color.parseColor("#047709"));
+            } else {
+                timeOpen.setText(cafe.getTimeOpen());
+                timeOpen1.setText(cafe.getTimeOpen());
+                String timeShop = cafe.getTimeOpen();
+                String[] parts = timeShop.split("-");
+                String openTime = parts[0];
+                String closeTime = parts[1];
 
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
-            Calendar calendar = Calendar.getInstance();
-            int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+                Calendar calendar = Calendar.getInstance();
+                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 
-            try {
-                Date openDate = sdf.parse(openTime);
-                Date closeDate = sdf.parse(closeTime);
+                try {
+                    Date openDate = sdf.parse(openTime);
+                    Date closeDate = sdf.parse(closeTime);
 
-                calendar.setTime(openDate);
-                int startHour = calendar.get(Calendar.HOUR_OF_DAY);
-                calendar.setTime(closeDate);
-                int endHour = calendar.get(Calendar.HOUR_OF_DAY);
+                    calendar.setTime(openDate);
+                    int startHour = calendar.get(Calendar.HOUR_OF_DAY);
+                    calendar.setTime(closeDate);
+                    int endHour = calendar.get(Calendar.HOUR_OF_DAY);
 
-                if (closeDate.before(openDate)) {
-                    calendar.add(Calendar.DATE, 1);
-                    endHour = calendar.get(Calendar.HOUR_OF_DAY);
+                    if (closeDate.before(openDate)) {
+                        calendar.add(Calendar.DATE, 1);
+                        endHour = calendar.get(Calendar.HOUR_OF_DAY);
+                    }
+
+                    if (currentHour >= startHour && currentHour < endHour) {
+                        open.setText("Đang mở cửa ");
+                        open.setTextColor(Color.parseColor("#047709"));
+                    } else {
+                        open.setText("Đã đóng cửa ");
+                        open.setTextColor(Color.parseColor("#d55352"));
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-
-                if (currentHour >= startHour && currentHour < endHour) {
-                    open.setText("Đang mở cửa ");
-                    open.setTextColor(Color.parseColor("#047709"));
-                } else {
-                    open.setText("Đã đóng cửa ");
-                    open.setTextColor(Color.parseColor("#d55352"));
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
 
         }
@@ -246,7 +295,9 @@ public class FragmentShop extends Fragment {
             @Override
             public void onClick(View v) {
                 // Chuyển đổi Fragment khi nhấn vào iconBack
-                getActivity().finish();
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
             }
         });
 
@@ -263,10 +314,6 @@ public class FragmentShop extends Fragment {
         ViewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_shop, new FragmentReviewAll());
-//                transaction.addToBackStack(null);
-//                transaction.commit();
                 Intent intent = new Intent(getActivity(), ReviewAllActivity.class);
                 startActivity(intent);
             }
@@ -287,7 +334,65 @@ public class FragmentShop extends Fragment {
             }
         });
 
+        RecyclerView menu = view.findViewById(R.id.menu);
+        List<Uri> imgMenu = new ArrayList<>();
+        uriViewModel.getUriByIdCafeAndType(cafe.getIdCafe(), "Menu").observe(getViewLifecycleOwner(), new Observer<List<UriEntity>>() {
+            @Override
+            public void onChanged(List<UriEntity> uriEntities) {
+                if (uriEntities != null) {
+                    imgMenu.clear();
+                    for (UriEntity uri : uriEntities) {
+                        imgMenu.add(Uri.parse(uri.getUri()));
+                    }
+                    menu.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                    menu.setAdapter(new ImageAdapter(getContext(), imgMenu, new RecyclerViewOnClickItem() {
+                        @Override
+                        public void onItemClickImage(Uri uri) {
+                            space.app.Helper.Dialog.openDialogImage(getContext(), uri);
+                        }
+                    }, new HeightWidthOnSet() {
+                        @Override
+                        public void setParams(View view) {
+                            view.getLayoutParams().width = 300;
+                            view.getLayoutParams().height = 300;
+                        }
+                    }));
+                }
+            }
+        });
+
         return view;
+    }
+
+    private void openDialogImage(Uri uri) {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.fragment_show_image_compo);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        window.setBackgroundDrawable(new ColorDrawable(0xBF000000));
+        WindowManager.LayoutParams windowAttributesribute = window.getAttributes();
+        windowAttributesribute.gravity = Gravity.CENTER;
+        dialog.setCancelable(true);
+        ImageView image = dialog.findViewById(R.id.image);
+        if (uri != null) {
+            Glide.with(context).load(uri).into(image);
+        }
+        dialog.show();
+        ImageView backImg = dialog.findViewById(R.id.close);
+        backImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void openDialogTickCafe(int gravity) {
@@ -313,7 +418,6 @@ public class FragmentShop extends Fragment {
             dialog.setCancelable(true);
         } else {
             dialog.setCancelable(false);
-
         }
         Button btnContribute = dialog.findViewById(R.id.btnContribute);
         Button btnUnderstood = dialog.findViewById(R.id.btnUnderstood);

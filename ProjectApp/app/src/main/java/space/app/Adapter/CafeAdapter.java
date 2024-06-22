@@ -183,38 +183,43 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
         });
 
         String timeShop = cafe.getTimeOpen();
-        String[] parts = timeShop.split("-");
-        String openTime = parts[0];
-        String closeTime = parts[1];
+        if (timeShop.equals("00:00-00:00")) {
+            holder.open.setText("Đang mở cửa ");
+            holder.open.setTextColor(Color.parseColor("#047709"));
+        } else {
+            String[] parts = timeShop.split("-");
+            String openTime = parts[0];
+            String closeTime = parts[1];
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
-        Calendar calendar = Calendar.getInstance();
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+            Calendar calendar = Calendar.getInstance();
+            int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 
-        try {
-            Date openDate = sdf.parse(openTime);
-            Date closeDate = sdf.parse(closeTime);
+            try {
+                Date openDate = sdf.parse(openTime);
+                Date closeDate = sdf.parse(closeTime);
 
-            calendar.setTime(openDate);
-            int startHour = calendar.get(Calendar.HOUR_OF_DAY);
-            calendar.setTime(closeDate);
-            int endHour = calendar.get(Calendar.HOUR_OF_DAY);
+                calendar.setTime(openDate);
+                int startHour = calendar.get(Calendar.HOUR_OF_DAY);
+                calendar.setTime(closeDate);
+                int endHour = calendar.get(Calendar.HOUR_OF_DAY);
 
-            if (closeDate.before(openDate)) {
-                calendar.add(Calendar.DATE, 1);
-                endHour = calendar.get(Calendar.HOUR_OF_DAY);
+                if (closeDate.before(openDate)) {
+                    calendar.add(Calendar.DATE, 1);
+                    endHour = calendar.get(Calendar.HOUR_OF_DAY);
+                }
+
+                if (currentHour >= startHour && currentHour < endHour) {
+                    holder.open.setText("Đang mở cửa ");
+                    holder.open.setTextColor(Color.parseColor("#047709"));
+                } else {
+                    holder.open.setText("Đã đóng cửa ");
+                    holder.open.setTextColor(Color.parseColor("#d55352"));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-
-            if (currentHour >= startHour && currentHour < endHour) {
-                holder.open.setText("Đang mở cửa ");
-                holder.open.setTextColor(Color.parseColor("#047709"));
-            } else {
-                holder.open.setText("Đã đóng cửa ");
-                holder.open.setTextColor(Color.parseColor("#d55352"));
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
     }
 
@@ -233,6 +238,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
         private ImageView bookmark;
 
         private TextView open;
+
         public CafeViewHolder(@NonNull View itemView) {
             super(itemView);
             cafeNameTextView = itemView.findViewById(R.id.textViewCafeShop);
