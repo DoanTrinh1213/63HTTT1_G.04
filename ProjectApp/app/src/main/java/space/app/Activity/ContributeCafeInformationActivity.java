@@ -85,7 +85,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
 
     private ArrayList<Uri> ChooseImageListCafe;
     private ArrayList<Uri> ChooseImageListMenu;
-    private static final int MIN_IMAGE_COUNT = 3;
+    private static final int MIN_IMAGE_COUNT = 2;
 
     private static final int PERMISSION_REQUEST_CODE = 2;
     private static final int PICK_IMAGE_REQUEST_CODE = 1;
@@ -349,12 +349,10 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
 
     private int getCurrentCafeCount() {
         SharedPreferences sharedPreferences = getSharedPreferences("CafeCountPrefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("cafeCount", 0); // Trả về số lượng quán, mặc định là 0
+        return sharedPreferences.getInt("cafeCount", 0);
     }
 
     private void saveCafeCount(int count) {
-        // Lưu số lượng quán mới vào SharedPreferences hoặc cập nhật vào Database
-        // Ví dụ: lưu vào SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("CafeCountPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("cafeCount", count);
@@ -469,7 +467,7 @@ public class ContributeCafeInformationActivity extends AppCompatActivity impleme
 //            }
             runOnUiThread(() -> {
                 if (selectedImages.size() < MIN_IMAGE_COUNT) {
-                    Toast.makeText(this, "Bạn cần up tối thiểu 3 ảnh", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Bạn cần up tối thiểu 2 ảnh", Toast.LENGTH_SHORT).show();
                 } else {
                     if (requestCode == PICK_IMAGE_REQUEST_CODE) {
                         ChooseImageListCafe.clear();
