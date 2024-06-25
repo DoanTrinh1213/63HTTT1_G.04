@@ -521,7 +521,9 @@
                         android:id="@+id/menu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                        android:nestedScrollingEnabled="false">
+
+                    </androidx.recyclerview.widget.RecyclerView>
                 </androidx.core.widget.NestedScrollView>
 
             </LinearLayout>
