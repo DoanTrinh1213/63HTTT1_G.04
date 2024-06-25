@@ -47,7 +47,7 @@
             android:maxWidth="200dp"
             android:text="FindCoffee"
             android:textColor="#d09c1c"
-            android:textSize="30dp"></TextView>
+            android:textSize="20dp"></TextView>
     </LinearLayout>
 
     <ImageView
