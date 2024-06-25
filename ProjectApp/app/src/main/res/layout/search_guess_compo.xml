@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/yaldevi"
             android:text="335m"
+            android:layout_marginStart="10dp"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="10dp"></TextView>
 

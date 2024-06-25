@@ -71,7 +71,6 @@ public class CafeContributeActivity extends AppCompatActivity {
         if (currentUser != null) {
             String userId = currentUser.getUid();
             saveCafeCountToFirebase(userId, currentCount);
-            loadCafesFromFirebase(userId);
         } else {
             Toast.makeText(this, "Không thể lấy được thông tin người dùng", Toast.LENGTH_SHORT).show();
         }
@@ -89,36 +88,9 @@ public class CafeContributeActivity extends AppCompatActivity {
                 });
     }
 
-    private void loadCafesFromFirebase(String userId) {
-        DatabaseReference cafesRef = mDatabase.child("Cafe").child(userId);
-        cafesRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Cafe> cafes = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Cafe cafe = snapshot.getValue(Cafe.class);
-                    cafes.add(cafe);
-                }
-                displayCafesInRecyclerView(cafes);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(CafeContributeActivity.this, "Đã xảy ra lỗi khi đọc dữ liệu quán", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
-    private void displayCafesInRecyclerView(List<Cafe> cafes) {
-        recyclerView.setAdapter(new CafeAdapter(cafes, new RecyclerViewOnClickItem() {
-            @Override
-            public void onItemClickCafe(Cafe cafe) {
-                Intent intent = new Intent(CafeContributeActivity.this, FragmentShop.class);
-                intent.putExtra("Object_Cafe", cafe);
-                startActivity(intent);
-            }
-        }));
-    }
+
 
     private int getCurrentCafeCount() {
         SharedPreferences sharedPreferences = getSharedPreferences(CAFE_COUNT_PREFS, MODE_PRIVATE);

@@ -156,6 +156,15 @@
                             android:textColor="#000000"
                             android:textSize="14dp" />
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/linkCafe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/yaldevi"
+                        android:text=""
+                        android:textColor="#ffffff"
+                        android:textSize="0dp" />
+
 
                 </LinearLayout>
             </LinearLayout>
@@ -242,7 +251,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/yaldevi"
-                    android:text="100.000 đ"
+                    android:text="100.000đ"
                     android:textColor="#000000"
                     android:textSize="12dp" />
             </LinearLayout>
