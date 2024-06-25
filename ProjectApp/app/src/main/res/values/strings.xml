@@ -23,4 +23,6 @@
     <string name="string_10"><![CDATA[>10km]]></string>
     <string name="todo">TODO</string>
     <string name="default_web_client_id">112660183705-9qh6bnjhavokqeq3vu82bdes3m9q7rd7.apps.googleusercontent.com</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="google_map_api_key">AIzaSyBAWPMvO86nEaUDNRzJhm6cBjmWnLysxHo</string>
 </resources>

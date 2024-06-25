@@ -2,15 +2,24 @@ package space.app.UI.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -19,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -50,6 +60,7 @@ import java.util.List;
 
 import space.app.Activity.DetailAcitvity;
 import space.app.Activity.MainActivity;
+import space.app.Activity.MapsActivity;
 import space.app.Activity.SearchAcitivity;
 import space.app.Adapter.CafeAdapter;
 import space.app.Database.Entity.CafeEntity;
@@ -84,6 +95,7 @@ public class FragmentCafeHomePage extends Fragment {
     private SearchViewModel searchViewModel;
     private RecyclerView recyclerViewOther;
     private RecyclerView recyclerView;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
 
     public FragmentCafeHomePage() {
@@ -268,26 +280,85 @@ public class FragmentCafeHomePage extends Fragment {
                 cafeViewModel.getCafeByOpen().observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
                     @Override
                     public void onChanged(List<CafeEntity> cafeEntities) {
-                        if(!cafeEntities.isEmpty()){
+                        if (!cafeEntities.isEmpty()) {
                             List<Cafe> cafe = new ArrayList<>();
-                            List<Cafe> cafes= new ArrayList<>();
+                            List<Cafe> cafes = new ArrayList<>();
 
-                            for(CafeEntity cafeEntity : cafeEntities){
+                            for (CafeEntity cafeEntity : cafeEntities) {
                                 Cafe cafe2 = Converter.convertCafeEntityToCafeModel(cafeEntity);
                                 cafes.add(cafe2);
                             }
 
-                            updateRecycleViewOrther(view,cafes);
-                            updateRecycleViewFindCafe(view,cafe);
+                            updateRecycleViewOrther(view, cafes);
+                            updateRecycleViewFindCafe(view, cafe);
                         }
                     }
                 });
             }
         });
 
+        ImageView iconMap = view.findViewById(R.id.iconMap);
+        iconMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkLocationPermissionAndStartMapsActivity();
+            }
+        });
+
         return view;
     }
 
+    private void checkLocationPermissionAndStartMapsActivity() {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        } else {
+            if (isLocationEnabled()) {
+                // Mở MapsActivity
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
+            } else {
+                // Hiển thị thông báo yêu cầu bật dịch vụ định vị
+                showLocationEnabledDialog();
+            }
+        }
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private void showLocationEnabledDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Dịch vụ định vị bị tắt")
+                .setMessage("Vui lòng bật dịch vụ định vị để sử dụng tính năng này.")
+                .setPositiveButton("Cài đặt", (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            isGranted -> {
+                if (isGranted) {
+                    checkLocationPermissionAndStartMapsActivity();
+                } else {
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("Quyền vị trí bị từ chối")
+                            .setMessage("Ứng dụng cần quyền vị trí để hoạt động. Vui lòng cấp quyền vị trí.")
+                            .setPositiveButton("Cài đặt", (dialog, which) -> {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:" + requireContext().getPackageName()));
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("Hủy", null)
+                            .show();
+                }
+            }
+    );
 
     private void updateRecycleViewOrther(View view, List<Cafe> cafes) {
         RecyclerView recyclerViewOther = view.findViewById(R.id.recyclerViewCafeByOrther);
@@ -436,17 +507,17 @@ public class FragmentCafeHomePage extends Fragment {
                 cafeViewModel.getCafeByPrice(price).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
                     @Override
                     public void onChanged(List<CafeEntity> cafeEntities) {
-                        if(!cafeEntities.isEmpty()){
+                        if (!cafeEntities.isEmpty()) {
                             List<Cafe> cafes = new ArrayList<>();
-                            for(CafeEntity cafeEntity : cafeEntities){
+                            for (CafeEntity cafeEntity : cafeEntities) {
                                 Cafe cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
                                 cafes.add(cafe);
                             }
                             View view = getView();
-                            updateRecycleViewOrther(view,cafes);
+                            updateRecycleViewOrther(view, cafes);
 
-                            List<Cafe> cafe= new ArrayList<>();
-                            updateRecycleViewFindCafe(view,cafe);
+                            List<Cafe> cafe = new ArrayList<>();
+                            updateRecycleViewFindCafe(view, cafe);
                         }
                         dialog.dismiss();
                     }
@@ -559,7 +630,7 @@ public class FragmentCafeHomePage extends Fragment {
             }
         });
 
-        Button searchClick= dialog.findViewById(R.id.apply);
+        Button searchClick = dialog.findViewById(R.id.apply);
         searchClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -568,17 +639,17 @@ public class FragmentCafeHomePage extends Fragment {
                 cafeViewModel.getCafeByDistance(distance).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
                     @Override
                     public void onChanged(List<CafeEntity> cafeEntities) {
-                        if(!cafeEntities.isEmpty()){
+                        if (!cafeEntities.isEmpty()) {
                             List<Cafe> cafes = new ArrayList<>();
-                            for(CafeEntity cafeEntity : cafeEntities){
+                            for (CafeEntity cafeEntity : cafeEntities) {
                                 Cafe cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
                                 cafes.add(cafe);
                             }
                             View view = getView();
-                            updateRecycleViewOrther(view,cafes);
+                            updateRecycleViewOrther(view, cafes);
 
-                            List<Cafe> cafe= new ArrayList<>();
-                            updateRecycleViewFindCafe(view,cafe);
+                            List<Cafe> cafe = new ArrayList<>();
+                            updateRecycleViewFindCafe(view, cafe);
                         }
                         dialog.dismiss();
                     }
@@ -683,20 +754,20 @@ public class FragmentCafeHomePage extends Fragment {
                 if (cBoxWork.isChecked()) {
                     purposes.add("Làm việc");
                 }
-                if(!purposes.isEmpty()){
+                if (!purposes.isEmpty()) {
                     CafeViewModel cafeViewModel = new ViewModelProvider(getActivity()).get(CafeViewModel.class);
                     cafeViewModel.getCafeByPurpose(purposes).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
                         @Override
                         public void onChanged(List<CafeEntity> cafeEntities) {
                             List<Cafe> cafes = new ArrayList<>();
-                            for(CafeEntity cafeEntity:cafeEntities){
+                            for (CafeEntity cafeEntity : cafeEntities) {
                                 Cafe cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
                                 cafes.add(cafe);
                             }
                             List<Cafe> cafe = new ArrayList<>();
                             View view = getView();
-                            updateRecycleViewFindCafe(view,cafe);
-                            updateRecycleViewOrther(view,cafes);
+                            updateRecycleViewFindCafe(view, cafe);
+                            updateRecycleViewOrther(view, cafes);
                             dialog.dismiss();
                         }
                     });
@@ -988,10 +1059,10 @@ public class FragmentCafeHomePage extends Fragment {
                             }
                             Log.d("List cafe search", String.valueOf(cafeEntities.size()));
                             View view = getView();
-                            updateRecycleViewOrther(view,cafes);
+                            updateRecycleViewOrther(view, cafes);
 
                             List<Cafe> cafe = new ArrayList<>();
-                            updateRecycleViewFindCafe(view,cafe);
+                            updateRecycleViewFindCafe(view, cafe);
                         } else {
                             Toast.makeText(context, "Có vẻ là bạn chưa chọn bộ lọc !", Toast.LENGTH_SHORT).show();
                         }
