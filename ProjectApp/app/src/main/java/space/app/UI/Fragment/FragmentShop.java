@@ -75,7 +75,7 @@ public class FragmentShop extends Fragment {
     private String mParam1;
     private String mParam2;
     private Cafe cafe;
-    private LinearLayout tick;
+    private LinearLayout tick,linearRevieww;
 
     public FragmentShop() {
         // Required empty public constructor
@@ -111,6 +111,7 @@ public class FragmentShop extends Fragment {
         ImageView iconBack = view.findViewById(R.id.iconBack);
         LinearLayout lnfindCafe = view.findViewById(R.id.lnfindCafe);
         LinearLayout tick = view.findViewById(R.id.tick);
+        LinearLayout linearRevieww = view.findViewById(R.id.linearRevieww);
         Button ViewAll = view.findViewById(R.id.ViewAll);
         Button btnContribute = view.findViewById(R.id.btnCafeContribute);
         TextView nameCafe = view.findViewById(R.id.nameCafe);
@@ -302,15 +303,15 @@ public class FragmentShop extends Fragment {
             }
         });
 
-        lnfindCafe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_shop, new FragmentFindCafe());
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
+//        lnfindCafe.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_shop, new FragmentFindCafe());
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+//            }
+//        });
 
         ViewAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -320,7 +321,13 @@ public class FragmentShop extends Fragment {
             }
 
         });
-
+        linearRevieww.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RewriteActivity.class);
+                startActivity(intent);
+            }
+        });
         btnContribute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

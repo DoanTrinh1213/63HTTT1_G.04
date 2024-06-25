@@ -34,7 +34,7 @@ public interface CafeDAO {
     @Query("SELECT * From cafe where idUser !='findCoffee' Order by evaluate desc")
     LiveData<List<CafeEntity>> getCafeByTopEvaluate();
 
-    @Query("SELECT * From cafe where idUser = 'findCoffee' Order by evaluate desc limit 5")
+    @Query("SELECT * From cafe where idUser = 'findCoffee' Order by evaluate ")
     LiveData<List<CafeEntity>> getCafesByFindCoffee();
 
     @Query("SELECT * FROM cafe WHERE resName LIKE '%' || :searchTerm || '%' and idUser = 'findCoffee'")

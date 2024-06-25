@@ -47,14 +47,14 @@ public class CafeImageRecyclerViewAdapter extends RecyclerView.Adapter<CafeImage
         holder.removeButtonCafe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imageUrls.size() > 3) {
+                if (imageUrls.size() > 2) {
                     imageUrls.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, imageUrls.size());
                     listener.onImageRemoved();
                     Toast.makeText(context, "Đã xóa ảnh thành công", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "Bạn cần up tối thiểu 3 ảnh", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Bạn cần up tối thiểu 2 ảnh", Toast.LENGTH_SHORT).show();
                 }
             }
         });
