@@ -23,6 +23,6 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="8dp"
         android:background="@android:color/transparent"
-        android:src="@android:drawable/ic_delete" />
+        android:src="@drawable/baseline_close_24" />
 
 </RelativeLayout>

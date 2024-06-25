@@ -111,7 +111,7 @@ public class EditInformationActivity extends AppCompatActivity {
             userImage.setImageURI(Uri.parse(imageUrl));
         } else {
             userImage.setImageResource(R.drawable.logo);
-            Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(EditInformationActivity.this, "Không thể tải ảnh , vui lòng thêm lại ảnh hoặc kiểm tra kết nối mạng và thử lại!", Toast.LENGTH_SHORT).show();
         }
         materialButton.setOnClickListener(v -> {
             ImagePicker.with(this)

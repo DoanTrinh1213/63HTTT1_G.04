@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="Jimmy"
+            android:text="Quán bạn đã đóng góp"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -40,6 +40,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lnCount"
         android:layout_width="360dp"
         android:layout_height="100dp"
         android:layout_marginTop="48dp"
@@ -59,10 +60,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jimmy"
+                android:text="Cảm ơn bạn đã đóng góp 🥰 "
                 android:textColor="#000000"
                 android:textStyle="bold" />
 
@@ -70,17 +71,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <EditText
+                <TextView
                     android:id="@+id/etdCount"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 "
                     android:textColor="#000000" />
                 <TextView
                     android:id="@+id/txtQuandongdop"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="quán đóng góp"
+                    android:text=" quán đóng góp"
                     android:textColor="#000000" />
             </LinearLayout>
 
@@ -89,14 +92,29 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@drawable/image"
-            android:layout_marginStart="150dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/circle_background"
+            android:scaleType="fitCenter"
+            android:backgroundTint="@color/black"
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/findcafee"
+            android:layout_marginStart="70dp"
             android:layout_marginTop="20dp"/>
-
 
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ListContributeCafe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lnCount"
+        app:layout_constraintVertical_bias="0.13" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

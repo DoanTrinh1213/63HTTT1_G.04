@@ -374,7 +374,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/yaldevi"
-                    android:text="Ảnh/video của quán (tối thiểu 3 ảnh) "
+                    android:text="Ảnh/video của quán (tối thiểu 2 ảnh) "
                     android:textColor="@color/black" />
 
                 <LinearLayout
@@ -443,7 +443,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/yaldevi"
-                    android:text="Ảnh/video của menu (tối thiểu 3 ảnh) "
+                    android:text="Ảnh/video của menu (tối thiểu 2 ảnh) "
                     android:textColor="@color/black" />
 
                 <LinearLayout
