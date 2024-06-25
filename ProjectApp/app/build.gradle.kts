@@ -3,6 +3,7 @@ import org.apache.tools.ant.util.JavaEnvUtils.VERSION_1_8
 plugins {
     alias(libs.plugins.androidApplication)
     id("com.google.gms.google-services")
+    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
 }
 
 android {
@@ -56,6 +57,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation("com.google.android.gms:play-services-auth:21.1.1")
     implementation("com.google.android.gms:play-services-maps:18.0.0")
+    implementation("com.google.android.gms:play-services-location:18.0.0")
+    implementation("com.google.android.libraries.places:places:3.3.0")
     implementation("androidx.room:room-runtime:2.5.0")
     implementation(libs.room.common)
     annotationProcessor("androidx.room:room-compiler:2.5.0") // For Java
