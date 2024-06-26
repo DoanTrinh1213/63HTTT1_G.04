@@ -80,7 +80,7 @@ public class PostHelper {
     }
 
     public Float starRating(String idCafe){
-        List<Post> posts =getAllPostByIdCafe(idCafe);
+        List<Post> posts = getAllPostByIdCafe(idCafe);
         Float sum= 0.0F;
         for(Post post:posts){
             sum += Float.parseFloat(post.getStar());
