@@ -1,6 +1,8 @@
 package space.app.UI.Fragment;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,6 +42,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.BreakIterator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,7 +85,7 @@ public class FragmentShop extends Fragment {
     private String mParam1;
     private String mParam2;
     private Cafe cafe;
-    private LinearLayout tick,linearRevieww;
+    private LinearLayout tick,linearRevieww,linearShare;
 
     public FragmentShop() {
         // Required empty public constructor
@@ -118,18 +121,26 @@ public class FragmentShop extends Fragment {
         ImageView iconBack = view.findViewById(R.id.iconBack);
         LinearLayout lnfindCafe = view.findViewById(R.id.lnfindCafe);
         LinearLayout tick = view.findViewById(R.id.tick);
+        LinearLayout linearShare = view.findViewById(R.id.linearShare);
         LinearLayout linearRevieww = view.findViewById(R.id.linearRevieww);
         Button ViewAll = view.findViewById(R.id.ViewAll);
         Button btnContribute = view.findViewById(R.id.btnCafeContribute);
+        TextView linkCafe = view.findViewById(R.id.linkCafe);
+        linkCafe.setText(cafe.getLink());
         TextView nameCafe = view.findViewById(R.id.nameCafe);
         nameCafe.setText(cafe.getResName());
-
         ImageView imageShop = view.findViewById(R.id.imageShop);
         Button btnImage = view.findViewById(R.id.btnImage);
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Không có ảnh để hiển thị!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        linearShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareLink(view);
             }
         });
         TextView address = view.findViewById(R.id.address);
@@ -400,6 +411,19 @@ public class FragmentShop extends Fragment {
 
         return view;
     }
+
+    private void shareLink( View view) {
+            TextView linkCafe = view.findViewById(R.id.linkCafe);
+            String shareBody = linkCafe.getText().toString();
+            String shareSubject = "Chọn app muốn chia sẻ";
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
+            intent.putExtra(Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(intent, "Chia sẻ"));
+
+    }
+
 
     private void openDialogImage(Uri uri) {
         Context context = getContext();
