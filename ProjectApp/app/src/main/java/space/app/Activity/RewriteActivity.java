@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -69,6 +70,7 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
     private FirebaseDatabase firebaseDatabase;
     private FirebaseStorage firebaseStorage;
     private Cafe cafe;
+    private TextView textNameShop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
         cafe = (Cafe) intent.getSerializableExtra("rewriteCafe");
 
         iconClose = findViewById(R.id.iconClose);
+        textNameShop = findViewById(R.id.textNameShop);
         recyclerView = findViewById(R.id.recyclerViewGalleryImages);
         pick = findViewById(R.id.pick);
         deletepick = findViewById(R.id.deletepick);
@@ -165,6 +168,8 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
                 addComment();
             }
         });
+
+        textNameShop.setText(cafe.getResName());
     }
 
     private void openImagePicker() {
