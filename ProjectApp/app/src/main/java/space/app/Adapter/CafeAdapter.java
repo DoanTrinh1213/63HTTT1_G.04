@@ -261,7 +261,6 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
                                         }
                                         Log.d("distance", String.valueOf(distance));
                                         distanceHelper.addDistance(cafe.getResName(),distance);
-
                                     }
                                 }
 
@@ -293,7 +292,9 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
                 throw new RuntimeException(e);
             }
         }
-
+        else{
+            Log.d("distance have null","YESS");
+        }
     }
 
     @Override

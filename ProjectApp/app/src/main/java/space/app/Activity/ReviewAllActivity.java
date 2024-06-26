@@ -1,7 +1,9 @@
 package space.app.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import space.app.Adapter.PostAdapter;
+import space.app.Helper.PostHelper;
+import space.app.Model.Cafe;
 import space.app.Model.Post;
 import space.app.R;
 
@@ -31,6 +35,7 @@ public class ReviewAllActivity extends AppCompatActivity {
     private RecyclerView rcvReview;
     private PostAdapter mPostAdapter;
     private List<Post> mListPost;
+    private TextView textNumberReviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,38 +48,31 @@ public class ReviewAllActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return WindowInsetsCompat.CONSUMED;
         });
+        Intent intent = getIntent();
+        Cafe cafe = (Cafe) intent.getSerializableExtra("rewriteCafe");
 
         initUi();
-        getPostData();
+        getPostData(cafe);
     }
 
     private void initUi() {
         rcvReview = findViewById(R.id.rcvReview);
-
+        textNumberReviews =findViewById(R.id.textNumberReviews);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvReview.setLayoutManager(linearLayoutManager);
-
-        mListPost = new ArrayList<>();
-        mPostAdapter = new PostAdapter(mListPost);
-        rcvReview.setAdapter(mPostAdapter);
     }
 
-    private void getPostData() {
+    private void getPostData(Cafe cafe) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Post");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mListPost.clear(); // Clear the list before adding new data
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Post post = dataSnapshot.getValue(Post.class);
-                    if (post != null) {
-                        mListPost.add(post);
-                        Log.d("AAAAAAAA","dfgg");
-                    }
-                }
-                mPostAdapter.notifyDataSetChanged();
+                mListPost = PostHelper.getInstance().getAllPostByIdCafe(cafe.getIdCafe());
+                mPostAdapter = new PostAdapter(mListPost);
+                rcvReview.setAdapter(mPostAdapter);
+                textNumberReviews.setText(mListPost.size() + " đánh giá");
             }
 
             @Override
