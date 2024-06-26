@@ -1,5 +1,7 @@
 package space.app.Adapter;
 
+import android.app.Activity;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
@@ -43,6 +53,22 @@ public class SearchGuessAdapter extends RecyclerView.Adapter<SearchGuessAdapter.
                 if (clickItem != null) {
                     clickItem.onItemClickCafe(cafe);
                 }
+            }
+        });
+
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        firebaseStorage.getReference().child(cafe.getImages()+"/CafeImages").listAll().addOnCompleteListener(new OnCompleteListener<ListResult>() {
+            @Override
+            public void onComplete(@NonNull Task<ListResult> task) {
+                List<StorageReference> storageReferences = task.getResult().getItems();
+                StorageReference first = storageReferences.get(0);
+                first.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if(!((Activity)holder.itemView.getContext()).isFinishing())
+                            Glide.with(holder.itemView.getContext()).load(task.getResult()).into(holder.imageSearch);
+                    }
+                });
             }
         });
     }
