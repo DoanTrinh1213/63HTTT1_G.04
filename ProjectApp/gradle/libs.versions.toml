@@ -18,6 +18,8 @@ legacySupportV4 = "1.0.0"
 firebaseAuth = "23.0.0"
 roomCommon = "2.6.1"
 cameraCore = "1.3.4"
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
+playServicesMaps = "18.2.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -41,7 +43,9 @@ imagepicker = {group = "com.github.dhaval2404",name = "imagepicker",version = "2
 glide =  {group = "com.github.bumptech.glide",name = "glide",version = "4.16.0"}
 room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraCore" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }
 

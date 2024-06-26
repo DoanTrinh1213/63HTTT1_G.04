@@ -38,22 +38,23 @@
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView" />
-
+            app:layout_constraintTop_toTopOf="@+id/textView" />
         <Button
             android:id="@+id/btnContribute"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginTop="32dp"
-            android:background="@drawable/rounded_btn"
             android:fontFamily="@font/yaldevi"
             android:text="Mình có quán muốn đóng góp"
             android:textAllCaps="false"
-            android:textColor="#ffff"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="10dp"
             android:theme="@style/ButtonRegis"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:ignore="MissingConstraints" />
+
 
         <Button
             android:id="@+id/btnUnderstood"
@@ -64,10 +65,12 @@
             android:fontFamily="@font/yaldevi"
             android:text="Đã hiểu"
             android:textAllCaps="false"
-            android:textColor="#7A2A2A"
+            android:textColor="#7a2a2a"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnContribute" />
+            app:layout_constraintTop_toBottomOf="@+id/btnContribute"
+            tools:ignore="MissingConstraints" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
