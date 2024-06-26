@@ -10,7 +10,7 @@ public class Post implements Serializable {
     private String comment;
     private String star;
     private String timestamp;
-    private ArrayList<String> imagesCommentsPath;
+    private String imagesCommentsPath;
 
     // Getters
     public String getId() {
@@ -37,7 +37,7 @@ public class Post implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public ArrayList<String> getImagesCommentsPath() {
+    public String getImagesCommentsPath() {
         return imagesCommentsPath;
     }
 
@@ -62,7 +62,7 @@ public class Post implements Serializable {
         this.comment = comment;
     }
 
-    public void setImagesCommentsPath(ArrayList<String> imagesCommentsPath) {
+    public void setImagesCommentsPath(String imagesCommentsPath) {
         this.imagesCommentsPath = imagesCommentsPath;
     }
 
@@ -71,7 +71,7 @@ public class Post implements Serializable {
     }
 
     // Constructor
-    public Post(String id, String idCafe, String idUser, String comment, ArrayList<String> imagesCommentsPath, String star) {
+    public Post(String id, String idCafe, String idUser, String comment, String imagesCommentsPath, String star) {
         this.id = id;
         this.idCafe = idCafe;
         this.idUser = idUser;
@@ -79,7 +79,7 @@ public class Post implements Serializable {
         this.imagesCommentsPath = imagesCommentsPath;
         this.star = star;
     }
-    public Post(String id, String idCafe, String idUser, String comment,String timestamp, ArrayList<String> imagesCommentsPath, String star) {
+    public Post(String id, String idCafe, String idUser, String comment,String timestamp,String imagesCommentsPath, String star) {
         this.id = id;
         this.idCafe = idCafe;
         this.idUser = idUser;

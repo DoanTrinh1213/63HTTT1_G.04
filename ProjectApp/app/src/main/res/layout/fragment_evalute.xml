@@ -16,8 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="10dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,12 +27,18 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/userImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/circle_background"
-                android:src="@drawable/usernone" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="100dp">
+                <ImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/circle_background"
+                    android:src="@drawable/usernone" />
+            </androidx.cardview.widget.CardView>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,13 +103,19 @@
             android:text="Đồ uống ổn \nview xinh nhưng mà wc hơi bẩn, \nNhân viên nhiệt tình"
             android:textColor="#000000"
             android:textSize="15sp" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvReviewImage"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="5dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:id="@+id/rcvReviewImage"/>
+            android:padding="5dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/black"></View>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

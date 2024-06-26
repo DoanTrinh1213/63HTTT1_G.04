@@ -3,6 +3,7 @@ package space.app.Activity;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -38,10 +39,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 import space.app.Adapter.WriteReviewAdapter;
+import space.app.Model.Cafe;
 import space.app.Model.Post;
 import space.app.R;
 
@@ -61,6 +68,7 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
     private StorageReference storageReference;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseStorage firebaseStorage;
+    private Cafe cafe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +81,9 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
             return insets;
         });
 
-        // Ánh xạ
+        Intent intent = getIntent();
+        cafe = (Cafe) intent.getSerializableExtra("rewriteCafe");
+
         iconClose = findViewById(R.id.iconClose);
         recyclerView = findViewById(R.id.recyclerViewGalleryImages);
         pick = findViewById(R.id.pick);
@@ -107,7 +117,6 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
                                     if (uri.size() < 5) {
                                         imageuri = result.getData().getClipData().getItemAt(i).getUri();
                                         uri.add(imageuri);
-                                        uploadToFirebase(imageuri);
                                     } else {
                                         Toast.makeText(RewriteActivity.this, "Không cho phép chọn quá 5 tấm hình", Toast.LENGTH_SHORT).show();
                                     }
@@ -116,7 +125,6 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
                                 if (uri.size() < 5) {
                                     imageuri = result.getData().getData();
                                     uri.add(imageuri);
-                                    uploadToFirebase(imageuri);
                                 } else {
                                     Toast.makeText(RewriteActivity.this, "Không cho phép chọn quá 5 tấm hình", Toast.LENGTH_SHORT).show();
                                 }
@@ -207,7 +215,9 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
 
     private void uploadToFirebase(Uri imageUri) {
         final String randomName = UUID.randomUUID().toString();
-        storageReference = firebaseStorage.getReference().child("Img/comments/" + randomName);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String idUser = sharedPreferences.getString("idUser", null);
+        storageReference = firebaseStorage.getReference().child("Img/restaurents/" + cafe.getIdCafe() + "/comments/" + idUser + "/" + randomName);
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -232,16 +242,24 @@ public class RewriteActivity extends AppCompatActivity implements WriteReviewAda
             return;
         }
 
-        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String idUser = sharedPreferences.getString("idUser", null);
         DatabaseReference postRef = firebaseDatabase.getReference().child("Post").push();
         String id = postRef.getKey();
 
-        ArrayList<String> imagesCommentsPath = new ArrayList<>();
-        for (Uri uri : uri) {
-            imagesCommentsPath.add(uri.toString());
+        for(Uri url : uri){
+            uploadToFirebase(url);
+        }
+        String imagesCommentsPath="";
+        if(!uri.isEmpty()){
+            imagesCommentsPath = "Img/restaurents/" + cafe.getIdCafe() + "/comments/" + idUser;
         }
 
-        Post post = new Post(null, id, idUser, comment, imagesCommentsPath, String.valueOf(starRating));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        Date currentDate = new Date();
+        String formattedDate = sdf.format(currentDate);
+
+        Post post = new Post(id, cafe.getIdCafe(), idUser, comment,formattedDate, imagesCommentsPath, String.valueOf(starRating));
 
         postRef.setValue(post)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

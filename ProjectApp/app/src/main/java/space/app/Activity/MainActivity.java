@@ -56,8 +56,10 @@ import space.app.Database.Entity.BookmarkEntity;
 import space.app.Database.Entity.UriEntity;
 import space.app.Database.Entity.UserEntity;
 import space.app.Helper.DistanceHelper;
+import space.app.Helper.PostHelper;
 import space.app.Helper.Utils;
 import space.app.Model.Cafe;
+import space.app.Model.Post;
 import space.app.Model.User;
 import space.app.R;
 import space.app.UI.Fragment.FragmentAuth;
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
             }
-        },1000);
+        }, 1000);
 
         cafeViewModel = new ViewModelProvider(this).get(CafeViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
@@ -151,10 +153,12 @@ public class MainActivity extends AppCompatActivity {
                                                             uri.setIdCafe(cafe.getIdCafe());
                                                             uri.setType("Cafe");
                                                             uriViewModel.insertUri(uri);
-                                                            Glide.with(MainActivity.this)
-                                                                    .load(task.getResult())
-                                                                    .apply(requestOptions)
-                                                                    .preload();
+                                                            if (!MainActivity.this.isFinishing()) {
+                                                                Glide.with(MainActivity.this)
+                                                                        .load(task.getResult())
+                                                                        .apply(requestOptions)
+                                                                        .preload();
+                                                            }
                                                         }
                                                     }
                                                 });
@@ -180,10 +184,12 @@ public class MainActivity extends AppCompatActivity {
                                                             uri.setIdCafe(cafe.getIdCafe());
                                                             uri.setType("Menu");
                                                             uriViewModel.insertUri(uri);
-                                                            Glide.with(MainActivity.this)
-                                                                    .load(task.getResult())
-                                                                    .apply(requestOptions)
-                                                                    .preload();
+                                                            if (!MainActivity.this.isFinishing()) {
+                                                                Glide.with(MainActivity.this)
+                                                                        .load(task.getResult())
+                                                                        .apply(requestOptions)
+                                                                        .preload();
+                                                            }
                                                         }
                                                     }
                                                 });
@@ -197,9 +203,9 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     User user = snapshot.getValue(User.class);
-                                    if(user!=null){
+                                    if (user != null) {
                                         UriEntity uri = new UriEntity();
-                                        if(user.getImage()!=null){
+                                        if (user.getImage() != null) {
                                             uri.setUri(user.getImage());
                                             uri.setIdCafe(cafe.getIdCafe());
                                             uri.setType("User");
@@ -208,23 +214,24 @@ public class MainActivity extends AppCompatActivity {
                                                     .load(user.getImage())
                                                     .apply(requestOptions)
                                                     .preload();
-                                        }
-                                        else{
+                                        } else {
                                             uri.setUri(String.valueOf("android.resource://" + getResources().getResourcePackageName(R.drawable.coc_cafe)
                                                     + '/' + getResources().getResourceTypeName(R.drawable.coc_cafe)
                                                     + '/' + getResources().getResourceEntryName(R.drawable.coc_cafe)));
 
-                                            Log.d("Uri",String.valueOf("android.resource://" + getResources().getResourcePackageName(R.drawable.coc_cafe)
+                                            Log.d("Uri", String.valueOf("android.resource://" + getResources().getResourcePackageName(R.drawable.coc_cafe)
                                                     + '/' + getResources().getResourceTypeName(R.drawable.coc_cafe)
                                                     + '/' + getResources().getResourceEntryName(R.drawable.coc_cafe)));
 
                                             uri.setIdCafe(cafe.getIdCafe());
                                             uri.setType("User");
                                             uriViewModel.insertUri(uri);
-                                            Glide.with(MainActivity.this)
-                                                    .load(uri.getUri())
-                                                    .apply(requestOptions)
-                                                    .preload();
+                                            if (!MainActivity.this.isFinishing()) {
+                                                Glide.with(MainActivity.this)
+                                                        .load(uri.getUri())
+                                                        .apply(requestOptions)
+                                                        .preload();
+                                            }
                                         }
                                     }
                                 }
@@ -244,13 +251,31 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                finish();
             }
         });
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
 //        editor.putBoolean("isLoggedIn", false); // Lưu trạng thái đăng nhập là true
 //        editor.apply();
+
+        firebaseDatabase.getReference("Post").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PostHelper.getInstance().deleteAllPost();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Post post = snapshot1.getValue(Post.class);
+                    if (post != null) {
+                        PostHelper.getInstance().addPost(post);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         // Kiểm tra trạng thái đăng nhập
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);

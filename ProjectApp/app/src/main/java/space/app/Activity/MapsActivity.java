@@ -187,7 +187,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     editor.apply();
                 }
             }
-        }, 60000);
+        }, 2000);
     }
 
     private LocationRequest createLocationRequest() {

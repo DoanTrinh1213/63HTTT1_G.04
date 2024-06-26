@@ -807,6 +807,7 @@
                     android:padding="10dp"
                     android:text="Để lại trải nghiệm của bạn"
                     android:textAllCaps="false"
+                    android:visibility="visible"
                     android:textColor="#ffff" />
 
                 <Button
@@ -846,12 +847,12 @@
         android:fillViewport="true">
 
         <LinearLayout
-            android:layout_marginBottom="35dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
-
+            android:background="#36000000"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
             <include layout="@layout/fragment_tools_shop" />
         </LinearLayout>
     </HorizontalScrollView>
