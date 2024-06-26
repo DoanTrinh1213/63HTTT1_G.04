@@ -140,6 +140,7 @@ public class LocationUtils {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e("PlaceSearch", "Place autocomplete search failed: " + e.getMessage());
+                Log.e("PlaceSearch", "Place autocomplete search failed: " + e.getMessage());
                 LatLng latlog = extractLatLngFromUrl(fullUrl);
                 Location location = new Location("");
                 location.setLatitude(latlog.getLatitude());

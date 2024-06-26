@@ -65,4 +65,7 @@ public interface CafeDAO {
 
     @Query("Select * from cafe where idCafe in (Select idCafe from bookmarks where idUser = :idUser)")
     LiveData<List<CafeEntity>> getCafeByBookmark(String idUser);
+
+    @Query("SELect * from cafe where resName in (:resname)")
+    LiveData<List<CafeEntity>> getCafeByAboutResName(List<String> resname);
 }

@@ -1,9 +1,14 @@
 package space.app.Activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,7 +21,13 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcherOwner;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallerLauncher;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -42,6 +53,7 @@ import space.app.ViewModel.CafeViewModel;
 import space.app.ViewModel.SearchViewModel;
 
 public class SearchAcitivity extends AppCompatActivity {
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +69,7 @@ public class SearchAcitivity extends AppCompatActivity {
             v.setLayoutParams(mlp);
             return WindowInsetsCompat.CONSUMED;
         });
-        Bundle bundle= new Bundle();
+        Bundle bundle = new Bundle();
         bundle = getIntent().getBundleExtra("BundleData");
 
         List<Cafe> cafes = new ArrayList<>();
@@ -73,7 +85,7 @@ public class SearchAcitivity extends AppCompatActivity {
                 RecyclerView recyclerView = findViewById(R.id.recycleViewSearch);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchAcitivity.this);
                 recyclerView.setLayoutManager(linearLayoutManager);
-                if(!cafes.isEmpty()){
+                if (!cafes.isEmpty()) {
                     recyclerView.setAdapter(new SearchGuessAdapter(new ArrayList<>(cafes), new RecyclerViewOnClickItem() {
                         @Override
                         public void onItemClickCafe(Cafe cafe) {
@@ -178,25 +190,31 @@ public class SearchAcitivity extends AppCompatActivity {
                 }));
             }
         });
+        ConstraintLayout locationSearch = findViewById(R.id.locationSearch);
+        locationSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkLocationPermissionAndStartMapsActivity();
+            }
+        });
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if(searchText.getText().toString().isEmpty()){
+                if (searchText.getText().toString().isEmpty()) {
                     SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("isSearch",false);
-                    editor.putBoolean("isRefresh",true);
+                    editor.putBoolean("isSearch", false);
+                    editor.putBoolean("isRefresh", true);
                     editor.apply();
-                    Intent intent =new Intent(SearchAcitivity.this,MainActivity.class);
+                    Intent intent = new Intent(SearchAcitivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                }
-                else{
+                } else {
                     finish();
                 }
             }
         };
-        getOnBackPressedDispatcher().addCallback(this,callback);
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     private void saveSearchResult(String textSearch) {
@@ -205,4 +223,54 @@ public class SearchAcitivity extends AppCompatActivity {
         searchResult.setSearchQuery(textSearch);
         searchViewModel.insertSearchResult(searchResult);
     }
+
+    private void checkLocationPermissionAndStartMapsActivity() {
+        if (ContextCompat.checkSelfPermission(SearchAcitivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        } else {
+            if (isLocationEnabled()) {
+                // Mở MapsActivity
+                Intent intent = new Intent(SearchAcitivity.this, MapsActivity.class);
+                startActivity(intent);
+            } else {
+                // Hiển thị thông báo yêu cầu bật dịch vụ định vị
+                showLocationEnabledDialog();
+            }
+        }
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private void showLocationEnabledDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Dịch vụ định vị tắt")
+                .setMessage("Vui lòng bật dịch vụ định vị để sử dụng tính năng này.")
+                .setPositiveButton("Cài đặt", ((dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+                    startActivity(intent);
+                }))
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    ActivityResultLauncher<String> resultLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(), isGranted->{
+                if (isGranted) {
+                    checkLocationPermissionAndStartMapsActivity();
+                } else {
+                    new AlertDialog.Builder(SearchAcitivity.this)
+                            .setTitle("Quyền vị trí bị từ chối")
+                            .setMessage("Ứng dụng cần quyền vị trí để hoạt động. Vui lòng cấp quyền vị trí.")
+                            .setPositiveButton("Cài đặt", (dialog, which) -> {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:" + this.getPackageName()));
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("Hủy", null)
+                            .show();
+                }
+            });
 }
