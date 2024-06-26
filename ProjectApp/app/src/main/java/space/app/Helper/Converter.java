@@ -1,5 +1,8 @@
 package space.app.Helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import space.app.Database.Entity.CafeEntity;
 import space.app.Model.Cafe;
 
@@ -21,4 +24,12 @@ public class Converter {
         cafe.setIdUser(cafeEntity.getIdUser());
         return cafe;
     }
+
+    public List<String> reverseListString(List<String> list){
+        List<String> reverseList =  new ArrayList<>();
+        for(int i = list.size(); i>=0; i--){
+            reverseList.add(list.get(i));
+        }
+        return reverseList;
+    };
 }

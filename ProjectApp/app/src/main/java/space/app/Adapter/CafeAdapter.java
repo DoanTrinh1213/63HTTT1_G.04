@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.Location;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Handler;
@@ -29,6 +30,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +42,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,6 +56,8 @@ import java.util.Locale;
 import space.app.Activity.MainActivity;
 import space.app.Database.Entity.BookmarkEntity;
 import space.app.Database.Entity.UriEntity;
+import space.app.Helper.DistanceHelper;
+import space.app.Helper.LocationUtils;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
 import space.app.R;
@@ -221,6 +229,71 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
                 e.printStackTrace();
             }
         }
+
+        String lastLatitude = sharedPreferences.getString("LastLatitude", null);
+        String lastLongtitude = sharedPreferences.getString("LastLongitude", null);
+        if (lastLatitude != null && lastLongtitude != null) {
+            Places.initialize(context, context.getString(R.string.google_map_api_key));
+            PlacesClient placesClient = Places.createClient(context);
+            LocationUtils locationUtils = new LocationUtils(placesClient);
+            DistanceHelper distanceHelper = DistanceHelper.getInstance();
+            try {
+                locationUtils.extractPlaceIdFromUrl(cafe.getLink()).observe((LifecycleOwner) context, new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        try {
+                            locationUtils.searchPlaceByAddressQuery(s, context, new LocationUtils.LocationCallbackOfApp() {
+                                @Override
+                                public void onLocationFetched(Place place) {
+                                    if (place != null) {
+                                        Location myLocation = new Location("");
+                                        myLocation.setLatitude(Double.parseDouble(lastLatitude));
+                                        myLocation.setLongitude(Double.parseDouble(lastLongtitude));
+
+                                        Location location = new Location("");
+                                        location.setLatitude(place.getLatLng().latitude);
+                                        location.setLongitude(place.getLatLng().longitude);
+                                        Float distance = locationUtils.getDistance(location, myLocation);
+                                        if (distance < 1000) {
+                                            holder.textViewCafeDistance.setText("Cách bạn " + Math.round(distance) + "m");
+                                        } else {
+                                            holder.textViewCafeDistance.setText("Cách bạn " + Math.round((distance / 1000.0)) + "km");
+                                        }
+                                        Log.d("distance", String.valueOf(distance));
+                                        distanceHelper.addDistance(cafe.getResName(),distance);
+
+                                    }
+                                }
+
+                                @Override
+                                public void onLocationNoRequest(Location location) {
+                                    Location myLocation = new Location("");
+                                    myLocation.setLatitude(Double.parseDouble(lastLatitude));
+                                    myLocation.setLongitude(Double.parseDouble(lastLongtitude));
+                                    Float distance = locationUtils.getDistance(location, myLocation);
+                                    if (distance < 1000) {
+                                        holder.textViewCafeDistance.setText("Cách bạn " + Math.round(distance) + "m");
+                                    } else {
+                                        holder.textViewCafeDistance.setText("Cách bạn " + Math.round((distance / 1000.0)) + "km");
+                                    }
+                                    Log.d("distance", String.valueOf(distance));
+                                    distanceHelper.addDistance(cafe.getResName(),distance);
+                                }
+                            });
+                        } catch (URISyntaxException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
     @Override
@@ -236,6 +309,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
         private ImageView imageCafe;
         private TextView timeOpen;
         private ImageView bookmark;
+        private TextView textViewCafeDistance;
 
         private TextView open;
 
@@ -247,6 +321,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.CafeViewHolder
             timeOpen = itemView.findViewById(R.id.textViewCafeTimeOpen);
             bookmark = itemView.findViewById(R.id.iconBookmark);
             open = itemView.findViewById(R.id.textViewCafeTime);
+            textViewCafeDistance = itemView.findViewById(R.id.textViewCafeDistance);
         }
 
         public void bind(Cafe cafe) {

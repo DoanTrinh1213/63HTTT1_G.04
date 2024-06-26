@@ -16,6 +16,7 @@ import java.util.Set;
 
 import space.app.DAO.CafeDAO;
 import space.app.Database.Entity.CafeEntity;
+import space.app.Helper.DistanceHelper;
 import space.app.Model.Cafe;
 import space.app.Repository.CafeRepository;
 
@@ -130,7 +131,8 @@ public class CafeViewModel extends AndroidViewModel {
             });
         }
         if (distance != null) {
-            LiveData<List<CafeEntity>> cafesByDistance = cafeRepository.getCafeByDistance(distance);
+            List<String> resname = DistanceHelper.getInstance().getDistanceNearlyYou(Float.parseFloat(distance)*1000);
+            LiveData<List<CafeEntity>> cafesByDistance = cafeRepository.getCafeByAboutResName(resname);
             mergedLiveData.addSource(cafesByDistance, cafes -> {
                 if (!cafes.isEmpty()) {
                     Log.d("Cafe3",String.valueOf(cafes.size()));
@@ -204,10 +206,13 @@ public class CafeViewModel extends AndroidViewModel {
     }
 
     private void sortCafesByDistance(List<CafeEntity> cafes) {
+        List<String> shortList = DistanceHelper.getInstance().shortDistance();
         Collections.sort(cafes, new Comparator<CafeEntity>() {
             @Override
             public int compare(CafeEntity cafe1, CafeEntity cafe2) {
-                return Double.compare(0, 1);
+                int index1 =  shortList.indexOf(cafe1.getResName());
+                int index2 =  shortList.indexOf(cafe2.getResName());
+                return Integer.compare(index1,index2);
             }
         });
     }
@@ -228,5 +233,9 @@ public class CafeViewModel extends AndroidViewModel {
                 return Double.compare(cafe2.getPrice(), cafe1.getPrice());
             }
         });
+    }
+
+    public LiveData<List<CafeEntity>> getCafeByAboutResName(List<String> resname){
+        return cafeRepository.getCafeByAboutResName(resname);
     }
 }
