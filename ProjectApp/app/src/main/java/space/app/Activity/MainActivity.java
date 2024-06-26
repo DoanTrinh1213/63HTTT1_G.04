@@ -55,6 +55,7 @@ import space.app.Database.DatabaseRoom;
 import space.app.Database.Entity.BookmarkEntity;
 import space.app.Database.Entity.UriEntity;
 import space.app.Database.Entity.UserEntity;
+import space.app.Helper.DistanceHelper;
 import space.app.Helper.Utils;
 import space.app.Model.Cafe;
 import space.app.Model.User;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 executorService.execute(() -> {
                     Log.d("Cafe", "Insert sau khi có sự thay đổi");
                     DatabaseRoom.getInstance(MainActivity.this).cafeDAO().deleteAll();
+                    DistanceHelper.getInstance().deleteAllDistance();
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Cafe cafe = data.getValue(Cafe.class);
                         if (cafe != null) {

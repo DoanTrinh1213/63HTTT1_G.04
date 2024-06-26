@@ -66,6 +66,7 @@ import space.app.Adapter.CafeAdapter;
 import space.app.Database.Entity.CafeEntity;
 import space.app.Database.Entity.SearchResultEntity;
 import space.app.Helper.Converter;
+import space.app.Helper.DistanceHelper;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
 import space.app.R;
@@ -519,6 +520,9 @@ public class FragmentCafeHomePage extends Fragment {
                             List<Cafe> cafe = new ArrayList<>();
                             updateRecycleViewFindCafe(view, cafe);
                         }
+                        else{
+                            Toast.makeText(context, "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show();
+                        }
                         dialog.dismiss();
                     }
                 });
@@ -562,6 +566,7 @@ public class FragmentCafeHomePage extends Fragment {
 
         SeekBar seekBarDistance = dialog.findViewById(R.id.seekBarDistance);
         TextView textViewProgressDistance = dialog.findViewById(R.id.textViewProgressDistance);
+        textViewProgressDistance.setText(seekBarDistance.getProgress()+"km");
         cBoxDisWalk.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 cBoxDisMedium.setChecked(false);
@@ -619,7 +624,7 @@ public class FragmentCafeHomePage extends Fragment {
                 cBoxDisMedium.setChecked(false);
                 cBoxDisFar.setChecked(false);
                 seekBarDistance.setProgress(15);
-                textViewProgressDistance.setText("10km");
+                textViewProgressDistance.setText(seekBarDistance.getProgress()+"km");
 
             }
         });
@@ -635,8 +640,10 @@ public class FragmentCafeHomePage extends Fragment {
             @Override
             public void onClick(View v) {
                 String distance = String.valueOf(seekBarDistance.getProgress());
+
+                List<String> resname = DistanceHelper.getInstance().getDistanceNearlyYou(Float.parseFloat(distance) * 1000);
                 CafeViewModel cafeViewModel = new ViewModelProvider(getActivity()).get(CafeViewModel.class);
-                cafeViewModel.getCafeByDistance(distance).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
+                cafeViewModel.getCafeByAboutResName(resname).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
                     @Override
                     public void onChanged(List<CafeEntity> cafeEntities) {
                         if (!cafeEntities.isEmpty()) {
@@ -650,6 +657,8 @@ public class FragmentCafeHomePage extends Fragment {
 
                             List<Cafe> cafe = new ArrayList<>();
                             updateRecycleViewFindCafe(view, cafe);
+                        } else {
+                            Toast.makeText(context, "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }
@@ -759,16 +768,21 @@ public class FragmentCafeHomePage extends Fragment {
                     cafeViewModel.getCafeByPurpose(purposes).observe(getViewLifecycleOwner(), new Observer<List<CafeEntity>>() {
                         @Override
                         public void onChanged(List<CafeEntity> cafeEntities) {
-                            List<Cafe> cafes = new ArrayList<>();
-                            for (CafeEntity cafeEntity : cafeEntities) {
-                                Cafe cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
-                                cafes.add(cafe);
+                            if (!cafeEntities.isEmpty()) {
+                                List<Cafe> cafes = new ArrayList<>();
+                                for (CafeEntity cafeEntity : cafeEntities) {
+                                    Cafe cafe = Converter.convertCafeEntityToCafeModel(cafeEntity);
+                                    cafes.add(cafe);
+                                }
+                                List<Cafe> cafe = new ArrayList<>();
+                                View view = getView();
+                                updateRecycleViewFindCafe(view, cafe);
+                                updateRecycleViewOrther(view, cafes);
+                                dialog.dismiss();
                             }
-                            List<Cafe> cafe = new ArrayList<>();
-                            View view = getView();
-                            updateRecycleViewFindCafe(view, cafe);
-                            updateRecycleViewOrther(view, cafes);
-                            dialog.dismiss();
+                            else{
+                                Toast.makeText(context, "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }

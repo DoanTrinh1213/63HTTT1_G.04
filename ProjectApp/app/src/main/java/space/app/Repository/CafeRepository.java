@@ -20,6 +20,7 @@ public class CafeRepository {
     private CafeDAO cafeDAO;
     private LiveData<List<CafeEntity>> allCafeRepo;
     private ExecutorService databaseWriteExecutor;
+
     public CafeRepository(Application application) {
         DatabaseRoom database = DatabaseRoom.getInstance(application);
         cafeDAO = database.cafeDAO();
@@ -30,6 +31,7 @@ public class CafeRepository {
     public LiveData<List<CafeEntity>> getAllCafe() {
         return allCafeRepo;
     }
+
     public void insertCafe(CafeEntity cafeEntity) {
         databaseWriteExecutor.execute(() -> {
             cafeDAO.insertCafe(cafeEntity);
@@ -41,13 +43,14 @@ public class CafeRepository {
             cafeDAO.deleteAll();
         });
     }
+
     public LiveData<List<CafeEntity>> getCafesBySearchTerm(String searchTerm) {
         return cafeDAO.getCafesBySearchTerm(searchTerm);
     }
 
 
-    public LiveData<List<CafeEntity>> getCafesPostedByUser(String idUser,String idCafe) {
-        return cafeDAO.getCafesPostedByUser(idUser,idCafe);
+    public LiveData<List<CafeEntity>> getCafesPostedByUser(String idUser, String idCafe) {
+        return cafeDAO.getCafesPostedByUser(idUser, idCafe);
     }
 
     public LiveData<List<CafeEntity>> getCafeByTopEvaluate() {
@@ -83,10 +86,14 @@ public class CafeRepository {
     }
 
     public LiveData<CafeEntity> getCafeByIdCafe(String idCafe) {
-        return cafeDAO.getCafeByIdCafe( idCafe);
+        return cafeDAO.getCafeByIdCafe(idCafe);
     }
 
     public LiveData<List<CafeEntity>> getAllCafeByBookmark(String idUser) {
         return cafeDAO.getCafeByBookmark(idUser);
     }
+
+    public LiveData<List<CafeEntity>> getCafeByAboutResName(List<String> resname) {
+        return cafeDAO.getCafeByAboutResName(resname);
+    };
 }

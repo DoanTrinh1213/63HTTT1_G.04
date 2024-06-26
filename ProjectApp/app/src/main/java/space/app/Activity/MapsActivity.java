@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -84,6 +86,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        ImageView back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        ImageView myLocationButton = findViewById(R.id.myLocation);
+        myLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng latLng = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
+            }
+        });
+
         mMap = googleMap;
 
         // Đặt kiểu bản đồ
@@ -114,6 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Places.initialize(MapsActivity.this, getString(R.string.google_map_api_key));
         PlacesClient placesClient = Places.createClient(this);
+
         CafeViewModel cafeViewModel = new ViewModelProvider(MapsActivity.this).get(CafeViewModel.class);
         cafeViewModel.getAllCafe().observe(MapsActivity.this, new Observer<List<CafeEntity>>() {
             @Override
@@ -195,7 +215,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 currentLocationMarker.remove();
             }
             currentLocationMarker = mMap.addMarker(new MarkerOptions().position(myLocation).title("Vị trí của tôi"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f));
         }
     };
 }
