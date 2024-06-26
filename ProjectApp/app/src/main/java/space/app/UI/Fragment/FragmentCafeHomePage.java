@@ -306,6 +306,8 @@ public class FragmentCafeHomePage extends Fragment {
             }
         });
 
+        Log.d("DistanceHelper", String.valueOf(DistanceHelper.getInstance().getAllDistances().size()));
+
         return view;
     }
 

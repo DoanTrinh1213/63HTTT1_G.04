@@ -145,7 +145,6 @@ public class FragmentLogin extends Fragment {
                                         editor.commit();
 
                                         Intent intent = new Intent(getActivity(), MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         getActivity().finish();
                                     } else {
@@ -197,7 +196,6 @@ public class FragmentLogin extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Log.d("Login", "Đăng nhập thành công!");
                                         Toast.makeText(getActivity(), "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                                         SharedPreferences sharedPref = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
@@ -213,13 +211,9 @@ public class FragmentLogin extends Fragment {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if (dataSnapshot.exists()) {
-                                                    // hashedEmail đã tồn tại, không thực hiện ghi đè
-                                                    Log.d("FirebaseUtils", "Hashed email already exists in Firebase: " + hashedEmail);
                                                 } else {
-                                                    // hashedEmail chưa tồn tại, lưu thông tin người dùng vào Firebase
                                                     User user = new User(hashedEmail, account.getEmail());
                                                     myRef.child(hashedEmail).setValue(user);
-                                                    Log.d("FirebaseUtils", "User saved to Firebase with hashed email: " + hashedEmail);
                                                 }
                                                 Intent intent = new Intent(getActivity(), MainActivity.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -233,8 +227,6 @@ public class FragmentLogin extends Fragment {
                                                 Log.e("FirebaseUtils", "Error checking hashed email in Firebase: " + databaseError.getMessage());
                                             }
                                         });
-                                        Log.d("Account", account.getEmail());
-
                                     }
                                 }
                             });

@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,14 +51,20 @@ import java.util.List;
 import java.util.Locale;
 
 import space.app.Activity.AllImageShowActivity;
+import space.app.Activity.ContributeCafeInformationActivity;
 import space.app.Activity.MainActivity;
 import space.app.Activity.ReviewAllActivity;
 import space.app.Activity.RewriteActivity;
 import space.app.Adapter.ImageAdapter;
+import space.app.Adapter.PostAdapter;
+import space.app.Database.Entity.CafeEntity;
 import space.app.Database.Entity.UriEntity;
+import space.app.Helper.Converter;
+import space.app.Helper.PostHelper;
 import space.app.Interface.HeightWidthOnSet;
 import space.app.Interface.RecyclerViewOnClickItem;
 import space.app.Model.Cafe;
+import space.app.Model.Post;
 import space.app.Model.User;
 import space.app.R;
 import space.app.ViewModel.UriViewModel;
@@ -317,6 +324,7 @@ public class FragmentShop extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ReviewAllActivity.class);
+                intent.putExtra("rewriteCafe",cafe);
                 startActivity(intent);
             }
 
@@ -325,6 +333,7 @@ public class FragmentShop extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RewriteActivity.class);
+                intent.putExtra("rewriteCafe",cafe);
                 startActivity(intent);
             }
         });
@@ -332,6 +341,7 @@ public class FragmentShop extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RewriteActivity.class);
+                intent.putExtra("rewriteCafe",cafe);
                 startActivity(intent);
             }
         });
@@ -366,6 +376,25 @@ public class FragmentShop extends Fragment {
                         }
                     }));
                 }
+            }
+        });
+
+        FirebaseDatabase firebase = FirebaseDatabase.getInstance();
+        firebase.getReference("Post").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                RecyclerView comments = view.findViewById(R.id.rcvReview);
+                List<Post> postOfCafe = PostHelper.getInstance().getAllPostByIdCafe(cafe.getIdCafe());
+                List<Post> postLimit = PostHelper.getInstance().getPostLimit5StarHigh(postOfCafe);
+                comments.setAdapter(new PostAdapter(postLimit));
+                comments.setLayoutManager(new LinearLayoutManager(getContext()));
+                star.setText(String.valueOf(PostHelper.getInstance().starRating(cafe.getIdCafe())));
+                count.setText(postOfCafe.size());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -432,7 +461,7 @@ public class FragmentShop extends Fragment {
         btnContribute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RewriteActivity.class);
+                Intent intent = new Intent(getActivity(), ContributeCafeInformationActivity.class);
                 startActivity(intent);
             }
         });
