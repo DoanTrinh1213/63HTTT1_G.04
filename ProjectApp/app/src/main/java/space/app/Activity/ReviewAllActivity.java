@@ -3,6 +3,8 @@ package space.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +31,13 @@ import space.app.Helper.PostHelper;
 import space.app.Model.Cafe;
 import space.app.Model.Post;
 import space.app.R;
+import space.app.Activity.RewriteActivity;
 
 public class ReviewAllActivity extends AppCompatActivity {
 
     private RecyclerView rcvReview;
     private PostAdapter mPostAdapter;
+    private Button btnExperience;
     private List<Post> mListPost;
     private TextView textNumberReviews;
 
@@ -48,6 +52,15 @@ public class ReviewAllActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return WindowInsetsCompat.CONSUMED;
         });
+        btnExperience = findViewById(R.id.btnExperience);
+//        btnExperience.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ReviewAllActivity.this, RewriteActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
         Intent intent = getIntent();
         Cafe cafe = (Cafe) intent.getSerializableExtra("rewriteCafe");
 
