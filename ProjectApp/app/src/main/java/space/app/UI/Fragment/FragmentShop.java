@@ -441,8 +441,6 @@ public class FragmentShop extends Fragment {
                     if (entity.getIdCafe().equals(cafe.getIdCafe())){
                         iconSave.setImageResource(R.drawable.bookmark_love);
                         saveText.setText("Đã lưu");
-                        saveText.setTextColor(Color.parseColor("#fff"));
-                        linearSave.setBackgroundResource(R.drawable.btn_tick_cafe);
                     }
                 }
             }
@@ -472,9 +470,6 @@ public class FragmentShop extends Fragment {
                                     bookmarkViewModel.insertBookmark(bookmarkEntity);
                                     iconSave.setImageResource(R.drawable.bookmark_love);
                                     saveText.setText("Đã lưu");
-                                    saveText.setTextColor(Color.parseColor("#fff"));
-                                    linearSave.setBackgroundResource(R.drawable.btn_tick_cafe);
-
                                 } else {
                                     DatabaseReference data = firebase.getReference("Bookmark").child(idUser);
                                     data.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -497,8 +492,6 @@ public class FragmentShop extends Fragment {
                                     bookmarkViewModel.deleteBookmark(cafe.getIdCafe(), idUser);
                                     iconSave.setImageResource(R.drawable.round_bookmark_border_24);
                                     saveText.setText("Lưu");
-                                    saveText.setTextColor(Color.parseColor("#7A2A2A"));
-                                    linearSave.setBackgroundResource(R.color.white);
                                 }
                             }
                         }, 200);
