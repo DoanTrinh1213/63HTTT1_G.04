@@ -43,6 +43,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.BreakIterator;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -399,10 +400,12 @@ public class FragmentShop extends Fragment {
                 List<Post> postLimit = PostHelper.getInstance().getPostLimit5StarHigh(postOfCafe);
                 comments.setAdapter(new PostAdapter(postLimit));
                 comments.setLayoutManager(new LinearLayoutManager(getContext()));
-                star.setText(String.valueOf(PostHelper.getInstance().starRating(cafe.getIdCafe())));
-                count.setText(postOfCafe.size());
+                double starRating = PostHelper.getInstance().starRating(cafe.getIdCafe());
+                DecimalFormat df = new DecimalFormat("#.#");
+                String formattedRating = df.format(starRating);
+                star.setText(formattedRating);
+                count.setText(String.valueOf(postOfCafe.size())+" lượt đánh giá");
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
