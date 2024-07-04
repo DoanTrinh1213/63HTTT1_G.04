@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
@@ -14,11 +15,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +43,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -61,6 +66,7 @@ import space.app.Activity.ReviewAllActivity;
 import space.app.Activity.RewriteActivity;
 import space.app.Adapter.ImageAdapter;
 import space.app.Adapter.PostAdapter;
+import space.app.Database.Entity.BookmarkEntity;
 import space.app.Database.Entity.CafeEntity;
 import space.app.Database.Entity.UriEntity;
 import space.app.Helper.Converter;
@@ -71,6 +77,7 @@ import space.app.Model.Cafe;
 import space.app.Model.Post;
 import space.app.Model.User;
 import space.app.R;
+import space.app.ViewModel.BookmarkViewModel;
 import space.app.ViewModel.UriViewModel;
 
 /**
@@ -132,6 +139,8 @@ public class FragmentShop extends Fragment {
         nameCafe.setText(cafe.getResName());
         ImageView imageShop = view.findViewById(R.id.imageShop);
         Button btnImage = view.findViewById(R.id.btnImage);
+        LinearLayout go = view.findViewById(R.id.linearGo);
+        LinearLayout linearSave =view.findViewById(R.id.linearSave);
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -412,6 +421,85 @@ public class FragmentShop extends Fragment {
             }
         });
 
+        go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(cafe.getLink()));
+                startActivity(intent);
+            }
+        });
+
+        ImageView iconSave= view.findViewById(R.id.iconSave);
+        TextView saveText = view.findViewById(R.id.textSave);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
+        String idUser = sharedPreferences.getString("idUser",null);
+        BookmarkViewModel bookmarkViewModel = new ViewModelProvider(getActivity()).get(BookmarkViewModel.class);
+        bookmarkViewModel.getBookmarkByIdUserAndIdCafe(idUser,cafe.getIdCafe()).observe(getViewLifecycleOwner(), new Observer<BookmarkEntity>() {
+            @Override
+            public void onChanged(BookmarkEntity entity) {
+                if(entity!=null){
+                    if (entity.getIdCafe().equals(cafe.getIdCafe())){
+                        iconSave.setImageResource(R.drawable.bookmark_love);
+                        saveText.setText("Đã lưu");
+                    }
+                }
+            }
+        });
+        linearSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                BookmarkEntity bookmarkEntity = new BookmarkEntity();
+                bookmarkEntity.setIdCafe(cafe.getIdCafe());
+                bookmarkEntity.setIdUser(idUser);
+
+                BookmarkViewModel bookmarkViewModel = new ViewModelProvider((ViewModelStoreOwner) getActivity()).get(BookmarkViewModel.class);
+                bookmarkViewModel.getBookmarkByIdUserAndIdCafe(idUser, cafe.getIdCafe()).observe((LifecycleOwner) getActivity(), new Observer<BookmarkEntity>() {
+                    @Override
+                    public void onChanged(BookmarkEntity bookmarkEntity1) {
+                        bookmarkViewModel.getBookmarkByIdUserAndIdCafe(idUser, cafe.getIdCafe()).removeObservers((LifecycleOwner) getActivity());
+
+                        FirebaseDatabase firebase = FirebaseDatabase.getInstance();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (bookmarkEntity1 == null) {
+                                    Log.d("Add bookmark", "added");
+                                    DatabaseReference data = firebase.getReference("Bookmark").child(idUser);
+                                    data.push().setValue(bookmarkEntity);
+                                    bookmarkViewModel.insertBookmark(bookmarkEntity);
+                                    iconSave.setImageResource(R.drawable.bookmark_love);
+                                    saveText.setText("Đã lưu");
+                                } else {
+                                    DatabaseReference data = firebase.getReference("Bookmark").child(idUser);
+                                    data.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot snap : snapshot.getChildren()) {
+                                                BookmarkEntity bookmark = snap.getValue(BookmarkEntity.class);
+                                                if (bookmark.getIdCafe().equals(cafe.getIdCafe())) {
+                                                    snap.getRef().removeValue();
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                    Log.d("Delete bookmark", "deleted");
+                                    bookmarkViewModel.deleteBookmark(cafe.getIdCafe(), idUser);
+                                    iconSave.setImageResource(R.drawable.round_bookmark_border_24);
+                                    saveText.setText("Lưu");
+                                }
+                            }
+                        }, 200);
+                    }
+                });
+            }
+        });
+        
         return view;
     }
 

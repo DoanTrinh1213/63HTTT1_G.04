@@ -197,6 +197,7 @@ public class EditInformationActivity extends AppCompatActivity {
                 idUser="findCoffee";
             deleteImageFromFirebase(idUser);
             StorageReference imageRef = storageReference.child("Img/users/" + idUser + "/" + uniqueID);
+            // ktra thuc hien qtr day file len fire
             UploadTask uploadTask = imageRef.putFile(uri);
 
             uploadTask.addOnSuccessListener(taskSnapshot -> {
